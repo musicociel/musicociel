@@ -1,0 +1,24 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "prettier"],
+  "overrides": [
+    {
+      "files": ["*.js"],
+      "env": { "node": true },
+      "rules": {
+        "@typescript-eslint/no-var-requires": 0
+      }
+    },
+    {
+      "files": ["src/ui/**"],
+      "env": { "browser": true }
+    }
+  ],
+  "rules": {
+    "@typescript-eslint/explicit-module-boundary-types": 0,
+    "@typescript-eslint/no-empty-function": 0,
+    "@typescript-eslint/no-explicit-any": 0,
+    "@typescript-eslint/no-non-null-assertion": 0,
+    "@typescript-eslint/no-unused-vars": ["error", { "args": "none", "ignoreRestSiblings": true }]
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "extends": "./tsconfig.json",
+  "include": ["src/ui/**/*", "src/common/**/*"],
+  "compilerOptions": {
+    "types": ["svelte", "@types/node"]
+  }
+}

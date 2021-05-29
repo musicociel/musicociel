@@ -1,0 +1,20 @@
+{
+  "app": {
+    "title": "Musicociel"
+  },
+  "commands": {
+    "open_file": "Open a file",
+    "logout": "Logout",
+    "login": "Login",
+    "manageAccount": "Manage account"
+  },
+  "pages": {
+    "home": {
+      "description": "Musicociel is a program allowing to display and edit song lyrics and chords."
+    }
+  },
+  "settings": {
+    "chords": "Chords",
+    "transpose": "Transpose"
+  }
+}

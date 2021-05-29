@@ -1,0 +1,20 @@
+{
+  "app": {
+    "title": "Musicociel"
+  },
+  "commands": {
+    "open_file": "Ouvrir un fichier",
+    "logout": "Se déconnecter",
+    "login": "Se connecter",
+    "manageAccount": "Gérer le compte"
+  },
+  "pages": {
+    "home": {
+      "description": "Musicociel est un programme permettant d'afficher et éditer les paroles et les accords d'un chant."
+    }
+  },
+  "settings": {
+    "chords": "Accords",
+    "transpose": "Transposer"
+  }
+}
