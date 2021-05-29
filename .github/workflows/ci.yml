@@ -23,6 +23,22 @@ jobs:
       - run: npm run format:check
       - run: npm run lint
       - run: docker build . -t davdiv/musicociel:latest
+      - uses: actions/checkout@v2
+        with:
+          ref: gh-pages
+          path: gh-pages
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      - name: Publish to Github Pages
+        run: |
+          rm -rf ./*
+          cp -a ../build/public/* ./
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git commit --allow-empty -a -m "Updating from ${{ github.sha }}"
+          git push origin gh-pages
+        working-directory: gh-pages
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
       - name: Publish to dockerhub
         run: |
           echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login --username davdiv --password-stdin &&
