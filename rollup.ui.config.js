@@ -15,7 +15,7 @@ import typescript from "@rollup/plugin-typescript";
 import { join } from "path";
 
 const production = !process.env.ROLLUP_WATCH;
-console.log(`Building for ${production ? "PRODUCTION" : "DEVELOPMENT"}`);
+console.log(`Building UI for ${production ? "PRODUCTION" : "DEVELOPMENT"}`);
 
 const OUTPUT_FOLDER = join(__dirname, "build/public");
 

@@ -7,7 +7,7 @@ import { string } from "rollup-plugin-string";
 
 const pkg = require("./package.json");
 const production = !process.env.ROLLUP_WATCH;
-console.log(`Building for ${production ? "PRODUCTION" : "DEVELOPMENT"}`);
+console.log(`Building CLI for ${production ? "PRODUCTION" : "DEVELOPMENT"}`);
 
 export default {
   input: "src/cli/main.ts",

@@ -6,6 +6,14 @@
   "bugs": {
     "url": "https://github.com/musicociel/musicociel/issues"
   },
+  "keywords": [
+    "lyrics",
+    "chords",
+    "song",
+    "transpose-chords",
+    "chordpro",
+    "opensong"
+  ],
   "license": "AGPLv3",
   "bin": {
     "musicociel": "musicociel"
@@ -15,7 +23,8 @@
     "build"
   ],
   "scripts": {
-    "build": "npm run cli:build && npm run ui:build",
+    "build": "rollup --failAfterWarnings -c rollup.config.js",
+    "build:dev": "rollup -c rollup.config.js -w",
     "cli:build": "rollup --failAfterWarnings -c rollup.cli.config.js",
     "cli:dev": "rollup -c rollup.cli.config.js -w",
     "format:check": "prettier '**/*.{svelte,html,js,ts,json,md}' --list-different",
@@ -23,7 +32,8 @@
     "lint": "eslint .",
     "prebuild": "rimraf build",
     "prepare": "npm run build",
-    "server:dev": "nodemon --watch build/cli.js ./musicociel server",
+    "start": "./musicociel server",
+    "start:dev": "nodemon --watch build/cli.js ./musicociel server",
     "ui:build": "rollup --failAfterWarnings -c rollup.ui.config.js",
     "ui:dev": "rollup -c rollup.ui.config.js -w",
     "ui:validate": "svelte-check --workspace src/ui"
