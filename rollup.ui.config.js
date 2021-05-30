@@ -120,7 +120,8 @@ export default [
           swSrc: join(OUTPUT_FOLDER, "sw.js"),
           swDest: join(OUTPUT_FOLDER, "sw.js"),
           globDirectory: OUTPUT_FOLDER,
-          globPatterns: ["**/*.{js,json,css,html,svg,png,ico}"]
+          globPatterns: ["**/*.{js,json,css,html,svg,png,ico}"],
+          globIgnores: ["musicociel.json"]
         }),
       !production && livereload(OUTPUT_FOLDER),
       production && terser()
