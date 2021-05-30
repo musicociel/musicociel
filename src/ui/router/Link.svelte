@@ -2,8 +2,8 @@
   import { locationStore } from "./history";
   import type { To } from "./locationStore";
 
-  export let href: undefined | To;
-  export let onClick: undefined | ((event: MouseEvent) => void);
+  export let href: undefined | To = undefined;
+  export let onClick: undefined | ((event: MouseEvent) => void) = undefined;
 
   $: computedHref = href ? locationStore.createHref(href) : "javascript:void(0);";
 </script>

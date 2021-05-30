@@ -2,8 +2,8 @@
   import { matchPath } from "./matchPath";
   import { locationStore } from "./history";
 
-  export let component: any;
-  export let args: any;
+  export let component: any = undefined;
+  export let args: any = {};
   export let prefix: boolean = false;
   export let path: string | string[] = [];
 

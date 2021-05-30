@@ -22,6 +22,7 @@ jobs:
       - run: npm ci
       - run: npm run format:check
       - run: npm run lint
+      - run: npm run ui:validate
       - run: docker build . -t davdiv/musicociel:latest
       - uses: actions/checkout@v2
         with:
