@@ -18,43 +18,9 @@ As it is a _development_ version, it is unstable. It is automatically deployed w
 
 Musicociel is published on [npm](https://www.npmjs.com/package/musicociel) and [dockerhub](https://hub.docker.com/r/davdiv/musicociel/).
 
-## Development
+## Contributing
 
-Musicociel is written in [TypeScript](https://www.typescriptlang.org/).
-
-Make sure you have [node.js](https://nodejs.org/) installed on your machine.
-
-After cloning this repository, use the following command (from the repository folder) to install dependencies and execute the build:
-
-```
-npm install
-```
-
-Then to start the server, use the following command:
-
-```
-npm start
-```
-
-The server is then listening at http://localhost:8081.
-
-After changing source files, it is necessary to rebuild with the following command:
-
-```
-npm run build
-```
-
-Instead of manually running the build again after each change, it is possible to start the build in watch mode which means it is automatically re-executed when any of the source files changed. For this, use the following command:
-
-```
-npm run build:dev
-```
-
-To start the server and automatically restart it when files are changed, use the following command:
-
-```
-npm run start:dev
-```
+Information about how to contribute to Musicociel, including how to build it can be found [here](./CONTRIBUTING.md).
 
 ## License
 
