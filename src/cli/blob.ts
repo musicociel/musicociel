@@ -23,7 +23,8 @@ export class NodeBlob implements NamedBlob {
     throw new Error("Method not implemented.");
   }
 }
-(global as any).Blob = class extends NodeBlob {
+
+export class Blob extends NodeBlob {
   constructor(content: (string | Uint8Array | ArrayBuffer | NodeBlob)[]) {
     super(
       Buffer.concat(
@@ -36,4 +37,4 @@ export class NodeBlob implements NamedBlob {
       )
     );
   }
-};
+}

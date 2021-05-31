@@ -1,17 +1,14 @@
 import { promises as fs } from "fs";
+import "../globals";
 import type { FileFormat } from "../../common/files/formats/formats";
 import { NodeBlob } from "../blob";
 import { openFile } from "../../common/files/openFile";
-import { DOMParser, XMLSerializer } from "xmldom";
 import { saveFile } from "../../common/files/saveFile";
 import { convertFile } from "../../common/files/convertFile";
 import { guessFormatFromExtension } from "../../common/files/extensions";
 import { transposeFile } from "../../common/files/transposeFile";
 import { AlterationsType } from "../../common/music/chords";
 import type { CommandModule } from "yargs";
-
-global.DOMParser = DOMParser;
-global.XMLSerializer = XMLSerializer;
 
 export const songTransformCommand: CommandModule = {
   command: "song-transform",
