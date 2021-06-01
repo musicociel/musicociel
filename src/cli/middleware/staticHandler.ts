@@ -10,7 +10,7 @@ const readIndexHtml = async () => await fs.readFile(path.join(PUBLIC_PATH, "inde
 
 const serviceWorkerRemover = `self.addEventListener('install',function(){self.skipWaiting();});self.addEventListener('activate',function(){self.registration.unregister()});`;
 
-export const staticHandler = async (config: Config) => {
+export const staticHandler = async (config: Config, hashRouting: boolean) => {
   const strConfig = JSON.stringify(config);
   const handleStatic = express.static(PUBLIC_PATH, { index: false });
   const getIndexHtml =
@@ -22,7 +22,7 @@ export const staticHandler = async (config: Config) => {
         })();
   const sendIndexHtml = asyncHandler(async (req, res) => {
     let content = await getIndexHtml();
-    if (!config.hashRouting) {
+    if (!hashRouting) {
       content = content.replace(/<head>/i, `<head><base href="${(req as any).checkedAddress}">`);
     }
     res.type("html").send(content);
@@ -35,7 +35,7 @@ export const staticHandler = async (config: Config) => {
     } else if (config.noServiceWorker && req.path === "/sw.js") {
       res.type("js").send(serviceWorkerRemover);
     } else {
-      handleStatic(req, res, config.hashRouting ? next : () => sendIndexHtml(req, res, next));
+      handleStatic(req, res, hashRouting ? next : () => sendIndexHtml(req, res, next));
     }
   };
 };

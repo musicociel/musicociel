@@ -33,7 +33,6 @@ export const server = async ({
 }) => {
   address = address.map(withEndingSlash);
   const config: Config = {};
-  if (hashRouting) config.hashRouting = true;
   if (!serviceWorker) config.noServiceWorker = true;
 
   /*const db = */ await (async () => {
@@ -60,7 +59,7 @@ export const server = async ({
     app.use(keycloak.middleware());
   }
   app.use("/api", apiHandleError);
-  app.use("/", await staticHandler(config));
+  app.use("/", await staticHandler(config, !!hashRouting));
 
   const ws = new WebsocketServer({ noServer: true });
   const upgradeHandler = keycloak
