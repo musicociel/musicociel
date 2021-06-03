@@ -14,7 +14,7 @@
     "chordpro",
     "opensong"
   ],
-  "license": "AGPLv3",
+  "license": "AGPL-3.0-or-later",
   "bin": {
     "musicociel": "musicociel"
   },
