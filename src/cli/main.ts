@@ -10,5 +10,5 @@ yargs
   .command(songTransformCommand)
   .completion()
   .demandCommand()
-  .strict()
+  .strictCommands()
   .help().argv;
