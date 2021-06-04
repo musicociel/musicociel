@@ -97,7 +97,7 @@ export const serverCommand: CommandModule = {
     });
     console.log(trustProxy ? "The server is configured to be behind a trusted proxy." : "The server is not configured to be behind a trusted proxy.");
     if (trustProxy) {
-      requestHandler.set("trust-proxy", true);
+      requestHandler.set("trust proxy", true);
     }
     httpServer.on("request", requestHandler);
     if (upgradeHandler) {
