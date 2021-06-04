@@ -1,0 +1,90 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Release.Name }}-musicociel"
+  labels:
+    app.kubernetes.io/name: "musicociel"
+    app.kubernetes.io/instance: "{{ .Release.Name }}"
+    app.kubernetes.io/managed-by: "{{ .Release.Service }}"
+spec:
+  replicas: {{ .Values.musicociel.replicas }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: "musicociel"
+      app.kubernetes.io/instance: "{{ .Release.Name }}"
+      app.kubernetes.io/managed-by: "{{ .Release.Service }}"
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: "musicociel"
+        app.kubernetes.io/instance: "{{ .Release.Name }}"
+        app.kubernetes.io/managed-by: "{{ .Release.Service }}"
+    spec:
+      containers:
+      - name: musicociel
+        image: '{{ .Values.musicociel.image }}:{{ .Values.musicociel.tag }}'
+        env:
+        - name: MUSICOCIEL_PORT
+          value: "8080"
+        - name: MUSICOCIEL_ADDRESS
+          value: "{{ .Values.musicociel.url }}"
+        - name: MUSICOCIEL_TRUST_PROXY
+          value: "true"
+{{- if .Values.keycloak.enabled }}
+        - name: MUSICOCIEL_KEYCLOAK
+          value: '{"realm":"{{ .Values.keycloak.realm }}","auth-server-url":"{{ .Values.keycloak.url }}/auth","ssl-required":"external","resource":"{{ .Values.keycloak.client }}","public-client":true,"confidential-port":0}'
+{{- end }}
+        ports:
+        - name: http
+          containerPort: 8080
+        readinessProbe:
+          httpGet:
+            httpHeaders:
+            - name: X-Forwarded-For
+              value: "127.0.0.1"
+            - name: X-Forwarded-Proto
+              value: "{{ (urlParse .Values.musicociel.url).scheme }}"
+            - name: X-Forwarded-Host
+              value: "{{ (urlParse .Values.musicociel.url).host }}"
+            path: "{{ (urlParse .Values.musicociel.url).path }}/musicociel.json"
+            port: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{ .Release.Name }}-musicociel"
+  labels:
+    app.kubernetes.io/name: "musicociel"
+    app.kubernetes.io/instance: "{{ .Release.Name }}"
+    app.kubernetes.io/managed-by: "{{ .Release.Service }}"
+spec:
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+  selector:
+    app.kubernetes.io/name: "musicociel"
+    app.kubernetes.io/instance: "{{ .Release.Name }}"
+    app.kubernetes.io/managed-by: "{{ .Release.Service }}"
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: "{{ .Release.Name }}-musicociel"
+spec:
+{{- if eq (urlParse .Values.musicociel.url).scheme "https" }}
+  tls:
+  - hosts:
+    - "{{ (urlParse .Values.musicociel.url).host }}"
+{{- end }}
+  rules:
+  - host: "{{ (urlParse .Values.musicociel.url).host }}"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "{{ (urlParse .Values.musicociel.url).path }}/"
+        backend:
+          service:
+            name: "{{ .Release.Name }}-musicociel"
+            port:
+              name: http

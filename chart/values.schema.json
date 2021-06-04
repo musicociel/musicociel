@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "musicociel": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "url": { "type": "string" },
+        "image": { "type": "string" },
+        "tag": { "type": "string" },
+        "replicas": { "type": "integer" }
+      }
+    },
+    "keycloak": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "url": { "type": "string" },
+        "external": { "type": "boolean" },
+        "image": { "type": "string" },
+        "tag": { "type": "string" },
+        "replicas": { "type": "integer" },
+        "realm": { "type": "string" },
+        "client": { "type": "string" },
+        "admin": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "username": { "type": "string" },
+            "password": { "type": "string" }
+          }
+        },
+        "users": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "username": { "type": "string" },
+              "password": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

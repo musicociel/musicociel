@@ -1,0 +1,118 @@
+{{- if and .Values.keycloak.enabled (not .Values.keycloak.external) }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Release.Name }}-keycloak"
+  labels:
+    app.kubernetes.io/name: "keycloak"
+    app.kubernetes.io/instance: "{{ .Release.Name }}"
+    app.kubernetes.io/managed-by: "{{ .Release.Service }}"
+spec:
+  replicas: {{ .Values.keycloak.replicas }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: "keycloak"
+      app.kubernetes.io/instance: "{{ .Release.Name }}"
+      app.kubernetes.io/managed-by: "{{ .Release.Service }}"
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: "keycloak"
+        app.kubernetes.io/instance: "{{ .Release.Name }}"
+        app.kubernetes.io/managed-by: "{{ .Release.Service }}"
+    spec:
+      containers:
+      - name: keycloak
+        image: '{{ .Values.keycloak.image }}:{{ .Values.keycloak.tag }}'
+        env:
+        - name: KEYCLOAK_USER
+          value: "{{ .Values.keycloak.admin.username }}"
+        - name: KEYCLOAK_PASSWORD
+          value: "{{ .Values.keycloak.admin.password }}"
+        - name: PROXY_ADDRESS_FORWARDING
+          value: "true"
+        ports:
+        - name: http
+          containerPort: 8080
+        - name: https
+          containerPort: 8443
+        readinessProbe:
+          httpGet:
+            path: /auth/realms/master
+            port: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{ .Release.Name }}-keycloak"
+  labels:
+    app.kubernetes.io/name: "keycloak"
+    app.kubernetes.io/instance: "{{ .Release.Name }}"
+    app.kubernetes.io/managed-by: "{{ .Release.Service }}"
+spec:
+  ports:
+  - name: http
+    port: 8080
+    targetPort: 8080
+  selector:
+    app.kubernetes.io/name: "keycloak"
+    app.kubernetes.io/instance: "{{ .Release.Name }}"
+    app.kubernetes.io/managed-by: "{{ .Release.Service }}"
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: "{{ .Release.Name }}-keycloak"
+spec:
+{{- if eq (urlParse .Values.keycloak.url).scheme "https" }}
+  tls:
+  - hosts:
+    - "{{ (urlParse .Values.keycloak.url).host }}"
+{{- end }}
+  rules:
+  - host: "{{ (urlParse .Values.keycloak.url).host }}"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "{{ (urlParse .Values.keycloak.url).path }}/"
+        backend:
+          service:
+            name: "{{ .Release.Name }}-keycloak"
+            port:
+              name: http
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ .Release.Name }}-keycloak-postinstall"
+  labels:
+    app.kubernetes.io/name: "keycloak-postinstall"
+    app.kubernetes.io/instance: "{{ .Release.Name }}"
+    app.kubernetes.io/managed-by: "{{ .Release.Service }}"
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  template:
+    metadata:
+      name: "{{ .Release.Name }}-keycloak-postinstall"
+      labels:
+        app.kubernetes.io/name: "keycloak-postinstall"
+        app.kubernetes.io/instance: "{{ .Release.Name }}"
+        app.kubernetes.io/managed-by: "{{ .Release.Service }}"
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: keycloak-post-install
+        image: '{{ .Values.keycloak.image }}:{{ .Values.keycloak.tag }}'
+        command: ["/bin/sh", "-c"]
+        args:
+          - while [[ "$(curl -s -o /dev/null -L -w ''%{http_code}'' http://{{ .Release.Name }}-keycloak:8080/auth)" != "200" ]]; do sleep 1; done &&
+            /opt/jboss/keycloak/bin/kcadm.sh config credentials --server http://{{ .Release.Name }}-keycloak:8080/auth --realm master --user {{ .Values.keycloak.admin.username | squote }} --password {{ .Values.keycloak.admin.password | squote }} &&
+            /opt/jboss/keycloak/bin/kcadm.sh create realms -s realm=musicociel -s enabled=true &&
+{{- range .Values.keycloak.users }}
+            /opt/jboss/keycloak/bin/kcadm.sh create users -r musicociel -s username="{{ .username }}" -s enabled=true &&
+            /opt/jboss/keycloak/bin/kcadm.sh set-password -r musicociel --username "{{ .username }}" --new-password "{{ .password }}" &&
+{{- end }}    
+            /opt/jboss/keycloak/bin/kcadm.sh create clients -r musicociel -s clientId=musicociel -s publicClient=true -s 'redirectUris=["{{ .Values.musicociel.url }}/*"]'
+{{- end }}
