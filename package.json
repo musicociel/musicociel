@@ -74,7 +74,7 @@
     "helmet": "4.6.0",
     "history": "4.10.1",
     "immer": "9.0.2",
-    "jest": "27.0.3",
+    "jest": "27.0.4",
     "keycloak-connect": "13.0.1",
     "keycloak-js": "13.0.1",
     "nodemon": "2.0.7",
