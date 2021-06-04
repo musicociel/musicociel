@@ -1,6 +1,6 @@
 import type { IncomingMessage } from "http";
 import type { Socket } from "net";
-import type { Keycloak, KeycloakConfig } from "keycloak-connect";
+import Keycloak, { KeycloakConfig } from "keycloak-connect";
 import express from "express";
 import WebSocket, { Server as WebsocketServer } from "ws";
 import { checkDB, getUserConditions } from "./database";
@@ -47,7 +47,7 @@ export const server = async ({
     if (!keycloakConfig) return null;
     const url = withoutEndingSlash(keycloakConfig["auth-server-url"]);
     keycloakConfig["auth-server-url"] = url;
-    const keycloak: Keycloak = new (require("keycloak-connect"))({}, { ...keycloakConfig, "bearer-only": true });
+    const keycloak = new Keycloak({}, { ...keycloakConfig, "bearer-only": true });
     config.keycloak = { url, realm: keycloakConfig.realm, clientId: keycloakConfig.resource };
     return keycloak;
   })();

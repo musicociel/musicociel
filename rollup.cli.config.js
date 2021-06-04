@@ -4,6 +4,7 @@ import replace from "@rollup/plugin-replace";
 import { terser } from "rollup-plugin-terser";
 import typescript from "@rollup/plugin-typescript";
 import { string } from "rollup-plugin-string";
+import json from "@rollup/plugin-json";
 
 const pkg = require("./package.json");
 const production = !process.env.ROLLUP_WATCH;
@@ -24,6 +25,7 @@ export default {
       preventAssignment: true,
       "process.env.NODE_ENV": JSON.stringify(production ? "production" : "development")
     }),
+    json(),
     resolve({
       browser: false,
       preferBuiltins: true
