@@ -1,0 +1,27 @@
+apiVersion: v1
+entries:
+  musicociel:
+  - apiVersion: v2
+    created: "2021-06-05T12:47:02.882424216Z"
+    description: Web application to display and edit songs with lyrics and chords.
+    digest: a49bb6355c18da6214020c462a9e73b9b78e85eadc3c4109ee03dfd74c2e08cc
+    home: https://github.com/musicociel/musicociel#readme
+    icon: https://raw.githubusercontent.com/musicociel/musicociel/main/src/ui/public/favicon.svg
+    keywords:
+    - lyrics
+    - chords
+    - song
+    - transpose-chords
+    - chordpro
+    - opensong
+    maintainers:
+    - email: divde@musicociel.fr
+      name: DivDE
+    name: musicociel
+    sources:
+    - https://github.com/musicociel/musicociel
+    type: application
+    urls:
+    - musicociel-0.0.0.tgz
+    version: 0.0.0
+generated: "2021-06-05T12:47:02.88136091Z"
