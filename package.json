@@ -3,6 +3,10 @@
   "version": "0.0.0-alpha.0",
   "description": "Web application to display and edit songs with lyrics and chords.",
   "homepage": "https://github.com/musicociel/musicociel#readme",
+  "author": {
+    "name": "DivDE",
+    "email": "divde@musicociel.fr"
+  },
   "bugs": {
     "url": "https://github.com/musicociel/musicociel/issues"
   },
@@ -29,8 +33,10 @@
     "cli:dev": "rollup -c rollup.cli.config.js -w",
     "format:check": "prettier '**/*.{svelte,html,js,ts,json,md}' --list-different",
     "format:fix": "prettier '**/*.{svelte,html,js,ts,json,md}' --write",
-    "jest": "jest",
+    "jest:e2e": "jest -c e2e/jest.config.js",
+    "jest:test": "jest -c test/jest.config.js",
     "lint": "eslint .",
+    "playwright": "playwright",
     "prebuild": "rimraf build",
     "prepare": "npm run build",
     "start": "./musicociel server",
@@ -69,7 +75,7 @@
     "ace-builds": "1.4.12",
     "body-parser": "1.19.0",
     "bootstrap": "5.0.1",
-    "eslint": "7.27.0",
+    "eslint": "7.28.0",
     "eslint-config-prettier": "8.3.0",
     "helmet": "4.6.0",
     "history": "4.10.1",
@@ -80,6 +86,7 @@
     "nodemon": "2.0.7",
     "path-to-regexp": "6.2.0",
     "pg": "8.6.0",
+    "playwright": "1.11.1",
     "postcss": "8.3.0",
     "prettier": "2.3.0",
     "prettier-plugin-svelte": "2.3.0",

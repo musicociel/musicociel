@@ -23,9 +23,15 @@ jobs:
       - run: npm ci
       - run: npm run format:check
       - run: npm run lint
+      - run: helm lint chart --strict --set-string musicociel.url=http://musicociel.local,keycloak.url=http://keycloak.local
       - run: npm run ui:validate
-      - run: npm run jest
-      - run: docker build . -t davdiv/musicociel:latest
+      - run: npm run jest:test
+      - run: docker build . -t docker.io/davdiv/musicociel:latest
+      - run: minikube start --addons ingress
+      - run: minikube image load docker.io/davdiv/musicociel:latest
+      - run: echo "$(minikube ip) musicociel.local keycloak.local" | sudo tee -a /etc/hosts
+      - run: helm install musicociel chart --set-string musicociel.url=http://musicociel.local,keycloak.url=http://keycloak.local,keycloak.admin.password=admin
+      - run: TEST_MUSICOCIEL_URL=http://musicociel.local npm run jest:e2e
       - uses: actions/checkout@v2
         with:
           ref: gh-pages
@@ -45,6 +51,6 @@ jobs:
       - name: Publish to dockerhub
         run: |
           echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login --username davdiv --password-stdin &&
-          docker push davdiv/musicociel:latest &&
+          docker push docker.io/davdiv/musicociel:latest &&
           docker logout
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'

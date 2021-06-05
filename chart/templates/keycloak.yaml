@@ -8,7 +8,7 @@ metadata:
     app.kubernetes.io/instance: "{{ .Release.Name }}"
     app.kubernetes.io/managed-by: "{{ .Release.Service }}"
 spec:
-  replicas: {{ .Values.keycloak.replicas }}
+  replicas: 1
   selector:
     matchLabels:
       app.kubernetes.io/name: "keycloak"
@@ -28,14 +28,12 @@ spec:
         - name: KEYCLOAK_USER
           value: "{{ .Values.keycloak.admin.username }}"
         - name: KEYCLOAK_PASSWORD
-          value: "{{ .Values.keycloak.admin.password }}"
+          value: "{{ required "Missing keycloak.admin.password" .Values.keycloak.admin.password }}"
         - name: PROXY_ADDRESS_FORWARDING
           value: "true"
         ports:
         - name: http
           containerPort: 8080
-        - name: https
-          containerPort: 8443
         readinessProbe:
           httpGet:
             path: /auth/realms/master

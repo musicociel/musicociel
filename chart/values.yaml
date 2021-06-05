@@ -1,20 +1,13 @@
 musicociel:
-  url: https://musicociel-davdiv.cloud.okteto.net
-  image: "davdiv/musicociel"
+  image: "docker.io/davdiv/musicociel"
   tag: "latest"
   replicas: 1
 keycloak:
   enabled: true
-  url: https://keycloak-davdiv.cloud.okteto.net
   realm: "musicociel"
   client: "musicociel"
   external: false
   image: "quay.io/keycloak/keycloak"
   tag: "13.0.1"
-  replicas: 1
   admin:
     username: admin
-    password: musicociel
-  users:
-    - username: musicociel
-      password: musicociel

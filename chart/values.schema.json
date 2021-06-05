@@ -22,7 +22,6 @@
         "external": { "type": "boolean" },
         "image": { "type": "string" },
         "tag": { "type": "string" },
-        "replicas": { "type": "integer" },
         "realm": { "type": "string" },
         "client": { "type": "string" },
         "admin": {
