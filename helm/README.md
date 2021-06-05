@@ -4,7 +4,7 @@ This repository contains a [Helm](https://helm.sh/) chart to help installing [Mu
 
 **Note that this application is still at an early stage of development and many features are either missing or not working as expected.**
 
-To install this repository, run:
+To install Musicociel with Helm on your Kubernetes cluster, use the following commands:
 
 ```
 helm repo add musicociel https://musicociel.github.io/musicociel/helm
