@@ -1,5 +1,8 @@
 {
   "i18n-ally.localesPaths": "src/ui/i18n",
   "i18n-ally.keystyle": "nested",
-  "i18n-ally.sourceLanguage": "en"
+  "i18n-ally.sourceLanguage": "en",
+  "yaml.schemas": {
+    "helm/chart/values.schema.json": "/helm/chart/values.yaml"
+  }
 }
