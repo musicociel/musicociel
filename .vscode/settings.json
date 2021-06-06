@@ -1,9 +1,5 @@
 {
   "i18n-ally.localesPaths": "src/ui/i18n",
   "i18n-ally.keystyle": "nested",
-  "i18n-ally.sourceLanguage": "en",
-  "yaml.schemas": {
-    "Kubernetes": "chart/templates/*.yaml",
-    "chart/values.schema.json": "chart/values.yaml"
-  }
+  "i18n-ally.sourceLanguage": "en"
 }
