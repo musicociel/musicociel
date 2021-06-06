@@ -18,7 +18,7 @@
     "chordpro",
     "opensong"
   ],
-  "license": "AGPL-3.0-or-later",
+  "license": "MIT",
   "bin": {
     "musicociel": "musicociel"
   },

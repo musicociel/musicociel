@@ -1,6 +1,6 @@
 # <img src="./src/ui/public/favicon144.png" width="32"> Musicociel
 
-[![npm](https://img.shields.io/npm/v/musicociel)](https://www.npmjs.com/package/musicociel) [![dockerhub](https://img.shields.io/docker/v/davdiv/musicociel?label=dockerhub)](https://hub.docker.com/r/davdiv/musicociel/) [![license](https://img.shields.io/badge/license-AGPL--3.0-brightgreen)](./LICENSE.md) [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/musicociel/musicociel/ci)](https://github.com/musicociel/musicociel/actions/workflows/ci.yml?query=branch%3Amain)
+[![npm](https://img.shields.io/badge/npm-musicociel-blue)](https://www.npmjs.com/package/musicociel) [![dockerhub](https://img.shields.io/badge/dockerhub-davdiv%2Fmusicociel-blue)](https://hub.docker.com/r/davdiv/musicociel/) [![license](https://img.shields.io/badge/license-MIT-brightgreen)](./LICENSE.md) [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/musicociel/musicociel/ci)](https://github.com/musicociel/musicociel/actions/workflows/ci.yml?query=branch%3Amain)
 
 Web application to display and edit songs with lyrics and chords.
 
@@ -24,20 +24,12 @@ Information about how to contribute to Musicociel, including how to build it can
 
 ## License
 
-<pre>
 Musicociel: web application to display and edit songs with lyrics and chords.
-Copyright (C) 2021 <a href="mailto:divde@musicociel.fr">DivDE</a>
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as
-published by the Free Software Foundation, either version 3 of the
-License, or (at your option) any later version.
+Copyright 2021 <a href="mailto:divde@musicociel.fr">DivDE</a>
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU Affero General Public License for more details.
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
-You should have received a copy of the <a href="./LICENSE.md">GNU Affero General Public License</a>
-along with this program. If not, see <a href="https://www.gnu.org/licenses/">https://www.gnu.org/licenses/</a>.
-</pre>
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
