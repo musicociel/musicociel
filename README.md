@@ -1,4 +1,4 @@
-# <img src="./src/ui/public/favicon144.png" width="32"> Musicociel
+# <img src="https://raw.githubusercontent.com/musicociel/musicociel/main/icon.svg" width="32"> Musicociel
 
 [![npm](https://img.shields.io/badge/npm-musicociel-blue)](https://www.npmjs.com/package/musicociel) [![dockerhub](https://img.shields.io/badge/dockerhub-davdiv%2Fmusicociel-blue)](https://hub.docker.com/r/davdiv/musicociel/) [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/musicociel)](https://artifacthub.io/packages/helm/musicociel/musicociel)
 

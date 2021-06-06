@@ -15,7 +15,7 @@ keywords:
 home: https://github.com/musicociel/musicociel#readme
 sources:
 - https://github.com/musicociel/musicociel
-icon: https://raw.githubusercontent.com/musicociel/musicociel/main/src/ui/public/favicon.svg
+icon: https://raw.githubusercontent.com/musicociel/musicociel/main/icon.svg
 maintainers:
 - name: DivDE
   email: divde@musicociel.fr
