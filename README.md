@@ -1,6 +1,8 @@
 # <img src="./src/ui/public/favicon144.png" width="32"> Musicociel
 
-[![npm](https://img.shields.io/badge/npm-musicociel-blue)](https://www.npmjs.com/package/musicociel) [![dockerhub](https://img.shields.io/badge/dockerhub-davdiv%2Fmusicociel-blue)](https://hub.docker.com/r/davdiv/musicociel/) [![license](https://img.shields.io/badge/license-MIT-brightgreen)](./LICENSE.md) [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/musicociel/musicociel/ci)](https://github.com/musicociel/musicociel/actions/workflows/ci.yml?query=branch%3Amain)
+[![npm](https://img.shields.io/badge/npm-musicociel-blue)](https://www.npmjs.com/package/musicociel) [![dockerhub](https://img.shields.io/badge/dockerhub-davdiv%2Fmusicociel-blue)](https://hub.docker.com/r/davdiv/musicociel/) [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/musicociel)](https://artifacthub.io/packages/helm/musicociel/musicociel)
+
+[![license](https://img.shields.io/badge/license-MIT-brightgreen)](./LICENSE.md) [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/musicociel/musicociel/ci)](https://github.com/musicociel/musicociel/actions/workflows/ci.yml?query=branch%3Amain)
 
 Web application to display and edit songs with lyrics and chords.
 
@@ -16,7 +18,7 @@ As it is a _development_ version, it is unstable. It is automatically deployed w
 
 ## Installation
 
-Musicociel is published on [npm](https://www.npmjs.com/package/musicociel) and [dockerhub](https://hub.docker.com/r/davdiv/musicociel/).
+Musicociel is published on [npm](https://www.npmjs.com/package/musicociel), [dockerhub](https://hub.docker.com/r/davdiv/musicociel/) and has a [helm repository](https://musicociel.github.io/musicociel/helm/).
 
 ## Contributing
 
