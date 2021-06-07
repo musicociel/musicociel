@@ -1,13 +1,22 @@
 musicociel:
+  url: http://musicociel.local
   image: "docker.io/davdiv/musicociel"
-  tag: "latest"
+  tag: "dev"
   replicas: 1
 keycloak:
   enabled: true
+  url: http://keycloak.local
   realm: "musicociel"
   client: "musicociel"
   external: false
-  image: "quay.io/keycloak/keycloak"
+  image: "docker.io/jboss/keycloak"
   tag: "13.0.1"
   admin:
     username: admin
+postgresql:
+  enabled: true
+  image: "docker.io/library/postgres"
+  tag: "13.3"
+  database: musicociel
+  username: musicociel
+  size: "8Gi"

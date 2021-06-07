@@ -32,7 +32,7 @@ spec:
           value: "true"
 {{- if .Values.keycloak.enabled }}
         - name: MUSICOCIEL_KEYCLOAK
-          value: '{"realm":"{{ .Values.keycloak.realm }}","auth-server-url":"{{ required "Missing keycloak.url" .Values.keycloak.url }}/auth","ssl-required":"external","resource":"{{ .Values.keycloak.client }}","public-client":true,"confidential-port":0}'
+          value: '{"realm":"{{ .Values.keycloak.realm }}","auth-server-url":"{{ .Values.keycloak.url }}/auth","ssl-required":"external","resource":"{{ .Values.keycloak.client }}","public-client":true,"confidential-port":0}'
 {{- end }}
         ports:
         - name: http

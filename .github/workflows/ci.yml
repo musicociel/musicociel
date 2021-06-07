@@ -24,7 +24,7 @@ jobs:
       - run: npm ci
       - run: npm run format:check
       - run: npm run lint
-      - run: helm lint helm/chart --strict --set-string musicociel.url=http://musicociel.local,keycloak.url=http://keycloak.local
+      - run: helm lint helm/chart --strict
       - run: npm run ui:validate
       - run: npm run jest:test
       - run: docker build . -t docker.io/davdiv/musicociel:local
@@ -33,7 +33,9 @@ jobs:
           minikube start --addons ingress
           minikube image load docker.io/davdiv/musicociel:local
           echo "$(minikube ip) musicociel.local keycloak.local" | sudo tee -a /etc/hosts
-          helm install musicociel helm/chart --set-string musicociel.tag=local,musicociel.url=http://musicociel.local,keycloak.url=http://keycloak.local,keycloak.admin.password=admin
+          helm package . -d ../repository
+          helm install musicociel . --set-string musicociel.tag=local
+        working-directory: helm/chart
       - run: TEST_MUSICOCIEL_URL=http://musicociel.local npm run jest:e2e
       - uses: actions/checkout@v2
         with:

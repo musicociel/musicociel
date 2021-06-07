@@ -44,6 +44,19 @@
           }
         }
       }
+    },
+    "postgresql": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "image": { "type": "string" },
+        "tag": { "type": "string" },
+        "username": { "type": "string" },
+        "password": { "type": "string" },
+        "database": { "type": "string" },
+        "size": { "type": "string" }
+      }
     }
   }
 }

@@ -1,4 +1,24 @@
 {{- if and .Values.keycloak.enabled (not .Values.keycloak.external) }}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: "{{ .Release.Name }}-keycloak-admin"
+type: kubernetes.io/basic-auth
+data:
+  username: "{{ b64enc .Values.keycloak.admin.username }}"
+  password: "{{ b64enc (default (randAlphaNum 25) .Values.keycloak.admin.password) }}"
+{{- range .Values.keycloak.users }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: "{{ $.Release.Name }}-keycloak-user-{{ .username }}"
+type: kubernetes.io/basic-auth
+data:
+  username: "{{ b64enc .username }}"
+  password: "{{ b64enc (default (randAlphaNum 25) .password) }}"
+{{- end }}
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -23,12 +43,36 @@ spec:
     spec:
       containers:
       - name: keycloak
-        image: '{{ .Values.keycloak.image }}:{{ .Values.keycloak.tag }}'
+        image: "{{ .Values.keycloak.image }}:{{ .Values.keycloak.tag }}"
         env:
+{{- if .Values.postgresql.enabled }}
+        - name: DB_VENDOR
+          value: postgres
+        - name: DB_ADDR
+          value: "{{ .Release.Name }}-postgresql"
+        - name: DB_DATABASE
+          value: "{{ .Values.postgresql.database }}"
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: "{{ .Release.Name }}-postgresql"
+              key: username
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: "{{ .Release.Name }}-postgresql"
+              key: password
+{{- end }}
         - name: KEYCLOAK_USER
-          value: "{{ .Values.keycloak.admin.username }}"
+          valueFrom:
+            secretKeyRef:
+              name: "{{ .Release.Name }}-keycloak-admin"
+              key: username
         - name: KEYCLOAK_PASSWORD
-          value: "{{ required "Missing keycloak.admin.password" .Values.keycloak.admin.password }}"
+          valueFrom:
+            secretKeyRef:
+              name: "{{ .Release.Name }}-keycloak-admin"
+              key: password
         - name: PROXY_ADDRESS_FORWARDING
           value: "true"
         ports:
@@ -102,15 +146,33 @@ spec:
       restartPolicy: Never
       containers:
       - name: keycloak-post-install
-        image: '{{ .Values.keycloak.image }}:{{ .Values.keycloak.tag }}'
+        image: "{{ .Values.keycloak.image }}:{{ .Values.keycloak.tag }}"
         command: ["/bin/sh", "-c"]
         args:
           - while [[ "$(curl -s -o /dev/null -L -w ''%{http_code}'' http://{{ .Release.Name }}-keycloak:8080/auth)" != "200" ]]; do sleep 1; done &&
-            /opt/jboss/keycloak/bin/kcadm.sh config credentials --server http://{{ .Release.Name }}-keycloak:8080/auth --realm master --user {{ .Values.keycloak.admin.username | squote }} --password {{ .Values.keycloak.admin.password | squote }} &&
-            /opt/jboss/keycloak/bin/kcadm.sh create realms -s realm=musicociel -s enabled=true &&
+            /opt/jboss/keycloak/bin/kcadm.sh config credentials --server http://{{ .Release.Name }}-keycloak:8080/auth --realm master --user "$KEYCLOAK_USER" --password "$KEYCLOAK_PASSWORD" &&
+            /opt/jboss/keycloak/bin/kcadm.sh create realms -s realm={{ .Values.keycloak.realm }} -s enabled=true &&
 {{- range .Values.keycloak.users }}
-            /opt/jboss/keycloak/bin/kcadm.sh create users -r musicociel -s username="{{ .username }}" -s enabled=true &&
-            /opt/jboss/keycloak/bin/kcadm.sh set-password -r musicociel --username "{{ .username }}" --new-password "{{ .password }}" &&
-{{- end }}    
-            /opt/jboss/keycloak/bin/kcadm.sh create clients -r musicociel -s clientId=musicociel -s publicClient=true -s 'redirectUris=["{{ .Values.musicociel.url }}/*"]'
+            /opt/jboss/keycloak/bin/kcadm.sh create users -r {{ $.Values.keycloak.realm }} -s username="{{ .username }}" -s enabled=true &&
+            /opt/jboss/keycloak/bin/kcadm.sh set-password -r {{ $.Values.keycloak.realm }} --username "{{ .username }}" --new-password "$KEYCLOAK_PASSWORD_{{ sha256sum .username }}" &&
+{{- end }}
+            /opt/jboss/keycloak/bin/kcadm.sh create clients -r {{ .Values.keycloak.realm }} -s clientId={{ .Values.keycloak.client }} -s publicClient=true -s 'redirectUris=["{{ .Values.musicociel.url }}/*"]'
+        env:
+{{- range .Values.keycloak.users }}
+        - name: "KEYCLOAK_PASSWORD_{{ sha256sum .username }}"
+          valueFrom:
+            secretKeyRef:
+              name: "{{ $.Release.Name }}-keycloak-user-{{ .username }}"
+              key: username
+{{- end }}
+        - name: KEYCLOAK_USER
+          valueFrom:
+            secretKeyRef:
+              name: "{{ .Release.Name }}-keycloak-admin"
+              key: username
+        - name: KEYCLOAK_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: "{{ .Release.Name }}-keycloak-admin"
+              key: password
 {{- end }}
