@@ -1,1 +1,0 @@
-var o={title:"Musicociel"},a={open_file:"Open a file",logout:"Logout",login:"Login",manageAccount:"Manage account"},e={home:{description:"Musicociel is a program allowing to display and edit song lyrics and chords."}},s={chords:"Chords",transpose:"Transpose"},i={app:o,commands:a,pages:e,settings:s};export default i;export{o as app,a as commands,e as pages,s as settings};
