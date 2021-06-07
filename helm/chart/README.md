@@ -1,4 +1,4 @@
-# <img src="https://raw.githubusercontent.com/musicociel/musicociel/main/icon.svg" width="32"> Musicociel
+# <img src="https://raw.githubusercontent.com/musicociel/musicociel/dev/icon.svg" width="32"> Musicociel
 
 Web application to display and edit songs with lyrics and chords.
 

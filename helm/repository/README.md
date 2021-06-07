@@ -1,4 +1,4 @@
-# <img src="https://raw.githubusercontent.com/musicociel/musicociel/main/icon.svg" width="32"> Musicociel Helm Repository
+# <img src="https://raw.githubusercontent.com/musicociel/musicociel/dev/icon.svg" width="32"> Musicociel Helm Repository
 
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/musicociel)](https://artifacthub.io/packages/search?repo=musicociel)
 
