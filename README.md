@@ -10,7 +10,7 @@ Web application to display and edit songs with lyrics and chords.
 
 ## Demo
 
-A _static_ _development_ version of the application is available at https://musicociel.github.io/musicociel/
+A _static_ _development_ version of the application is available at https://musicociel.github.io/musicociel/dev/
 
 As it is a _static_ version, it only shows part of the features of the application. Especially, it does not include any of the features that require the server part.
 
