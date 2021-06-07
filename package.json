@@ -88,7 +88,7 @@
     "pg": "8.6.0",
     "playwright": "1.11.1",
     "postcss": "8.3.0",
-    "prettier": "2.3.0",
+    "prettier": "2.3.1",
     "prettier-plugin-svelte": "2.3.0",
     "rimraf": "3.0.2",
     "rollup": "2.50.6",
