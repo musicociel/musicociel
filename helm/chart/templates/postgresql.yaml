@@ -1,12 +1,30 @@
-{{- if and .Values.postgresql.enabled }}
+{{- if .Values.postgresql.enabled }}
 apiVersion: v1
 kind: Secret
 metadata:
-  name: "{{ .Release.Name }}-postgresql"
+  name: "{{ .Release.Name }}-postgresql-admin"
 type: kubernetes.io/basic-auth
 data:
-  username: "{{ b64enc .Values.postgresql.username }}"
-  password: "{{ b64enc (default (randAlphaNum 25) .Values.postgresql.password) }}"
+  username: "{{ b64enc .Values.postgresql.admin.username }}"
+  password: "{{ b64enc (default (randAlphaNum 25) .Values.postgresql.admin.password) }}"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: "{{ .Release.Name }}-postgresql-keycloak"
+type: kubernetes.io/basic-auth
+data:
+  username: "{{ b64enc .Values.postgresql.keycloak.username }}"
+  password: "{{ b64enc (default (randAlphaNum 25) .Values.postgresql.keycloak.password) }}"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: "{{ .Release.Name }}-postgresql-musicociel"
+type: kubernetes.io/basic-auth
+data:
+  username: "{{ b64enc .Values.postgresql.musicociel.username }}"
+  password: "{{ b64enc (default (randAlphaNum 25) .Values.postgresql.musicociel.password) }}"
 ---
 kind: PersistentVolumeClaim
 apiVersion: v1
@@ -52,15 +70,15 @@ spec:
         - name: POSTGRES_USER
           valueFrom:
             secretKeyRef:
-              name: "{{ .Release.Name }}-postgresql"
+              name: "{{ .Release.Name }}-postgresql-admin"
               key: username
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: "{{ .Release.Name }}-postgresql"
+              name: "{{ .Release.Name }}-postgresql-admin"
               key: password
         - name: POSTGRES_DB
-          value: "{{ .Values.postgresql.database }}"
+          value: "{{ .Values.postgresql.admin.database }}"
         - name: PGDATA
           value: "/var/lib/postgresql/data/pgdata"
         ports:
@@ -91,4 +109,79 @@ spec:
     app.kubernetes.io/name: "postgresql"
     app.kubernetes.io/instance: "{{ .Release.Name }}"
     app.kubernetes.io/managed-by: "{{ .Release.Service }}"
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ .Release.Name }}-postgres-postinstall"
+  labels:
+    app.kubernetes.io/name: "postgres-postinstall"
+    app.kubernetes.io/instance: "{{ .Release.Name }}"
+    app.kubernetes.io/managed-by: "{{ .Release.Service }}"
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  template:
+    metadata:
+      name: "{{ .Release.Name }}-postgres-postinstall"
+      labels:
+        app.kubernetes.io/name: "postgres-postinstall"
+        app.kubernetes.io/instance: "{{ .Release.Name }}"
+        app.kubernetes.io/managed-by: "{{ .Release.Service }}"
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: postgres-post-install
+        image: "{{ .Values.postgresql.image }}:{{ .Values.postgresql.tag }}"
+        command: ["/bin/sh", "-c"]
+        args:
+          - while ! nc -z "$PGHOST" "$PGPORT"; do sleep 1; done &&
+            echo "$PGHOST:$PGPORT:$PGDATABASE:$PGUSER:$PGPASSWORD" > ~/.pgpass &&
+            echo "
+              CREATE USER $MUSICOCIEL_USER WITH PASSWORD '$MUSICOCIEL_PASSWORD';
+              CREATE DATABASE {{ .Values.postgresql.musicociel.database }};
+              GRANT ALL PRIVILEGES ON DATABASE {{ .Values.postgresql.musicociel.database }} TO $MUSICOCIEL_USER;
+              CREATE USER $KEYCLOAK_USER WITH PASSWORD '$KEYCLOAK_PASSWORD';
+              CREATE DATABASE {{ .Values.postgresql.keycloak.database }};
+              GRANT ALL PRIVILEGES ON DATABASE {{ .Values.postgresql.keycloak.database }} TO $KEYCLOAK_USER;
+            " | psql -v ON_ERROR_STOP=1 -w
+        env:
+        - name: PGHOST
+          value: "{{ .Release.Name }}-postgresql"
+        - name: PGPORT
+          value: "5432"
+        - name: PGUSER
+          valueFrom:
+            secretKeyRef:
+              name: "{{ .Release.Name }}-postgresql-admin"
+              key: username
+        - name: PGPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: "{{ .Release.Name }}-postgresql-admin"
+              key: password
+        - name: PGDATABASE
+          value: "{{ .Values.postgresql.admin.database }}"
+        - name: MUSICOCIEL_USER
+          valueFrom:
+            secretKeyRef:
+              name: "{{ .Release.Name }}-postgresql-musicociel"
+              key: username
+        - name: MUSICOCIEL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: "{{ .Release.Name }}-postgresql-musicociel"
+              key: password
+        - name: KEYCLOAK_USER
+          valueFrom:
+            secretKeyRef:
+              name: "{{ .Release.Name }}-postgresql-keycloak"
+              key: username
+        - name: KEYCLOAK_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: "{{ .Release.Name }}-postgresql-keycloak"
+              key: password
 {{- end }}

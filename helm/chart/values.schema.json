@@ -52,9 +52,33 @@
         "enabled": { "type": "boolean" },
         "image": { "type": "string" },
         "tag": { "type": "string" },
-        "username": { "type": "string" },
-        "password": { "type": "string" },
-        "database": { "type": "string" },
+        "admin": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "database": { "type": "string" },
+            "username": { "type": "string" },
+            "password": { "type": "string" }
+          }
+        },
+        "keycloak": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "database": { "type": "string" },
+            "username": { "type": "string" },
+            "password": { "type": "string" }
+          }
+        },
+        "musicociel": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "database": { "type": "string" },
+            "username": { "type": "string" },
+            "password": { "type": "string" }
+          }
+        },
         "size": { "type": "string" }
       }
     }
