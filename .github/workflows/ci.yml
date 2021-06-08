@@ -45,6 +45,7 @@ jobs:
       - name: Publish
         run: |
           export TAG="$(basename "${{ github.ref }}")"
+          echo "Publish in gh-pages"
           rm -rf "./$TAG"
           cp -a ../build/public "./$TAG"
           cp -a ../helm/repository/* ./helm/
@@ -54,9 +55,17 @@ jobs:
           git add .
           git commit --allow-empty -a -m "Updating from ${{ github.sha }}"
           git push origin gh-pages
+          echo "Publish in docker"
           echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login --username davdiv --password-stdin
           docker tag docker.io/davdiv/musicociel:local docker.io/davdiv/musicociel:$TAG
           docker push docker.io/davdiv/musicociel:$TAG
           docker logout
+          echo "Publish in okteto"
+          curl https://get.okteto.com -sSfL | sh
+          okteto analytics --disable
+          okteto login --token ${{ secrets.OKTETO_TOKEN }}
+          okteto namespace
+          helm uninstall musicociel-$TAG || true
+          helm install musicociel-$TAG ../helm/chart --set-string musicociel.tag=$TAG,musicociel.url=https://musicociel-$TAG${{ secrets.OKTETO_URL_SUFFIX }},keycloak.url=https://keycloak-$TAG${{ secrets.OKTETO_URL_SUFFIX }},keycloak.users[0].username=demo,keycloak.users[0].password=demo
         if: github.event_name == 'push' && (github.ref == 'refs/heads/dev' || startsWith(github.ref, 'refs/tags/'))
         working-directory: gh-pages

@@ -26,4 +26,4 @@ postgresql:
   musicociel:
     username: "musicociel"
     database: "musicociel"
-  size: "8Gi"
+  size: "1Gi"
