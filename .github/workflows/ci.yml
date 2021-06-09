@@ -36,7 +36,12 @@ jobs:
           helm package . -d ../repository
           helm install musicociel . --set-string musicociel.tag=local
         working-directory: helm/chart
-      - run: TEST_MUSICOCIEL_URL=http://musicociel.local npm run jest:e2e
+      - run: TEST_MUSICOCIEL_URL=http://musicociel.local npm run playwright:test
+      - uses: actions/upload-artifact@v2
+        with:
+          name: test-results
+          path: e2e/test-results/**
+        if: ${{ always() }}
       - uses: actions/checkout@v2
         with:
           ref: gh-pages
