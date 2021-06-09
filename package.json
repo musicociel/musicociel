@@ -79,7 +79,7 @@
     "eslint-config-prettier": "8.3.0",
     "helmet": "4.6.0",
     "history": "4.10.1",
-    "immer": "9.0.2",
+    "immer": "9.0.3",
     "jest": "27.0.4",
     "keycloak-connect": "13.0.1",
     "keycloak-js": "13.0.1",
