@@ -1,6 +1,6 @@
 # <img src="https://raw.githubusercontent.com/musicociel/musicociel/dev/icon.svg" width="32"> Musicociel Helm Repository
 
-[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/musicociel)](https://artifacthub.io/packages/search?repo=musicociel)
+[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/musicociel)](https://artifacthub.io/packages/helm/musicociel/musicociel)
 
 This repository contains a [Helm](https://helm.sh/) chart to help installing [Musicociel](https://github.com/musicociel/musicociel#readme) on a [Kubernetes](https://kubernetes.io/) cluster.
 
@@ -11,5 +11,5 @@ To install Musicociel with Helm on your Kubernetes cluster, use the following co
 ```
 helm repo add musicociel https://musicociel.github.io/musicociel/helm
 helm repo update
-helm install my-release musicociel/musicociel
+helm install my-musicociel musicociel/musicociel
 ```
