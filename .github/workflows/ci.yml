@@ -36,7 +36,8 @@ jobs:
           helm package . -d ../repository
           helm install musicociel . --set-string musicociel.tag=local
         working-directory: helm/chart
-      - run: TEST_MUSICOCIEL_URL=http://musicociel.local npm run playwright:test
+      - run: TEST_MUSICOCIEL_URL=http://musicociel.local npm run playwright:test -- --browser chromium
+      - run: TEST_MUSICOCIEL_URL=http://musicociel.local npm run playwright:test -- --browser firefox
       - uses: actions/upload-artifact@v2
         with:
           name: test-results
