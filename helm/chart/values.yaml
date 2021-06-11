@@ -1,4 +1,5 @@
 musicociel:
+  enabled: true
   url: http://musicociel.local
   image: "docker.io/davdiv/musicociel"
   tag: "dev"
