@@ -1,4 +1,4 @@
-FROM node:14-alpine
+FROM docker.io/library/node:14-alpine
 WORKDIR /usr/app
 COPY package.json package-lock.json ./
 RUN npm ci --production
