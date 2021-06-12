@@ -42,6 +42,7 @@ export const securityHeaders = ({ keycloak }: Config): RequestHandler => {
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'none'"],
+        fontSrc: ["data:"],
         imgSrc: [self, "data:"],
         manifestSrc: [appendPathname("manifest.json")],
         styleSrc: ["'unsafe-inline'", appendPathname("css/")],

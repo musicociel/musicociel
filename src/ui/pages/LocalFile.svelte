@@ -35,6 +35,6 @@
   {:else if viewer && $viewer.error}
     <div class="container-fluid p-3"><Error error={$viewer.error} /></div>
   {:else if viewer}
-    <svelte:component this={$viewer.component} data={$viewer.data} />
+    <svelte:component this={$viewer.component} data={$viewer.data} class="flex-grow-1" />
   {/if}
 </div>
