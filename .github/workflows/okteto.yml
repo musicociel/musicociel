@@ -1,0 +1,16 @@
+name: okteto
+on: workflow_dispatch
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+    - name: "Deploy to okteto"
+      run: |
+        curl https://get.okteto.com -sSfL | sh
+        okteto analytics --disable
+        okteto login --token ${{ secrets.OKTETO_TOKEN }}
+        okteto delete namespace ${{ secrets.OKTETO_NAMESPACE }} || true
+        okteto create namespace ${{ secrets.OKTETO_NAMESPACE }}
+        okteto namespace ${{ secrets.OKTETO_NAMESPACE }}
+        helm repo add musicociel https://musicociel.github.io/musicociel/helm/
+        helm install my-musicociel musicociel/musicociel --set-string musicociel.tag=dev,musicociel.url=https://musicociel${{ secrets.OKTETO_URL_SUFFIX }},keycloak.url=https://keycloak${{ secrets.OKTETO_URL_SUFFIX }},keycloak.users[0].username=demo,keycloak.users[0].password=demo
