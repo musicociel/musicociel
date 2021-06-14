@@ -5,7 +5,7 @@ RUN npm ci --production
 COPY musicociel .
 COPY build build/
 USER node
-EXPOSE 8080
+EXPOSE 8081
 ENV MUSICOCIEL_PORT=8081 \
     MUSICOCIEL_HOST=0.0.0.0 \
     MUSICOCIEL_ADDRESS=http://127.0.0.1:8081
