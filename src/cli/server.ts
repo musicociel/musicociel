@@ -1,6 +1,7 @@
 import type { IncomingMessage } from "http";
 import type { Socket } from "net";
 import Keycloak, { KeycloakConfig } from "keycloak-connect";
+import { Pool } from "pg";
 import express from "express";
 import WebSocket, { Server as WebsocketServer } from "ws";
 import { checkDB, getUserConditions } from "./database";
@@ -26,7 +27,7 @@ export const server = async ({
   serviceWorker = true
 }: {
   address: string[];
-  database?: string;
+  database?: URL;
   keycloak?: KeycloakConfig;
   hashRouting?: boolean;
   serviceWorker?: boolean;
@@ -37,8 +38,7 @@ export const server = async ({
 
   /*const db = */ await (async () => {
     if (!database) return null;
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const db = new (require("pg").Pool)({ connectionString: database });
+    const db = new Pool({ connectionString: database.toString() });
     await checkDB(db);
     return db;
   })();

@@ -54,6 +54,14 @@ export const serverCommand: CommandModule = {
       type: "string",
       description: "URL to connect to the database. No database is used if unspecified."
     },
+    "database-username": {
+      type: "string",
+      description: "Username to connect to the database. Alternatively, it can also be integrated in the url passed to --database."
+    },
+    "database-password": {
+      type: "string",
+      description: "Password to connect to the database. Alternatively, it can also be integrated in the url passed to --database."
+    },
     "trust-proxy": {
       type: "boolean",
       default: false,
@@ -88,9 +96,14 @@ export const serverCommand: CommandModule = {
       httpServer = createHttpServer();
     }
     const address = args.address ?? [formatURL(protocol, host, port)];
+    const database = args.database ? new URL(args.database) : undefined;
+    if (database) {
+      args.databaseUsername ? (database.username = args.databaseUsername) : null;
+      args.databasePassword ? (database.password = args.databasePassword) : null;
+    }
     const { requestHandler, upgradeHandler } = await server({
       address,
-      database: args.database,
+      database,
       keycloak: keycloak ? JSON.parse(keycloak) : undefined,
       hashRouting: args["hash-routing"],
       serviceWorker: args["service-worker"]

@@ -35,6 +35,20 @@ spec:
         - name: MUSICOCIEL_KEYCLOAK
           value: '{"realm":"{{ .Values.keycloak.realm }}","auth-server-url":"{{ .Values.keycloak.url }}/auth","ssl-required":"external","resource":"{{ .Values.keycloak.client }}","public-client":true,"confidential-port":0}'
 {{- end }}
+{{- if .Values.postgresql.enabled }}
+        - name: MUSICOCIEL_DATABASE
+          value: "postgresql://{{ .Release.Name }}-postgresql:5432/{{ .Values.postgresql.musicociel.database }}"
+        - name: MUSICOCIEL_DATABASE_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: "{{ .Release.Name }}-postgresql-musicociel"
+              key: username
+        - name: MUSICOCIEL_DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: "{{ .Release.Name }}-postgresql-musicociel"
+              key: password
+{{- end }}
         ports:
         - name: http
           containerPort: 8080
