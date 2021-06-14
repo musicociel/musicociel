@@ -2,9 +2,9 @@ apiVersion: v1
 entries:
   musicociel:
   - apiVersion: v2
-    created: "2021-06-14T16:59:18.942730796Z"
+    created: "2021-06-14T17:12:05.138583563Z"
     description: Web application to display and edit songs with lyrics and chords.
-    digest: 3652184191be4f09c18dff97609deb602203aacdb6d0d82f78b9ce9c40108922
+    digest: 5db4b04fd2211239a8480f5bfb1a4b8e27bbb7e72733d5d39df9eb962678e289
     home: https://github.com/musicociel/musicociel#readme
     icon: https://raw.githubusercontent.com/musicociel/musicociel/dev/icon.svg
     keywords:
@@ -24,4 +24,4 @@ entries:
     urls:
     - musicociel-0.0.0.tgz
     version: 0.0.0
-generated: "2021-06-14T16:59:18.942061591Z"
+generated: "2021-06-14T17:12:05.137823849Z"
