@@ -91,7 +91,7 @@
     "path-to-regexp": "6.2.0",
     "pg": "8.6.0",
     "playwright": "1.12.1",
-    "postcss": "8.3.2",
+    "postcss": "8.3.3",
     "prettier": "2.3.1",
     "prettier-plugin-svelte": "2.3.0",
     "rimraf": "3.0.2",
