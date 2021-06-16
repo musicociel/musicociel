@@ -2,10 +2,10 @@
   import type { IconDefinition } from "@fortawesome/free-solid-svg-icons";
   export let icon: IconDefinition;
 
-  let boxWidth: number, boxHeight: number, i1, i2, path;
+  let boxWidth: number, boxHeight: number, path: any;
 
   $: ({
-    icon: [boxWidth, boxHeight, i1, i2, path]
+    icon: [boxWidth, boxHeight, , , path]
   } = icon);
 </script>
 

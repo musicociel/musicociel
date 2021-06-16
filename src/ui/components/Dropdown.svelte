@@ -7,7 +7,7 @@
   export let open = false;
   export let closeOnClickInside = true;
 
-  function clickInside(event) {
+  function clickInside(event: MouseEvent) {
     if (!closeOnClickInside) {
       event.stopPropagation();
     }

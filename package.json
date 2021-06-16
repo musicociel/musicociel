@@ -46,7 +46,7 @@
     "start:dev": "nodemon --watch build/cli.js ./musicociel server",
     "ui:build": "rollup --failAfterWarnings -c rollup.ui.config.js",
     "ui:dev": "rollup -c rollup.ui.config.js -w",
-    "ui:validate": "svelte-check --workspace src/ui"
+    "ui:validate": "svelte-check --workspace src/ui --fail-on-warnings --fail-on-hints"
   },
   "dependencies": {
     "express": "4.17.1",
