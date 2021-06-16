@@ -4,7 +4,7 @@
   import type { Readable } from "svelte/store";
   import type { OpenFileData } from "../../../types";
   import LineWithChords from "./LineWithChords.svelte";
-  import { showChords } from "../../../../settings/settings";
+  import { showChords, transpose, notesStyle, alterationsType } from "../../../../settings/settings";
   import Paginator from "../../../../paginator/Paginator.svelte";
   import { paginateFactory } from "../../../../paginator/paginate";
   import PaginatorItem from "../../../../paginator/PaginatorItem.svelte";
@@ -13,9 +13,10 @@
 
   export let data: Readable<OpenFileData<Line[]>>;
   $: content = $data.content!;
+  $: paginationContent = [content, $showChords, $transpose, $notesStyle, $alterationsType];
 </script>
 
-<Paginator {paginate} {content} class={$$props.class}>
+<Paginator {paginate} content={paginationContent} class={$$props.class}>
   {#each content as line}
     <PaginatorItem>
       {#if line.type === LineType.Directive}

@@ -87,7 +87,7 @@
   }
 
   afterUpdate(async () => {
-    if (lastUpdateWidth !== width || lastUpdateHeight !== height || lastUpdateContent !== content) {
+    if (lastUpdateWidth !== width || lastUpdateHeight !== height || !lastUpdateContent || lastUpdateContent !== content) {
       update();
     }
   });

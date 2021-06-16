@@ -10,7 +10,7 @@
   import { groupLyrics } from "./groupLyrics";
   import type { Readable } from "svelte/store";
   import type { OpenFileData } from "../../../types";
-  import { showChords } from "../../../../settings/settings";
+  import { showChords, transpose, notesStyle, alterationsType } from "../../../../settings/settings";
   import Paginator from "../../../../paginator/Paginator.svelte";
   import PaginatorItem from "../../../../paginator/PaginatorItem.svelte";
   import { paginateFactory } from "../../../../paginator/paginate";
@@ -23,9 +23,10 @@
   $: structure = getStructure(content.lyrics);
   $: lyrics = (!$showChords || !structure.hasChords) && structure.hasCompactedVerses ? expand(content.lyrics) : content.lyrics;
   $: groupedLyrics = groupLyrics(lyrics);
+  $: paginationContent = [content, $showChords, $transpose, $notesStyle, $alterationsType];
 </script>
 
-<Paginator items={groupedLyrics} {paginate} {content} class={$$props.class}>
+<Paginator items={groupedLyrics} {paginate} content={paginationContent} class={$$props.class}>
   {#if content.title}
     <PaginatorItem>
       <strong>{content.title}</strong>
