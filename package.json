@@ -53,7 +53,7 @@
     "express": "4.17.1",
     "express-json-validator-middleware": "2.1.1",
     "pg": "8.6.0",
-    "ws": "7.5.1",
+    "ws": "7.5.2",
     "yargs": "17.0.1"
   },
   "devDependencies": {
