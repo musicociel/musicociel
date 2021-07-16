@@ -65,7 +65,7 @@
     "@rollup/plugin-json": "4.1.0",
     "@rollup/plugin-node-resolve": "13.0.0",
     "@rollup/plugin-replace": "2.4.2",
-    "@rollup/plugin-typescript": "8.2.1",
+    "@rollup/plugin-typescript": "8.2.3",
     "@tsconfig/svelte": "2.0.1",
     "@types/express": "4.17.13",
     "@types/history": "4.7.9",
