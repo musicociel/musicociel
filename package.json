@@ -77,7 +77,7 @@
     "@types/xmldom": "0.1.31",
     "@types/yargs": "17.0.2",
     "@typescript-eslint/eslint-plugin": "4.28.3",
-    "@typescript-eslint/parser": "4.28.3",
+    "@typescript-eslint/parser": "4.28.4",
     "ace-builds": "1.4.12",
     "bootstrap": "5.0.2",
     "eslint": "7.31.0",
