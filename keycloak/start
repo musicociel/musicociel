@@ -1,11 +1,11 @@
 #!/bin/bash
 
-podman run --rm -p 8080:8080 -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin -v .:/host:ro -e KEYCLOAK_IMPORT=/host/realm.json docker.io/jboss/keycloak:14.0.0
+podman run --rm -p 8080:8080 -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin -v .:/host:ro -e KEYCLOAK_IMPORT=/host/realm.json docker.io/jboss/keycloak:15.0.0
 
 # In order to generate the realm.json file, use the following commands:
 
 # Start keycloak:
-# $ podman run --rm -p 8080:8080 -ti -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin -v .:/host --entrypoint /bin/bash docker.io/jboss/keycloak:14.0.0
+# $ podman run --rm -p 8080:8080 -ti -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin -v .:/host --entrypoint /bin/bash docker.io/jboss/keycloak:15.0.0
 # $ /opt/jboss/keycloak/bin/standalone.sh
 # Connect to keycloak, and create the musicociel realm and configure it correctly.
 # Then stop it in the console, and run:
