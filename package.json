@@ -79,7 +79,7 @@
     "@typescript-eslint/eslint-plugin": "4.29.0",
     "@typescript-eslint/parser": "4.29.0",
     "ace-builds": "1.4.12",
-    "bootstrap": "5.0.2",
+    "bootstrap": "5.1.0",
     "eslint": "7.32.0",
     "eslint-config-prettier": "8.3.0",
     "helmet": "4.6.0",
