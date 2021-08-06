@@ -57,7 +57,7 @@
     "yargs": "17.0.1"
   },
   "devDependencies": {
-    "@fortawesome/free-solid-svg-icons": "5.15.3",
+    "@fortawesome/free-solid-svg-icons": "5.15.4",
     "@fullhuman/postcss-purgecss": "4.0.3",
     "@playwright/test": "1.13.1",
     "@rollup/plugin-commonjs": "20.0.0",
@@ -112,7 +112,7 @@
     "tslib": "2.3.0",
     "typescript": "4.3.5",
     "uuid": "8.3.2",
-    "workbox-precaching": "6.1.5",
+    "workbox-precaching": "6.2.0",
     "workbox-strategies": "6.1.5",
     "xmldom": "0.6.0"
   }
