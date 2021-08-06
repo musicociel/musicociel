@@ -57,7 +57,7 @@
     "yargs": "17.0.1"
   },
   "devDependencies": {
-    "@fortawesome/free-solid-svg-icons": "5.15.3",
+    "@fortawesome/free-solid-svg-icons": "5.15.4",
     "@fullhuman/postcss-purgecss": "4.0.3",
     "@playwright/test": "1.13.1",
     "@rollup/plugin-commonjs": "20.0.0",
@@ -86,7 +86,7 @@
     "history": "4.10.1",
     "immer": "9.0.5",
     "jest": "27.0.6",
-    "keycloak-connect": "15.0.0",
+    "keycloak-connect": "15.0.1",
     "keycloak-js": "15.0.0",
     "nodemon": "2.0.12",
     "path-to-regexp": "6.2.0",
