@@ -59,7 +59,7 @@
   "devDependencies": {
     "@fortawesome/free-solid-svg-icons": "5.15.4",
     "@fullhuman/postcss-purgecss": "4.0.3",
-    "@playwright/test": "1.13.1",
+    "@playwright/test": "1.14.1",
     "@rollup/plugin-commonjs": "20.0.0",
     "@rollup/plugin-html": "0.2.3",
     "@rollup/plugin-json": "4.1.0",
@@ -90,7 +90,7 @@
     "keycloak-js": "15.0.2",
     "nodemon": "2.0.12",
     "path-to-regexp": "6.2.0",
-    "playwright": "1.13.1",
+    "playwright": "1.14.1",
     "postcss": "8.3.6",
     "prettier": "2.3.2",
     "prettier-plugin-svelte": "2.3.1",
