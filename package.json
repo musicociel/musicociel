@@ -54,7 +54,7 @@
     "express-json-validator-middleware": "2.1.1",
     "pg": "8.7.1",
     "ws": "8.0.0",
-    "yargs": "17.1.0"
+    "yargs": "17.1.1"
   },
   "devDependencies": {
     "@fortawesome/free-solid-svg-icons": "5.15.4",
@@ -95,7 +95,7 @@
     "prettier": "2.3.2",
     "prettier-plugin-svelte": "2.3.1",
     "rimraf": "3.0.2",
-    "rollup": "2.56.0",
+    "rollup": "2.56.3",
     "rollup-plugin-copy": "3.4.0",
     "rollup-plugin-livereload": "2.0.5",
     "rollup-plugin-postcss": "4.0.0",
