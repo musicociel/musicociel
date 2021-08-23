@@ -11,7 +11,7 @@ keycloak:
   client: "musicociel"
   external: false
   image: "docker.io/jboss/keycloak"
-  tag: "15.0.0"
+  tag: "15.0.2"
   admin:
     username: admin
 postgresql:
