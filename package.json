@@ -86,7 +86,7 @@
     "history": "4.10.1",
     "immer": "9.0.5",
     "jest": "27.0.6",
-    "keycloak-connect": "15.0.1",
+    "keycloak-connect": "15.0.2",
     "keycloak-js": "15.0.2",
     "nodemon": "2.0.12",
     "path-to-regexp": "6.2.0",
