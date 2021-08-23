@@ -51,7 +51,7 @@
   "dependencies": {
     "body-parser": "1.19.0",
     "express": "4.17.1",
-    "express-json-validator-middleware": "2.1.1",
+    "express-json-validator-middleware": "2.2.1",
     "pg": "8.7.1",
     "ws": "8.2.0",
     "yargs": "17.1.1"
@@ -76,8 +76,8 @@
     "@types/ws": "7.4.7",
     "@types/xmldom": "0.1.31",
     "@types/yargs": "17.0.2",
-    "@typescript-eslint/eslint-plugin": "4.29.0",
-    "@typescript-eslint/parser": "4.29.2",
+    "@typescript-eslint/eslint-plugin": "4.29.3",
+    "@typescript-eslint/parser": "4.29.3",
     "ace-builds": "1.4.12",
     "bootstrap": "5.1.0",
     "eslint": "7.32.0",
