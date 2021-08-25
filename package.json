@@ -59,7 +59,7 @@
   "devDependencies": {
     "@fortawesome/free-solid-svg-icons": "5.15.4",
     "@fullhuman/postcss-purgecss": "4.0.3",
-    "@playwright/test": "1.13.1",
+    "@playwright/test": "1.14.1",
     "@rollup/plugin-commonjs": "20.0.0",
     "@rollup/plugin-html": "0.2.3",
     "@rollup/plugin-json": "4.1.0",
