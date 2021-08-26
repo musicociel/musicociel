@@ -105,7 +105,7 @@
     "rollup-plugin-workbox": "6.2.0",
     "svelte": "3.42.2",
     "svelte-check": "2.2.5",
-    "svelte-i18n": "3.3.9",
+    "svelte-i18n": "3.3.10",
     "svelte-preprocess": "4.8.0",
     "swiper": "6.8.4",
     "ts-jest": "27.0.5",
