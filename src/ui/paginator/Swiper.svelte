@@ -1,6 +1,6 @@
 <script lang="ts">
   import Swiper from "swiper";
-  import "swiper/swiper.min.css";
+  import "swiper/css";
   import { onDestroy } from "svelte";
 
   export let width = 0;
@@ -22,7 +22,11 @@
     }
     if (width > 0 && height > 0 && !swiper) {
       swiper = new Swiper(container, {
+        touchEventsTarget: "container",
         initialSlide: currentSlide,
+        resizeObserver: false,
+        updateOnImagesReady: false,
+        updateOnWindowResize: false,
         width,
         height
       });
@@ -32,7 +36,7 @@
     } else if (swiper) {
       swiper.params.width = width;
       swiper.params.height = height;
-      swiper.updateSize();
+      swiper.update();
     }
   }
 
@@ -46,14 +50,14 @@
   });
 </script>
 
-<div bind:this={container} style="width:{width}px;height:{height}px;{$$props.style ?? ''}" class="swiper-container {$$props.class ?? ''}">
+<div bind:this={container} style="width:{width}px;height:{height}px;{$$props.style ?? ''}" class="swiper {$$props.class ?? ''}">
   <div class="swiper-wrapper">
     <slot />
   </div>
 </div>
 
 <style>
-  .swiper-container {
+  .swiper {
     overflow: hidden;
     z-index: 0;
   }
