@@ -1,4 +1,4 @@
-import { DOMParser, XMLSerializer } from "xmldom";
+import { DOMParser, XMLSerializer } from "@xmldom/xmldom";
 import { Blob } from "./blob";
 
 global.DOMParser = DOMParser;
