@@ -17,7 +17,7 @@ keycloak:
 postgresql:
   enabled: true
   image: "docker.io/library/postgres"
-  tag: "13.3-alpine"
+  tag: "13.4-alpine"
   admin:
     username: "admin"
     database: "admin"
