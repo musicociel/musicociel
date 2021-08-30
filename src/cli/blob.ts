@@ -19,7 +19,7 @@ export class NodeBlob implements NamedBlob {
     return new NodeBlob(this.nodeBuffer.slice(start, end), contentType);
   }
 
-  stream(): ReadableStream<any> {
+  stream(): never {
     throw new Error("Method not implemented.");
   }
 }
