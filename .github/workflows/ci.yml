@@ -33,12 +33,12 @@ jobs:
       - run: npx playwright install-deps
       - run: npm run playwright:test
       - run: docker build . -t docker.io/davdiv/musicociel:local
+      - run: helm package helm/chart -d helm/repository
       - name: "Load in minikube cluster"
         run: |
           minikube start --addons ingress
           minikube image load docker.io/davdiv/musicociel:local
           echo "$(minikube ip) musicociel.local keycloak.local" | sudo tee -a /etc/hosts
-          helm package . -d ../repository
           helm install musicociel . --set-string musicociel.tag=local
         working-directory: helm/chart
       - run: npm run playwright:test
