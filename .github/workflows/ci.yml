@@ -30,6 +30,8 @@ jobs:
       - run: helm lint helm/chart --strict
       - run: npm run ui:validate
       - run: npm run jest:test
+      - run: npx playwright install-deps
+      - run: npm run playwright:test
       - run: docker build . -t docker.io/davdiv/musicociel:local
       - name: "Load in minikube cluster"
         run: |
@@ -39,8 +41,9 @@ jobs:
           helm package . -d ../repository
           helm install musicociel . --set-string musicociel.tag=local
         working-directory: helm/chart
-      - run: TEST_MUSICOCIEL_URL=http://musicociel.local npm run playwright:test -- --browser chromium
-      - run: TEST_MUSICOCIEL_URL=http://musicociel.local npm run playwright:test -- --browser firefox
+      - run: npm run playwright:test
+        env:
+          TEST_MUSICOCIEL_URL: http://musicociel.local
       - uses: actions/upload-artifact@v2
         with:
           name: test-results
