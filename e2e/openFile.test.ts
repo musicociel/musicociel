@@ -1,7 +1,9 @@
 import { test } from "@playwright/test";
 import { join } from "path";
+import { fixShowOpenFilePicker } from "./fixShowOpenFilePicker";
 
 test("should open a file", async ({ page }) => {
+  await fixShowOpenFilePicker(page);
   await page.goto(".");
   const [fileChooser] = await Promise.all([page.waitForEvent("filechooser"), page.click("text=Open a file")]);
   await Promise.all([page.waitForNavigation(), fileChooser.setFiles(join(__dirname, "../sample-songs/opensong/Amazing Grace"))]);
