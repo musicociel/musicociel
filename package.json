@@ -91,7 +91,7 @@
     "nodemon": "2.0.12",
     "path-to-regexp": "6.2.0",
     "playwright": "1.14.1",
-    "postcss": "8.3.6",
+    "postcss": "8.3.7",
     "prettier": "2.4.1",
     "prettier-plugin-svelte": "2.4.0",
     "rimraf": "3.0.2",
