@@ -31,6 +31,7 @@ jobs:
       - run: npm run ui:validate
       - run: npm run jest:test
       - run: npx playwright install-deps
+      - run: npx playwright install
       - run: npm run playwright:test
       - run: docker build . -t docker.io/davdiv/musicociel:local
       - run: helm package helm/chart -d helm/repository
