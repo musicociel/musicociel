@@ -54,7 +54,7 @@
     "express-json-validator-middleware": "2.2.1",
     "pg": "8.7.1",
     "ws": "8.2.2",
-    "yargs": "17.1.1"
+    "yargs": "17.2.0"
   },
   "devDependencies": {
     "@fortawesome/free-solid-svg-icons": "5.15.4",
@@ -74,7 +74,7 @@
     "@types/pg": "8.6.1",
     "@types/uuid": "8.3.1",
     "@types/ws": "7.4.7",
-    "@types/yargs": "17.0.2",
+    "@types/yargs": "17.0.3",
     "@typescript-eslint/eslint-plugin": "4.31.2",
     "@typescript-eslint/parser": "4.31.2",
     "@xmldom/xmldom": "0.7.5",
