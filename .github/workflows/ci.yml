@@ -42,9 +42,9 @@ jobs:
           echo "$(minikube ip) musicociel.local keycloak.local" | sudo tee -a /etc/hosts
           helm install musicociel . --set-string musicociel.tag=local
         working-directory: helm/chart
-      #- run: npm run playwright:test
-      #  env:
-      #    TEST_MUSICOCIEL_URL: http://musicociel.local
+      - run: npm run playwright:test
+        env:
+          TEST_MUSICOCIEL_URL: http://musicociel.local
       - uses: actions/upload-artifact@v2
         with:
           name: test-results
