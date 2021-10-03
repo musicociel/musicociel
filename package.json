@@ -54,7 +54,7 @@
     "express-json-validator-middleware": "2.2.1",
     "pg": "8.7.1",
     "ws": "8.2.2",
-    "yargs": "17.2.0"
+    "yargs": "17.2.1"
   },
   "devDependencies": {
     "@fortawesome/free-solid-svg-icons": "5.15.4",
