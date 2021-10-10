@@ -1,4 +1,3 @@
-import { join } from "path";
 import type { PlaywrightTestConfig } from "@playwright/test";
 
 const config: PlaywrightTestConfig = {
@@ -6,7 +5,6 @@ const config: PlaywrightTestConfig = {
   retries: 5,
   forbidOnly: !!process.env.CI,
   globalSetup: require.resolve("./globalSetup"),
-  outputDir: join(__dirname, "test-results"),
   webServer: process.env.TEST_MUSICOCIEL_URL
     ? undefined
     : {
@@ -17,10 +15,7 @@ const config: PlaywrightTestConfig = {
   use: {
     baseURL: process.env.TEST_MUSICOCIEL_URL || "http://127.0.0.1:8081",
     viewport: { width: 1280, height: 720 },
-    locale: "en-US",
-    screenshot: "only-on-failure",
-    video: "retain-on-failure",
-    trace: "retain-on-failure"
+    locale: "en-US"
   },
   projects: [
     {

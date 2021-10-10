@@ -47,11 +47,6 @@ jobs:
           TEST_MUSICOCIEL_URL: http://musicociel.local
           TEST_MUSICOCIEL_USERNAME: test-user
           TEST_MUSICOCIEL_PASSWORD: test-password
-      - uses: actions/upload-artifact@v2
-        with:
-          name: test-results
-          path: e2e/test-results/**
-        if: ${{ always() }}
       - uses: actions/checkout@v2
         with:
           ref: gh-pages
