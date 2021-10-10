@@ -1,4 +1,5 @@
 import { chromium, FullConfig } from "@playwright/test";
+import type { Config } from "../src/common/config";
 
 const START_TIMEOUT = 60000;
 
@@ -16,8 +17,9 @@ export default async function (config: FullConfig) {
         if (!res || !res.ok) {
           throw new Error(`${res?.url}: ${res?.status} ${res?.statusText}`);
         }
-        const config = await res.json();
+        const config: Config = await res.json();
         console.log(`Musicociel config: ${JSON.stringify(config)}`);
+        process.env.TEST_MUSICOCIEL_KEYCLOAK = config.keycloak ? "true" : "false";
         error = null;
       } catch (e) {
         error = e || true;
