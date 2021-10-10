@@ -5,6 +5,7 @@ const config: PlaywrightTestConfig = {
   timeout: 30000,
   retries: 5,
   forbidOnly: !!process.env.CI,
+  globalSetup: require.resolve("./globalSetup"),
   outputDir: join(__dirname, "test-results"),
   webServer: process.env.TEST_MUSICOCIEL_URL
     ? undefined
