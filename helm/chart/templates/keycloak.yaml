@@ -166,7 +166,7 @@ spec:
           valueFrom:
             secretKeyRef:
               name: "{{ $.Release.Name }}-keycloak-user-{{ .username }}"
-              key: username
+              key: password
 {{- end }}
         - name: KEYCLOAK_USER
           valueFrom:
