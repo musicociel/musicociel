@@ -70,7 +70,7 @@
     "@types/express": "4.17.13",
     "@types/history": "4.7.9",
     "@types/jest": "27.0.2",
-    "@types/node": "16.10.6",
+    "@types/node": "16.11.9",
     "@types/pg": "8.6.1",
     "@types/uuid": "8.3.1",
     "@types/ws": "8.2.0",
