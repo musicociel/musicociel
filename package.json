@@ -94,7 +94,7 @@
     "prettier": "2.4.1",
     "prettier-plugin-svelte": "2.4.0",
     "rimraf": "3.0.2",
-    "rollup": "2.58.3",
+    "rollup": "2.63.0",
     "rollup-plugin-copy": "3.4.0",
     "rollup-plugin-livereload": "2.0.5",
     "rollup-plugin-postcss": "4.0.1",
