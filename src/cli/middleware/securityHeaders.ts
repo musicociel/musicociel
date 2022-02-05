@@ -39,7 +39,12 @@ export const securityHeaders = ({ keycloak }: Config): RequestHandler => {
     );
   }
   return helmet({
+    crossOriginEmbedderPolicy: false,
+    crossOriginOpenerPolicy: false,
+    crossOriginResourcePolicy: false,
+    originAgentCluster: false,
     contentSecurityPolicy: {
+      useDefaults: false,
       directives: {
         defaultSrc: ["'none'"],
         fontSrc: ["data:"],
