@@ -40,8 +40,7 @@ jobs:
           minikube start --addons ingress
           minikube image load docker.io/davdiv/musicociel:local
           echo "$(minikube ip) musicociel.local keycloak.local" | sudo tee -a /etc/hosts
-          helm install musicociel . --set-string musicociel.tag=local,keycloak.users[0].username=test-user,keycloak.users[0].password=test-password
-        working-directory: helm/chart
+          helm install musicociel helm/chart --set-string musicociel.tag=local,keycloak.users[0].username=test-user,keycloak.users[0].password=test-password
       - run: npm run playwright:test
         env:
           TEST_MUSICOCIEL_URL: http://musicociel.local
