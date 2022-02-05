@@ -32,9 +32,9 @@
   </NavBar>
   {#if file && $file.error}
     <div class="container-fluid p-3"><Error error={$file.error} /></div>
-  {:else if viewer && $viewer.error}
+  {:else if viewer && $viewer?.error}
     <div class="container-fluid p-3"><Error error={$viewer.error} /></div>
-  {:else if viewer}
+  {:else if viewer && $viewer?.component}
     <svelte:component this={$viewer.component} data={$viewer.data} class="flex-grow-1" />
   {/if}
 </div>
