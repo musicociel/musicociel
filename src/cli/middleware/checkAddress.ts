@@ -16,7 +16,7 @@ const matchLocalIp = (url: URL) => {
   const protocol = url.protocol.replace(/:$/, "");
   return (req: express.Request) => {
     const hostname = req.hostname;
-    const localIp = normalizeHostname(req.socket.localAddress);
+    const localIp = normalizeHostname(req.socket.localAddress!);
     const isLocalIp = hostname === localIp || `[::ffff:${hostname}]` === localIp;
     if (isLocalIp && req.protocol === protocol && req.path.startsWith(url.pathname)) {
       const response = new URL(".", url);
