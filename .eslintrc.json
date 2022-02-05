@@ -1,17 +1,23 @@
 {
+  "root": true,
   "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
   "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "prettier"],
   "overrides": [
     {
       "files": ["*.js"],
-      "env": { "node": true },
+      "env": {
+        "node": true
+      },
       "rules": {
         "@typescript-eslint/no-var-requires": 0
       }
     },
     {
       "files": ["src/ui/**"],
-      "env": { "browser": true }
+      "env": {
+        "browser": true
+      }
     }
   ],
   "rules": {
@@ -19,6 +25,12 @@
     "@typescript-eslint/no-empty-function": 0,
     "@typescript-eslint/no-explicit-any": 0,
     "@typescript-eslint/no-non-null-assertion": 0,
-    "@typescript-eslint/no-unused-vars": ["error", { "args": "none", "ignoreRestSiblings": true }]
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "args": "none",
+        "ignoreRestSiblings": true
+      }
+    ]
   }
 }
