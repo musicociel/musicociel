@@ -10,8 +10,8 @@ keycloak:
   realm: "musicociel"
   client: "musicociel"
   external: false
-  image: "docker.io/jboss/keycloak"
-  tag: "16.1.1"
+  image: "quay.io/keycloak/keycloak"
+  tag: "17.0.0-legacy"
   admin:
     username: admin
 postgresql:
