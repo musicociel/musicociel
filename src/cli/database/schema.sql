@@ -39,15 +39,13 @@ CREATE TABLE "GIT_COMMIT_TREE" (
 );
 
 CREATE TABLE "GIT_BRANCH" (
-    "branch" uuid PRIMARY KEY,
-    "name" varchar UNIQUE NOT NULL,
+    "branch" varchar PRIMARY KEY,
     "commit" bytea REFERENCES "GIT_COMMIT"("hash")
 );
 
 CREATE TABLE "GIT_BRANCH_CHANGES" (
-    "branch" uuid REFERENCES "GIT_BRANCH"("branch"),
+    "branch" varchar REFERENCES "GIT_BRANCH"("branch"),
     "timestamp" timestamp with time zone NOT NULL,
-    "branch_name" varchar NOT NULL,
     "user_id" uuid,
     "user_ip" inet,
     "user_name" varchar,
@@ -58,21 +56,10 @@ CREATE TABLE "GIT_BRANCH_CHANGES" (
     PRIMARY KEY ("branch", "timestamp")
 );
 
-CREATE TABLE "GIT_BRANCH_COMMIT" (
-    "branch" uuid NOT NULL REFERENCES "GIT_BRANCH"("branch"),
-    "commit" bytea REFERENCES "GIT_COMMIT"("hash"),
-    PRIMARY KEY ("branch", "commit")
-);
-
 CREATE TABLE "GIT_BRANCH_PERMISSIONS" (
-    "branch" uuid NOT NULL REFERENCES "GIT_BRANCH" ("branch"),
+    "branch" varchar NOT NULL REFERENCES "GIT_BRANCH" ("branch"),
     "userCondition" varchar NOT NULL,
-    "read_content" boolean,
-    "write_content" boolean,
-    "read_history" boolean,
-    "write_history" boolean,
-    "read_permissions" boolean,
-    "write_permissions" boolean,
+    "permissions" BIT(5) NOT NULL,
     PRIMARY KEY ("branch", "userCondition")
 );
 

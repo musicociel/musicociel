@@ -1,5 +1,7 @@
 // Note: keep in sync with schema.sql
 
+import type { Permissions } from "../../common/storage/permissions";
+
 export type DB_HASH = Buffer;
 
 export enum DB_GIT_OBJECT_TYPE {
@@ -49,14 +51,12 @@ export interface DB_GIT_COMMIT_TREE {
 
 export interface DB_GIT_BRANCH {
   branch: string;
-  name: string;
   commit: DB_HASH | null;
 }
 
 export interface DB_GIT_BRANCH_CHANGES {
   branch: string;
   timestamp: Date;
-  branch_name: string;
   user_id: string;
   user_ip: string;
   user_name: string;
@@ -66,20 +66,10 @@ export interface DB_GIT_BRANCH_CHANGES {
   non_fast_forward: boolean;
 }
 
-export interface DB_GIT_BRANCH_COMMIT {
-  branch: string;
-  commit: DB_HASH;
-}
-
 export interface DB_GIT_BRANCH_PERMISSIONS {
   branch: string;
   userCondition: string;
-  read_content: boolean;
-  write_content: boolean;
-  read_history: boolean;
-  write_history: boolean;
-  read_permissions: boolean;
-  write_permissions: boolean;
+  permissions: Permissions;
 }
 
 export interface DB_VERSION {
