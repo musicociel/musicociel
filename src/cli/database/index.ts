@@ -2,8 +2,7 @@
 /// <reference path="./sql.d.ts" />
 import type { Pool, QueryResult } from "pg";
 import schema from "./schema.sql";
-import { v4 as createUUID } from "uuid";
-import type { DB_GIT_BRANCH, DB_GIT_BRANCH_PERMISSIONS, DB_VERSION } from "./types";
+import type { DB_VERSION } from "./types";
 
 const expectedVersion = "musicociel-v0";
 
@@ -45,58 +44,3 @@ export const getUserConditions = (userTokenContent: any) => {
   return res;
 };
 
-export const branchCreate = async (
-  dbPool: Pool,
-  name: string,
-  userTokenContent: any
-): Promise<DB_GIT_BRANCH & Partial<DB_GIT_BRANCH_PERMISSIONS>> => {
-  const uuid = createUUID();
-  const db = await dbPool.connect();
-  try {
-    await db.query(`BEGIN`);
-    await db.query(`INSERT INTO "GIT_BRANCH" ("branch", "name", "commit") VALUES ($1, $2, NULL)`, [uuid, name]);
-    await db.query(
-      `INSERT INTO "GIT_BRANCH_PERMISSIONS" ("branch", "userCondition", "read_content", "write_content", "read_history", "write_history", "read_permissions", "write_permissions") VALUES ($1, $2, 'true', 'true', 'true', 'true', 'true', 'true')`,
-      [uuid, `user-uuid:${userTokenContent.sub}`]
-    );
-    await db.query("COMMIT");
-    return {
-      branch: uuid,
-      name,
-      commit: null,
-      read_content: true,
-      write_content: true,
-      read_history: true,
-      write_history: true,
-      read_permissions: true,
-      write_permissions: true
-    };
-  } catch (e) {
-    await db.query("ROLLBACK");
-    throw e;
-  } finally {
-    db.release();
-  }
-};
-
-export const branchesList = async (db: Pool, userTokenContent: any) => {
-  const userConditions = getUserConditions(userTokenContent);
-  const rows = (
-    await db.query<DB_GIT_BRANCH & Partial<DB_GIT_BRANCH_PERMISSIONS>>(
-      `SELECT l."branch", l."name", CASE bool_or(r."read_content") WHEN true THEN l."commit" ELSE NULL END as "commit", bool_or(r."read_content") as "read_content", bool_or(r."write_content") as "write_content", bool_or(r."read_history") as "read_history", bool_or(r."write_history") as "write_history", bool_or(r."read_permissions") as "read_permissions", bool_or(r."write_permissions") as "write_permissions" FROM "GIT_BRANCH" l INNER JOIN "GIT_BRANCH_PERMISSIONS" r ON l."branch" = r."branch" WHERE r."userCondition" = ANY ($1) GROUP BY l."branch"`,
-      [userConditions]
-    )
-  ).rows;
-  return rows;
-};
-
-export const branchInfo = async (db: Pool, branch: string, userTokenContent: any) => {
-  const userConditions = getUserConditions(userTokenContent);
-  const rows = (
-    await db.query<DB_GIT_BRANCH & Partial<DB_GIT_BRANCH_PERMISSIONS>>(
-      `SELECT l."branch", l."name", CASE bool_or(r."read_content") WHEN true THEN l."commit" ELSE NULL END as "commit", bool_or(r."read_content") as "read_content", bool_or(r."write_content") as "write_content", bool_or(r."read_history") as "read_history", bool_or(r."write_history") as "write_history", bool_or(r."read_permissions") as "read_permissions", bool_or(r."write_permissions") as "write_permissions" FROM "GIT_BRANCH" l INNER JOIN "GIT_BRANCH_PERMISSIONS" r ON l."branch" = r."branch" WHERE r."userCondition" = ANY ($1) AND l."branch" = $2 GROUP BY l."branch"`,
-      [userConditions, branch]
-    )
-  ).rows;
-  return rows[0];
-};
