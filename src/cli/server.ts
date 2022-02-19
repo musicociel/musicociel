@@ -4,17 +4,13 @@ import Keycloak, { KeycloakConfig } from "keycloak-connect";
 import { Pool } from "pg";
 import express from "express";
 import WebSocket, { Server as WebsocketServer } from "ws";
-import { checkDB, getUserConditions } from "./database";
+import { checkDB } from "./database";
 import { checkAddress } from "./middleware/checkAddress";
 import { securityHeaders } from "./middleware/securityHeaders";
 import { apiHandleError } from "./middleware/apiHandleError";
 import { staticHandler } from "./middleware/staticHandler";
 import type { Config } from "../common/config";
-
-export const getUserToken = (req: express.Request): any => {
-  const grant = (req as any).kauth?.grant;
-  return grant && grant.access_token ? grant.access_token.content : null;
-};
+import { getUserConditions } from "./database/auth";
 
 export const withoutEndingSlash = (address: string) => address.replace(/[/]+$/, "");
 export const withEndingSlash = (address: string) => address.replace(/[/]*$/, "/");
@@ -36,12 +32,13 @@ export const server = async ({
   const config: Config = {};
   if (!serviceWorker) config.noServiceWorker = true;
 
-  /*const db = */ await (async () => {
+  const db = await (async () => {
     if (!database) return null;
     const db = new Pool({ connectionString: database.toString() });
     await checkDB(db);
     return db;
   })();
+  if (!db) config.noDb = true;
 
   const keycloak = (() => {
     if (!keycloakConfig) return null;

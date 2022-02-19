@@ -44,6 +44,7 @@
     "prepare": "npm run build",
     "start": "./musicociel server",
     "start:dev": "nodemon --watch build/cli.js ./musicociel server",
+    "test": "npm run format:check && npm run lint && npm run ui:validate && npm run jest:test && npm run build && npm run playwright:test",
     "ui:build": "rollup --failAfterWarnings -c rollup.ui.config.js",
     "ui:dev": "rollup -c rollup.ui.config.js -w",
     "ui:validate": "svelte-check --workspace src/ui --fail-on-warnings --fail-on-hints"
