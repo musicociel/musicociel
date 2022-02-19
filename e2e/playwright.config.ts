@@ -1,6 +1,7 @@
 import type { PlaywrightTestConfig } from "@playwright/test";
 
 const config: PlaywrightTestConfig = {
+  testDir: "tests",
   timeout: 30000,
   retries: 5,
   forbidOnly: !!process.env.CI,

@@ -1,4 +1,4 @@
-import { test } from "@playwright/test";
+import { test } from "./baseTest";
 import { join } from "path";
 import { fixShowOpenFilePicker } from "./utils/fixShowOpenFilePicker";
 

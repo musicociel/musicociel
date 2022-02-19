@@ -1,16 +1,22 @@
-import type { IncomingMessage } from "http";
-import type { Socket } from "net";
 import Keycloak, { KeycloakConfig } from "keycloak-connect";
 import { Pool } from "pg";
 import express from "express";
-import WebSocket, { Server as WebsocketServer } from "ws";
-import { checkDB } from "./database";
 import { checkAddress } from "./middleware/checkAddress";
 import { securityHeaders } from "./middleware/securityHeaders";
-import { apiHandleError } from "./middleware/apiHandleError";
+import { errorHandler } from "./middleware/errorHandler";
+import { NotFound } from "http-errors";
 import { staticHandler } from "./middleware/staticHandler";
 import type { Config } from "../common/config";
-import { getUserConditions } from "./database/auth";
+import { checkDB } from "./database/checkDB";
+import { httpGetFile } from "./database/httpGetFile";
+import { httpPutFile } from "./database/httpPutFile";
+import { httpGetBranches } from "./database/httpGetBranches";
+import { httpPostBranch } from "./database/httpPostBranch";
+import { httpGetFiles } from "./database/httpGetFiles";
+import { socketServer } from "./socketServer";
+import { httpDeleteFile } from "./database/httpDeleteFile";
+import { httpDeleteBranch } from "./database/httpDeleteBranch";
+import { httpGetBranch } from "./database/httpGetBranch";
 
 export const withoutEndingSlash = (address: string) => address.replace(/[/]+$/, "");
 export const withEndingSlash = (address: string) => address.replace(/[/]*$/, "/");
@@ -55,31 +61,22 @@ export const server = async ({
   if (keycloak) {
     app.use(keycloak.middleware());
   }
-  app.use("/api", apiHandleError);
+  if (db) {
+    app.post("/api/branches", ...httpPostBranch(db));
+    app.get("/api/branches", ...httpGetBranches(db));
+    app.get("/api/branches/:branch", ...httpGetBranch(db));
+    app.delete("/api/branches/:branch", ...httpDeleteBranch(db));
+    app.get("/api/branches/:branch/files", ...httpGetFiles(db));
+    app.get("/api/branches/:branch/files/:path(*)", ...httpGetFile(db));
+    app.put("/api/branches/:branch/files/:path(*)", ...httpPutFile(db));
+    app.delete("/api/branches/:branch/files/:path(*)", ...httpDeleteFile(db));
+  }
+  app.use("/api", (res, req, next) => next(new NotFound()));
   app.use("/", await staticHandler(config, !!hashRouting));
+  app.use(errorHandler);
 
-  const ws = new WebsocketServer({ noServer: true });
-  const upgradeHandler = keycloak
-    ? async (request: IncomingMessage, socket: Socket, upgradeHead: Buffer) => {
-        try {
-          const url = new URL(request.url!, "ws://localhost");
-          const access_token = url.searchParams.get("token");
-          if (access_token) {
-            const grant = await keycloak.grantManager.createGrant({ access_token } as any);
-            const client = await new Promise<WebSocket>((resolve) => ws.handleUpgrade(request, socket, upgradeHead, resolve));
-            console.log("socket connected from ", (grant.access_token as any).content.preferred_username);
-            console.log(getUserConditions((grant.access_token as any).content));
-            client.on("close", () => console.log("socket closed"));
-            client.on("message", (message) => console.log("message from client:", message));
-          } else {
-            throw "missing access token";
-          }
-        } catch (error) {
-          console.log("socket connection closed with error", error);
-          socket.end();
-        }
-      }
-    : null;
+  const upgradeHandler = socketServer(keycloak);
+
   return {
     requestHandler: app,
     upgradeHandler,

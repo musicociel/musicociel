@@ -2,7 +2,7 @@ import type { Config } from "../../common/config";
 import express from "express";
 import path from "path";
 import { promises as fs } from "fs";
-import { asyncHandler } from "../asyncHandler";
+import { asyncHandler } from "./asyncHandler";
 
 // Note that __dirname is the build directory
 const PUBLIC_PATH = path.join(__dirname, "public");

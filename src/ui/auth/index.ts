@@ -26,7 +26,6 @@ export const { loginInfo, login, logout, manageAccount, authFetch } = (() => {
     keycloak = Keycloak(config.keycloak);
 
     keycloak.onAuthRefreshSuccess = () => {
-      console.log("onAuthRefreshSuccess", keycloak.tokenParsed);
       produce((state) => {
         state.user = (keycloak.tokenParsed as any) || null;
       });

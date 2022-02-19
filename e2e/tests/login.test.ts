@@ -1,11 +1,8 @@
-import { test } from "@playwright/test";
+import { test } from "./baseTest";
 import { login } from "./utils/login";
 
-test("should login", async ({ page }) => {
+test("should login", async ({ page, authCredentials }) => {
   test.skip(process.env.TEST_MUSICOCIEL_KEYCLOAK === "false");
-  const user = process.env.TEST_MUSICOCIEL_USERNAME ?? "admin";
-  const password = process.env.TEST_MUSICOCIEL_PASSWORD ?? "admin";
-
   await page.goto(".");
-  await login(page, user, password);
+  await login(page, authCredentials.username, authCredentials.password);
 });

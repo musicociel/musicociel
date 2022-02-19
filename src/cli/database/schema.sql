@@ -44,7 +44,7 @@ CREATE TABLE "GIT_BRANCH" (
 );
 
 CREATE TABLE "GIT_BRANCH_CHANGES" (
-    "branch" varchar REFERENCES "GIT_BRANCH"("branch"),
+    "branch" varchar NOT NULL,
     "timestamp" timestamp with time zone NOT NULL,
     "user_id" uuid,
     "user_ip" inet,
