@@ -6,7 +6,7 @@ export const test = base.extend<{
   authCredentials: { username: string; password: string };
   authToken: { access_token: string };
   authorization: string;
-  branch: string;
+  library: string;
 }>({
   authCredentials: { username: defaultUserName, password: defaultPassword },
   authToken: async ({ page, authCredentials }, use) => {
@@ -18,13 +18,13 @@ export const test = base.extend<{
   authorization: async ({ authToken }, use) => {
     await use(`Bearer ${authToken.access_token}`);
   },
-  branch: async ({ authorization, request }, use) => {
+  library: async ({ authorization, request }, use) => {
     const name = `test-${randomBytes(32).toString("hex")}`;
-    await request.post("./api/branches", { data: { name }, headers: { authorization }, failOnStatusCode: true });
+    await request.post("./api/libraries", { data: { name }, headers: { authorization }, failOnStatusCode: true });
     try {
       await use(name);
     } finally {
-      await request.delete(`./api/branches/${name}`, { headers: { authorization }, failOnStatusCode: true });
+      await request.delete(`./api/libraries/${name}`, { headers: { authorization }, failOnStatusCode: true });
     }
   }
 });

@@ -49,13 +49,13 @@ export interface DB_GIT_COMMIT_TREE {
   path: string;
 }
 
-export interface DB_GIT_BRANCH {
-  branch: string;
+export interface DB_GIT_LIBRARY {
+  library: string;
   commit: DB_HASH | null;
 }
 
-export interface DB_GIT_BRANCH_CHANGES {
-  branch: string;
+export interface DB_GIT_LIBRARY_CHANGES {
+  library: string;
   timestamp: Date;
   user_id: string;
   user_ip: string;
@@ -66,8 +66,8 @@ export interface DB_GIT_BRANCH_CHANGES {
   non_fast_forward: boolean;
 }
 
-export interface DB_GIT_BRANCH_PERMISSIONS {
-  branch: string;
+export interface DB_GIT_LIBRARY_PERMISSIONS {
+  library: string;
   userCondition: string;
   permissions: Permissions;
 }

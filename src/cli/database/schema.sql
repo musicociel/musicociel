@@ -38,13 +38,13 @@ CREATE TABLE "GIT_COMMIT_TREE" (
     PRIMARY KEY ("commit", "tree", "path")
 );
 
-CREATE TABLE "GIT_BRANCH" (
-    "branch" varchar PRIMARY KEY,
+CREATE TABLE "GIT_LIBRARY" (
+    "library" varchar PRIMARY KEY,
     "commit" bytea REFERENCES "GIT_COMMIT"("hash")
 );
 
-CREATE TABLE "GIT_BRANCH_CHANGES" (
-    "branch" varchar NOT NULL,
+CREATE TABLE "GIT_LIBRARY_CHANGES" (
+    "library" varchar NOT NULL,
     "timestamp" timestamp with time zone NOT NULL,
     "user_id" uuid,
     "user_ip" inet,
@@ -53,14 +53,14 @@ CREATE TABLE "GIT_BRANCH_CHANGES" (
     "commit_before" bytea REFERENCES "GIT_COMMIT"("hash"),
     "commit_after" bytea REFERENCES "GIT_COMMIT"("hash"),
     "non_fast_forward" boolean,
-    PRIMARY KEY ("branch", "timestamp")
+    PRIMARY KEY ("library", "timestamp")
 );
 
-CREATE TABLE "GIT_BRANCH_PERMISSIONS" (
-    "branch" varchar NOT NULL REFERENCES "GIT_BRANCH" ("branch"),
+CREATE TABLE "GIT_LIBRARY_PERMISSIONS" (
+    "library" varchar NOT NULL REFERENCES "GIT_LIBRARY" ("library"),
     "userCondition" varchar NOT NULL,
     "permissions" BIT(5) NOT NULL,
-    PRIMARY KEY ("branch", "userCondition")
+    PRIMARY KEY ("library", "userCondition")
 );
 
 CREATE TABLE "VERSION" (

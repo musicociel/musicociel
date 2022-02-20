@@ -10,13 +10,13 @@ import type { Config } from "../common/config";
 import { checkDB } from "./database/checkDB";
 import { httpGetFile } from "./database/httpGetFile";
 import { httpPutFile } from "./database/httpPutFile";
-import { httpGetBranches } from "./database/httpGetBranches";
-import { httpPostBranch } from "./database/httpPostBranch";
+import { httpGetLibraries } from "./database/httpGetLibraries";
+import { httpPostLibrary } from "./database/httpPostLibrary";
 import { httpGetFiles } from "./database/httpGetFiles";
 import { socketServer } from "./socketServer";
 import { httpDeleteFile } from "./database/httpDeleteFile";
-import { httpDeleteBranch } from "./database/httpDeleteBranch";
-import { httpGetBranch } from "./database/httpGetBranch";
+import { httpDeleteLibrary } from "./database/httpDeleteLibrary";
+import { httpGetLibrary } from "./database/httpGetLibrary";
 
 export const withoutEndingSlash = (address: string) => address.replace(/[/]+$/, "");
 export const withEndingSlash = (address: string) => address.replace(/[/]*$/, "/");
@@ -62,14 +62,14 @@ export const server = async ({
     app.use(keycloak.middleware());
   }
   if (db) {
-    app.post("/api/branches", ...httpPostBranch(db));
-    app.get("/api/branches", ...httpGetBranches(db));
-    app.get("/api/branches/:branch", ...httpGetBranch(db));
-    app.delete("/api/branches/:branch", ...httpDeleteBranch(db));
-    app.get("/api/branches/:branch/files", ...httpGetFiles(db));
-    app.get("/api/branches/:branch/files/:path(*)", ...httpGetFile(db));
-    app.put("/api/branches/:branch/files/:path(*)", ...httpPutFile(db));
-    app.delete("/api/branches/:branch/files/:path(*)", ...httpDeleteFile(db));
+    app.post("/api/libraries", ...httpPostLibrary(db));
+    app.get("/api/libraries", ...httpGetLibraries(db));
+    app.get("/api/libraries/:library", ...httpGetLibrary(db));
+    app.delete("/api/libraries/:library", ...httpDeleteLibrary(db));
+    app.get("/api/libraries/:library/files", ...httpGetFiles(db));
+    app.get("/api/libraries/:library/files/:path(*)", ...httpGetFile(db));
+    app.put("/api/libraries/:library/files/:path(*)", ...httpPutFile(db));
+    app.delete("/api/libraries/:library/files/:path(*)", ...httpDeleteFile(db));
   }
   app.use("/api", (res, req, next) => next(new NotFound()));
   app.use("/", await staticHandler(config, !!hashRouting));

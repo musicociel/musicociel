@@ -9,7 +9,7 @@ import { DB_GIT_TREE_ENTRY_MODE } from "./types";
 import { Forbidden, PreconditionFailed, Conflict } from "http-errors";
 import { getUserConditions, getUserToken } from "./utils/auth";
 import { splitPath } from "./utils/splitPath";
-import { getBranchInfo } from "./httpGetBranch";
+import { getLibraryInfo } from "./httpGetLibrary";
 import { parseEtag } from "./utils/etag";
 
 const newFilePreconditionBuffer = parseEtag(`"null"`)!;
@@ -18,7 +18,7 @@ export const putFile = async (
   dbPool: Pool,
   userTokenContent: any,
   userIp: string,
-  branch: string,
+  library: string,
   filePath: string,
   content: Buffer /*| null*/,
   commitMessage: string,
@@ -33,12 +33,12 @@ export const putFile = async (
   const db = await dbPool.connect();
   try {
     await db.query(`BEGIN`);
-    const branchInfo = await getBranchInfo(db, userConditions, branch);
-    const noReadPermission = !(branchInfo.permissions & Permissions.ReadContent);
-    if (!(branchInfo.permissions & Permissions.WriteContent) || (previousContentHash && noReadPermission)) {
+    const libraryInfo = await getLibraryInfo(db, userConditions, library);
+    const noReadPermission = !(libraryInfo.permissions & Permissions.ReadContent);
+    if (!(libraryInfo.permissions & Permissions.WriteContent) || (previousContentHash && noReadPermission)) {
       throw new Forbidden();
     }
-    const treeToBuild = await buildExistingTree(db, branchInfo.commit, [fileDirectory]);
+    const treeToBuild = await buildExistingTree(db, libraryInfo.commit, [fileDirectory]);
     const parentTree = getTreeAt(treeToBuild, fileDirectory);
     const existingFileNameEntry = parentTree[fileName];
     if (
@@ -64,8 +64,8 @@ export const putFile = async (
         noReadPermission,
         oldFileHash: existingFileNameEntry.content_hash,
         newFileHash: fileObject.hash,
-        oldCommit: branchInfo.commit,
-        newCommit: branchInfo.commit!
+        oldCommit: libraryInfo.commit,
+        newCommit: libraryInfo.commit!
       };
     }
     parentTree[fileName] = {
@@ -81,25 +81,25 @@ export const putFile = async (
       committer_name: commitName,
       committer_email: commitEmail,
       committer_timestamp: date,
-      parents: branchInfo.commit ? [branchInfo.commit] : [],
+      parents: libraryInfo.commit ? [libraryInfo.commit] : [],
       message: commitMessage
     });
     await insertObject(db, fileObject);
     await insertTree(db, tree);
     await insertCommit(db, commit);
-    const res = await db.query(`UPDATE "GIT_BRANCH" SET "commit" = $1 WHERE "branch" = $2 AND "commit" IS NOT DISTINCT FROM $3`, [
+    const res = await db.query(`UPDATE "GIT_LIBRARY" SET "commit" = $1 WHERE "library" = $2 AND "commit" IS NOT DISTINCT FROM $3`, [
       commit.commit.hash,
-      branch,
-      branchInfo.commit
+      library,
+      libraryInfo.commit
     ]);
     if (res.rowCount != 1) {
       throw new Conflict();
     }
     await db.query(
-      `INSERT INTO "GIT_BRANCH_CHANGES" ("branch", "timestamp", "user_id", "user_ip", "user_name", "user_email", "commit_before", "commit_after", "non_fast_forward") VALUES (
+      `INSERT INTO "GIT_LIBRARY_CHANGES" ("library", "timestamp", "user_id", "user_ip", "user_name", "user_email", "commit_before", "commit_after", "non_fast_forward") VALUES (
         $1, $2, $3, $4, $5, $6, $7, $8, false
       )`,
-      [branch, date, userTokenContent?.sub, userIp, userName, userEmail, branchInfo.commit, commit.commit.hash]
+      [library, date, userTokenContent?.sub, userIp, userName, userEmail, libraryInfo.commit, commit.commit.hash]
     );
     await db.query("COMMIT");
     return {
@@ -107,7 +107,7 @@ export const putFile = async (
       oldFileHash:
         existingFileNameEntry && existingFileNameEntry.mode === DB_GIT_TREE_ENTRY_MODE.file_normal ? existingFileNameEntry?.content_hash : null,
       newFileHash: fileObject.hash,
-      oldCommit: branchInfo.commit,
+      oldCommit: libraryInfo.commit,
       newCommit: commit.commit.hash
     };
   } catch (e) {
@@ -121,11 +121,11 @@ export const putFile = async (
 export const httpPutFile = (db: Pool) => [
   rawBodyParser({ type: "*/*" }),
   asyncHandler(async (req, res) => {
-    const { branch, path } = req.params;
+    const { library, path } = req.params;
     const previousContentHash = parseEtag(req.headers["if-match"]);
     // TODO: allow customization of the commit message from a header
     const commitMessage = "Update";
-    const result = await putFile(db, getUserToken(req), req.ip, branch, path, req.body, commitMessage, previousContentHash);
+    const result = await putFile(db, getUserToken(req), req.ip, library, path, req.body, commitMessage, previousContentHash);
     res.send(
       result.noReadPermission
         ? {

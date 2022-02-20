@@ -2,28 +2,28 @@ import type { Pool } from "pg";
 import { Permissions, permissionToBitString } from "../../common/storage/permissions";
 import { validate, Schema } from "../middleware/errorHandler";
 import { asyncHandler } from "../middleware/asyncHandler";
-import type { DB_GIT_BRANCH, DB_GIT_BRANCH_PERMISSIONS } from "./types";
+import type { DB_GIT_LIBRARY, DB_GIT_LIBRARY_PERMISSIONS } from "./types";
 import { json } from "body-parser";
 import { getUserToken } from "./utils/auth";
 
-export const branchCreate = async (
+export const libraryCreate = async (
   dbPool: Pool,
-  branch: string,
+  library: string,
   userTokenContent: any
-): Promise<Pick<DB_GIT_BRANCH & DB_GIT_BRANCH_PERMISSIONS, "branch" | "commit" | "permissions">> => {
+): Promise<Pick<DB_GIT_LIBRARY & DB_GIT_LIBRARY_PERMISSIONS, "library" | "commit" | "permissions">> => {
   const db = await dbPool.connect();
   try {
     const permissions = Permissions.Admin;
     await db.query(`BEGIN`);
-    await db.query(`INSERT INTO "GIT_BRANCH" ("branch", "commit") VALUES ($1, NULL)`, [branch]);
-    await db.query(`INSERT INTO "GIT_BRANCH_PERMISSIONS" ("branch", "userCondition", "permissions") VALUES ($1, $2, $3)`, [
-      branch,
+    await db.query(`INSERT INTO "GIT_LIBRARY" ("library", "commit") VALUES ($1, NULL)`, [library]);
+    await db.query(`INSERT INTO "GIT_LIBRARY_PERMISSIONS" ("library", "userCondition", "permissions") VALUES ($1, $2, $3)`, [
+      library,
       `user-uuid:${userTokenContent.sub}`,
       permissionToBitString(permissions)
     ]);
     await db.query("COMMIT");
     return {
-      branch,
+      library,
       commit: null,
       permissions
     };
@@ -43,12 +43,12 @@ const bodySchema: Schema = {
   }
 };
 
-export const httpPostBranch = (db: Pool) => [
+export const httpPostLibrary = (db: Pool) => [
   json(),
   validate({ body: bodySchema }),
   asyncHandler(async (req, res) => {
-    const branch = req.body.name;
-    await branchCreate(db, branch, getUserToken(req));
+    const library = req.body.name;
+    await libraryCreate(db, library, getUserToken(req));
     res.send({});
   })
 ];

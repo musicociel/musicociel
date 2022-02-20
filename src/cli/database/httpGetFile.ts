@@ -2,30 +2,30 @@ import type { Pool, PoolClient } from "pg";
 import { Permissions } from "../../common/storage/permissions";
 import { asyncHandler } from "../middleware/asyncHandler";
 import { NotFound } from "http-errors";
-import type { DB_GIT_BRANCH_PERMISSIONS, DB_GIT_COMMIT_TREE, DB_GIT_OBJECT, DB_GIT_TREE_ENTRY } from "./types";
+import type { DB_GIT_LIBRARY_PERMISSIONS, DB_GIT_COMMIT_TREE, DB_GIT_OBJECT, DB_GIT_TREE_ENTRY } from "./types";
 import { getUserConditions, getUserToken } from "./utils/auth";
 import { splitPath } from "./utils/splitPath";
 import { formatEtag } from "./utils/etag";
 
-export const getFileInfo = async (db: Pool | PoolClient, userConditions: string[], branch: string, filePath: string) => {
+export const getFileInfo = async (db: Pool | PoolClient, userConditions: string[], library: string, filePath: string) => {
   const [fileDirectory, fileName] = splitPath(filePath);
   const [info] = (
-    await db.query<Pick<DB_GIT_TREE_ENTRY & DB_GIT_COMMIT_TREE & DB_GIT_BRANCH_PERMISSIONS, "content_hash" | "mode" | "commit" | "permissions">>(
+    await db.query<Pick<DB_GIT_TREE_ENTRY & DB_GIT_COMMIT_TREE & DB_GIT_LIBRARY_PERMISSIONS, "content_hash" | "mode" | "commit" | "permissions">>(
       `SELECT e."content_hash", e."mode", t."commit", p."permissions"
               FROM "GIT_TREE_ENTRY"         e
         INNER JOIN "GIT_COMMIT_TREE"        t ON t."tree" = e."tree"
-        INNER JOIN "GIT_BRANCH"             b ON b."commit" = t."commit"
+        INNER JOIN "GIT_LIBRARY"             b ON b."commit" = t."commit"
         INNER JOIN (
-          SELECT "branch", bit_or("permissions")::integer as "permissions"
-            FROM "GIT_BRANCH_PERMISSIONS"
+          SELECT "library", bit_or("permissions")::integer as "permissions"
+            FROM "GIT_LIBRARY_PERMISSIONS"
            WHERE "userCondition" = ANY ($1)
-             AND "branch" = $2
-           GROUP BY "branch"
-        )                                AS p ON p."branch" = b."branch"
+             AND "library" = $2
+           GROUP BY "library"
+        )                                AS p ON p."library" = b."library"
         WHERE e."name" = $3
           AND t."path" = $4
           AND p."permissions" & $5 <> 0`,
-      [userConditions, branch, fileName, fileDirectory, Permissions.ReadContent]
+      [userConditions, library, fileName, fileDirectory, Permissions.ReadContent]
     )
   ).rows;
   if (!info) {
@@ -41,8 +41,8 @@ export const getFileContent = async (db: Pool | PoolClient, contentHash: Buffer)
 
 export const httpGetFile = (db: Pool) => [
   asyncHandler(async (req, res) => {
-    const { branch, path } = req.params;
-    const fileInfo = await getFileInfo(db, getUserConditions(getUserToken(req)), branch, path);
+    const { library, path } = req.params;
+    const fileInfo = await getFileInfo(db, getUserConditions(getUserToken(req)), library, path);
     res.header("Commit", fileInfo.commit.toString("base64"));
     res.header("ETag", formatEtag(fileInfo.content_hash));
     if (req.stale) {

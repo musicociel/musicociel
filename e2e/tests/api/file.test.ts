@@ -3,9 +3,9 @@ import { randomBytes } from "crypto";
 import { test } from "../baseTest";
 
 for (const folder of ["", "oneLevel/", "multiple/levels/"]) {
-  test(`file at ${folder}myFile.bin`, async ({ branch, request, authorization }) => {
+  test(`file at ${folder}myFile.bin`, async ({ library, request, authorization }) => {
     const randomFileContent = randomBytes(365);
-    const resRef = await request.put(`./api/branches/${branch}/files/${folder}myFile.bin`, {
+    const resRef = await request.put(`./api/libraries/${library}/files/${folder}myFile.bin`, {
       failOnStatusCode: true,
       data: randomFileContent,
       headers: { authorization, "if-match": `"null"` }
@@ -15,14 +15,14 @@ for (const folder of ["", "oneLevel/", "multiple/levels/"]) {
     expect.soft(infoRef.oldCommit).toBe(null);
 
     await test.step("check if the file was correctly stored", async () => {
-      const res = await request.get(`./api/branches/${branch}/files/${folder}myFile.bin`, { failOnStatusCode: true, headers: { authorization } });
+      const res = await request.get(`./api/libraries/${library}/files/${folder}myFile.bin`, { failOnStatusCode: true, headers: { authorization } });
       expect.soft(await res.body()).toStrictEqual(randomFileContent);
       expect.soft(res.headers()["commit"]).toBe(infoRef.newCommit);
       expect.soft(res.headers()["etag"]).toBe(`"${infoRef.newFileHash}"`);
     });
 
     await test.step("retrieve the file with if-none-match", async () => {
-      const res = await request.get(`./api/branches/${branch}/files/${folder}myFile.bin`, {
+      const res = await request.get(`./api/libraries/${library}/files/${folder}myFile.bin`, {
         failOnStatusCode: true,
         headers: { authorization, "if-none-match": `"${infoRef.newFileHash}"` }
       });
@@ -33,7 +33,7 @@ for (const folder of ["", "oneLevel/", "multiple/levels/"]) {
     });
 
     await test.step("try to update the file with a wrong previous hash", async () => {
-      const res = await request.put(`./api/branches/${branch}/files/${folder}myFile.bin`, {
+      const res = await request.put(`./api/libraries/${library}/files/${folder}myFile.bin`, {
         data: randomFileContent,
         headers: { authorization, "if-match": `"${infoRef.newCommit}"` } // to succeed, it should be infoRef.newFileHash
       });
@@ -41,7 +41,7 @@ for (const folder of ["", "oneLevel/", "multiple/levels/"]) {
     });
 
     await test.step("put again the same file with the same name", async () => {
-      const res = await request.put(`./api/branches/${branch}/files/${folder}myFile.bin`, {
+      const res = await request.put(`./api/libraries/${library}/files/${folder}myFile.bin`, {
         failOnStatusCode: true,
         data: randomFileContent,
         headers: { authorization, "if-match": `"${infoRef.newFileHash}"` }
@@ -56,7 +56,7 @@ for (const folder of ["", "oneLevel/", "multiple/levels/"]) {
     let newCommit: string;
 
     await test.step("put again the same file with another name", async () => {
-      const res = await request.put(`./api/branches/${branch}/files/${folder}myFileCopy.bin`, {
+      const res = await request.put(`./api/libraries/${library}/files/${folder}myFileCopy.bin`, {
         failOnStatusCode: true,
         data: randomFileContent,
         headers: { authorization }
@@ -70,7 +70,7 @@ for (const folder of ["", "oneLevel/", "multiple/levels/"]) {
     });
 
     await test.step("check if the first file is still there with the new commit", async () => {
-      const res = await request.get(`./api/branches/${branch}/files/${folder}myFile.bin`, { failOnStatusCode: true, headers: { authorization } });
+      const res = await request.get(`./api/libraries/${library}/files/${folder}myFile.bin`, { failOnStatusCode: true, headers: { authorization } });
       expect.soft(await res.body()).toStrictEqual(randomFileContent);
       expect.soft(res.headers()["etag"]).toBe(`"${infoRef.newFileHash}"`);
       expect.soft(res.headers()["commit"]).toBe(newCommit);
