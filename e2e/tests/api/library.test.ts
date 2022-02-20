@@ -8,3 +8,10 @@ test("library", async ({ library, request, authorization }) => {
   const libraries = await (await request.get("./api/libraries", { headers: { authorization }, failOnStatusCode: true })).json();
   expect.soft(libraries).toContainEqual(libraryInfo);
 });
+
+test("refuses invalid library names", async ({ request, authorization }) => {
+  const res = await request.post(`./api/libraries`, { headers: { authorization }, data: { library: "" } });
+  expect.soft(res.status()).toBe(400);
+  const resJson = await res.json();
+  expect.soft(resJson.message).toContain("Invalid request");
+});

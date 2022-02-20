@@ -39,7 +39,7 @@ const bodySchema: Schema = {
   type: "object",
   additionalProperties: false,
   properties: {
-    name: { type: "string" }
+    library: { type: "string", pattern: "^[\\w-]+$" }
   }
 };
 
@@ -47,7 +47,7 @@ export const httpPostLibrary = (db: Pool) => [
   json(),
   validate({ body: bodySchema }),
   asyncHandler(async (req, res) => {
-    const library = req.body.name;
+    const { library } = req.body;
     await libraryCreate(db, library, getUserToken(req));
     res.send({});
   })

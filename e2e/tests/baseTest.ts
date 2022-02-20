@@ -19,12 +19,12 @@ export const test = base.extend<{
     await use(`Bearer ${authToken.access_token}`);
   },
   library: async ({ authorization, request }, use) => {
-    const name = `test-${randomBytes(32).toString("hex")}`;
-    await request.post("./api/libraries", { data: { name }, headers: { authorization }, failOnStatusCode: true });
+    const library = `test-${randomBytes(32).toString("hex")}`;
+    await request.post("./api/libraries", { data: { library }, headers: { authorization }, failOnStatusCode: true });
     try {
-      await use(name);
+      await use(library);
     } finally {
-      await request.delete(`./api/libraries/${name}`, { headers: { authorization }, failOnStatusCode: true });
+      await request.delete(`./api/libraries/${library}`, { headers: { authorization }, failOnStatusCode: true });
     }
   }
 });
