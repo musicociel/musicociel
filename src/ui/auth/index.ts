@@ -67,7 +67,14 @@ export const { loginInfo, login, logout, manageAccount, authFetch } = (() => {
   const authFetch = async (url: string, { headers = {}, ...params }: RequestInit & { headers?: Record<string, string> } = {}) => {
     await loadPromise;
     const token = await getToken();
-    return await fetch(`${configAddress}/api/${url}`, { ...params, headers: { ...headers, ...(token ? { Authorization: `Bearer ${token}` } : {}) } });
+    const res = await fetch(`${configAddress}/api/${url}`, {
+      ...params,
+      headers: { ...headers, ...(token ? { Authorization: `Bearer ${token}` } : {}) }
+    });
+    if (!res.ok) {
+      throw res;
+    }
+    return res;
   };
 
   return { loginInfo: { subscribe: store.subscribe }, login, logout, manageAccount, authFetch };

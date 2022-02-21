@@ -3,18 +3,34 @@
     "title": "Musicociel"
   },
   "commands": {
-    "open_file": "Open a file",
     "logout": "Logout",
     "login": "Login",
-    "manageAccount": "Manage account"
+    "manageAccount": "Manage account",
+    "refresh": "Refresh",
+    "retry": "Retry",
+    "openFile": "Open a file"
   },
   "pages": {
     "home": {
       "description": "Musicociel is a program allowing to display and edit song lyrics and chords."
+    },
+    "libraries": {
+      "title": "Libraries"
     }
   },
   "settings": {
     "chords": "Chords",
     "transpose": "Transpose"
+  },
+  "components": {
+    "auth": {
+      "onlyPublicContent": "You are not logged in. If you are allowed, you should login to be able to access non-public content."
+    },
+    "libraries": {
+      "libraryName": "Library name",
+      "confirmDeleteLibrary": "Are you sure you want to delete library {library}?",
+      "foundNoLibrary": "No libraries were found.",
+      "addLibrary": "New library"
+    }
   }
 }

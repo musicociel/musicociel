@@ -5,5 +5,6 @@
 
 {#if !$isLoading}
   <LazyRoute path="/" component={() => import("./Home.svelte")} />
+  <LazyRoute path="/libraries" component={() => import("./Libraries.svelte")} />
   <LazyRoute path="/local-file/:id/:viewer?" component={() => import("./LocalFile.svelte")} />
 {/if}

@@ -39,7 +39,7 @@ const bodySchema: Schema = {
   type: "object",
   additionalProperties: false,
   properties: {
-    library: { type: "string", pattern: "^[\\w-]+$" }
+    library: { type: "string", pattern: "^[ \\w-]+$" }
   }
 };
 

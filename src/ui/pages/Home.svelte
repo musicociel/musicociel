@@ -15,11 +15,13 @@
 
 <NavBar />
 <div class="container py-3">
+  <h2>{$_("app.title")}</h2>
   <p>{$_("pages.home.description")}</p>
   <button class="btn btn-primary" on:click={openFile}
     ><FaIcon class="mr-1" icon={faFolderOpen} />
-    {$_("commands.open_file")}</button
+    {$_("commands.openFile")}</button
   >
+  <Link class="btn btn-secondary" href="/libraries">{$_("pages.libraries.title")}</Link>
   <div class="list-group mt-3">
     {#each Object.keys($openedFilesList) as id}
       <ResolveStore store={$openedFilesList[id]} let:storeValue={file}>

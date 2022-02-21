@@ -3,18 +3,34 @@
     "title": "Musicociel"
   },
   "commands": {
-    "open_file": "Ouvrir un fichier",
     "logout": "Se déconnecter",
     "login": "Se connecter",
-    "manageAccount": "Gérer le compte"
+    "manageAccount": "Gérer le compte",
+    "refresh": "Rafraîchir",
+    "retry": "Réessayer",
+    "openFile": "Ouvrir un fichier"
   },
   "pages": {
     "home": {
       "description": "Musicociel est un programme permettant d'afficher et éditer les paroles et les accords d'un chant."
+    },
+    "libraries": {
+      "title": "Bibliothèques"
     }
   },
   "settings": {
     "chords": "Accords",
     "transpose": "Transposer"
+  },
+  "components": {
+    "auth": {
+      "onlyPublicContent": "Vous n'êtes pas connecté(e). Si vous y êtes autorisé(e), connectez-vous pour accéder au contenu non public."
+    },
+    "libraries": {
+      "libraryName": "Nom de la bibliothèque",
+      "confirmDeleteLibrary": "Êtes-vous sûr(e) de vouloir supprimer la bibliothèque {library}?",
+      "addLibrary": "Nouvelle bibliothèque",
+      "foundNoLibrary": "Aucune bibliothèque n'a été trouvée."
+    }
   }
 }

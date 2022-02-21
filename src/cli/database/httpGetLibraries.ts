@@ -14,7 +14,8 @@ export const librariesList = async (db: Pool, userConditions: string[]) => {
          FROM "GIT_LIBRARY_PERMISSIONS"
          WHERE "userCondition" = ANY ($1)
          GROUP BY "library"
-       ) AS p ON p."library" = b."library"`,
+       ) AS p ON p."library" = b."library"
+       ORDER BY b."library"`,
       [userConditions]
     )
   ).rows;
