@@ -6,6 +6,7 @@
   import Link from "../router/Link.svelte";
   import { openedFilesList } from "../files/filesystem/openFiles";
   import NavBar from "../components/NavBar.svelte";
+  import { hasLibraries } from "../libraries/hasLibraries";
 
   async function openFile() {
     const { openFilesPicker } = await import("../files/filesystem/filesPicker");
@@ -21,7 +22,9 @@
     ><FaIcon class="mr-1" icon={faFolderOpen} />
     {$_("commands.openFile")}</button
   >
-  <Link class="btn btn-secondary" href="/libraries">{$_("pages.libraries.title")}</Link>
+  {#if $hasLibraries}
+    <Link class="btn btn-secondary" href="/libraries">{$_("pages.libraries.title")}</Link>
+  {/if}
   <div class="list-group mt-3">
     {#each Object.keys($openedFilesList) as id}
       <ResolveStore store={$openedFilesList[id]} let:storeValue={file}>
