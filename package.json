@@ -93,7 +93,7 @@
     "keycloak-js": "17.0.0",
     "nodemon": "2.0.15",
     "path-to-regexp": "6.2.0",
-    "postcss": "8.4.6",
+    "postcss": "8.4.7",
     "prettier": "2.5.1",
     "prettier-plugin-svelte": "2.6.0",
     "rimraf": "3.0.2",
