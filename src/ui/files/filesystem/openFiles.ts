@@ -35,6 +35,7 @@ const closeFileFactory = (id: string) => () => {
 };
 
 export const openFiles = (files: NativeEntryType[]) => {
+  let nbFiles = 0;
   let firstId: string | undefined;
   openedFilesWritable.update(
     produce((filesList) => {
@@ -47,11 +48,14 @@ export const openFiles = (files: NativeEntryType[]) => {
           if (!firstId) {
             firstId = id;
           }
+          nbFiles++;
         }
       }
     })
   );
-  locationStore.navigate(`/local-file/${firstId}`);
+  if (nbFiles === 1) {
+    locationStore.navigate(`/local-file/${firstId}`);
+  }
 };
 
 window.addEventListener("beforeunload", (event) => {
