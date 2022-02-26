@@ -31,6 +31,9 @@
       "confirmDeleteLibrary": "Are you sure you want to delete library {library}?",
       "foundNoLibrary": "No libraries were found.",
       "addLibrary": "New library"
+    },
+    "openfiles": {
+      "numSelectedFiles": "{num} selected file(s)"
     }
   }
 }

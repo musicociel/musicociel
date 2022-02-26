@@ -31,6 +31,9 @@
       "confirmDeleteLibrary": "Êtes-vous sûr(e) de vouloir supprimer la bibliothèque {library}?",
       "addLibrary": "Nouvelle bibliothèque",
       "foundNoLibrary": "Aucune bibliothèque n'a été trouvée."
+    },
+    "openfiles": {
+      "numSelectedFiles": "{num} fichier(s) sélectionné(s)"
     }
   }
 }

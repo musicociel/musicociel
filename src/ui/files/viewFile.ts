@@ -138,5 +138,5 @@ export const loadFile = (fileAccess: FileAccess, { format, signal }: { format?: 
       );
     }
   })();
-  return freeze({ subscribe: store.subscribe, getViewer: getViewerFactory(store, close.signal), close });
+  return freeze({ subscribe: store.subscribe, getViewer: getViewerFactory(store, close.signal), close, selected: writable(true) });
 };

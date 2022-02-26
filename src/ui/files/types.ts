@@ -26,6 +26,7 @@ export interface ViewerInterface<T = any> extends Writable<OpenFileData<T>> {
 
 export interface OpenFile extends Readable<OpenFileData> {
   getViewer: (name: string) => Viewer | null;
+  selected: Writable<boolean>;
   close: CloseFunction;
 }
 
