@@ -33,7 +33,7 @@
       "foundNoLibrary": "Aucune bibliothèque n'a été trouvée."
     },
     "openfiles": {
-      "numSelectedFiles": "{num} fichier(s) sélectionné(s)"
+      "numSelectedFiles": "{num, plural, =0 {Aucun fichier sélectionné} one {1 fichier sélectionné} other {{num} fichiers sélectionnés}}"
     }
   }
 }

@@ -33,7 +33,7 @@
       "addLibrary": "New library"
     },
     "openfiles": {
-      "numSelectedFiles": "{num} selected file(s)"
+      "numSelectedFiles": "{num, plural, =0 {No selected file} one {1 selected file} other {{num} selected files}}"
     }
   }
 }
