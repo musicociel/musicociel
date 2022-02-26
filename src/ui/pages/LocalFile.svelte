@@ -17,7 +17,7 @@
   }
   $: viewer = file ? file.getViewer(match.params.viewer) : null;
   $: if (file && !viewer && match.params.viewer !== "display") {
-    locationStore.navigate(`/local-file/${match.params.id}/display`, true);
+    locationStore.navigate(`/local-file/${match.params.id}/content/display`, true);
   }
 </script>
 
@@ -27,7 +27,7 @@
       <button class="btn btn-link nav-link" on:click|stopPropagation|preventDefault={file.close}><FaIcon icon={faTimes} /></button>
     </div>
     <div class="nav-item">
-      <Link class="btn btn-link nav-link" href="/local-file/{match.params.id}/edit"><FaIcon icon={faEdit} /></Link>
+      <Link class="btn btn-link nav-link" href="/local-file/{match.params.id}/content/edit"><FaIcon icon={faEdit} /></Link>
     </div>
   </NavBar>
   {#if file && $file.error}

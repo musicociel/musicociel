@@ -9,6 +9,7 @@
   <LazyRoute path="/" component={() => import("./Home.svelte")} />
   <LazyRoute path="/libraries" component={() => import("./Libraries.svelte")} />
   <Route path="/local-file/:id" redirect={(match) => `${match.url}/content/display`} />
-  <LazyRoute prefix={true} path="/local-file/:id/content/:viewer?" component={() => import("./LocalFile.svelte")} />
+  <Route path="/local-file/:id/content" redirect={(match) => `${match.url}/display`} />
+  <LazyRoute prefix={true} path="/local-file/:id/content/:viewer" component={() => import("./LocalFile.svelte")} />
 {/if}
 <ErrorToasts />
