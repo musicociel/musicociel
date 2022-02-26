@@ -27,25 +27,21 @@
 
 <div class="list-group mt-3">
   {#if openedFilesListKeys.length > 0}
-    <div class="list-group-item d-flex">
+    <div class="list-group-item d-flex bg-light bg-gradient">
       <StoreCheckbox class="form-check-input me-3" valueStore={allSelected} />
       <span class="me-auto fw-bold">{$_("components.openfiles.numSelectedFiles", { values: { num: $numberSelected } })}</span>
       <div class="btn-group">
-        <button disabled={$numberSelected === 0} class="btn btn-outline-secondary btn-sm" on:click|stopPropagation|preventDefault={closeSelected}
-          ><FaIcon icon={faTimes} /></button
-        >
+        <button disabled={$numberSelected === 0} class="btn btn-outline-secondary btn-sm" on:click={closeSelected}><FaIcon icon={faTimes} /></button>
       </div>
     </div>
   {/if}
   {#each openedFilesListKeys as id}
     <ResolveStore store={$openedFilesList[id]} let:storeValue={file}>
-      <div class="list-group-item d-flex">
+      <div class="list-group-item list-group-item-action d-flex">
         <StoreCheckbox class="form-check-input me-3" valueStore={$openedFilesList[id].selected} />
         <Link class="me-auto" href="/local-file/{id}">{file.file?.name || ""}</Link>
         <div class="btn-group">
-          <button class="btn btn-outline-secondary btn-sm" on:click|stopPropagation|preventDefault={$openedFilesList[id].close}
-            ><FaIcon icon={faTimes} /></button
-          >
+          <button class="btn btn-outline-secondary btn-sm" on:click={$openedFilesList[id].close}><FaIcon icon={faTimes} /></button>
         </div>
       </div>
     </ResolveStore>
