@@ -7,7 +7,7 @@
 
   import NavBar from "../components/NavBar.svelte";
   import { hasLibraries } from "../libraries/hasLibraries";
-  import OpenFiles from "../files/OpenFiles.svelte";
+  import Lazy from "../router/Lazy.svelte";
 
   async function openFile() {
     const { openFilesPicker } = await import("../files/filesystem/filesPicker");
@@ -26,5 +26,5 @@
   {#if $hasLibraries}
     <Link class="btn btn-secondary" href="/libraries">{$_("pages.libraries.title")}</Link>
   {/if}
-  <OpenFiles />
+  <Lazy component={() => import("../files/OpenFiles.svelte")} />
 </div>

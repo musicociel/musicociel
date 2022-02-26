@@ -1,6 +1,6 @@
 <script type="ts">
   export let component: () => Promise<{ default: any }>;
-  export let args: any;
+  export let args: any = {};
   $: promise = component();
 </script>
 
