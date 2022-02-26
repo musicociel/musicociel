@@ -4,10 +4,15 @@
 
   export let href: undefined | To = undefined;
   export let onClick: undefined | ((event: MouseEvent) => void) = undefined;
+  export let disabled = false;
 
-  $: computedHref = href ? locationStore.createHref(href) : "javascript:void(0);";
+  $: computedHref = href && !disabled ? locationStore.createHref(href) : "javascript:void(0);";
 </script>
 
-<a class={$$props.class} href={computedHref} on:click|preventDefault={onClick || (() => (href ? locationStore.navigate(href) : null))}>
+<a
+  class="{$$props.class} {disabled ? 'disabled' : ''}"
+  href={computedHref}
+  on:click|preventDefault={onClick || (() => (href && !disabled ? locationStore.navigate(href) : null))}
+>
   <slot />
 </a>
