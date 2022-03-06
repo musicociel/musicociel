@@ -45,7 +45,7 @@ export const checkAddress = (addresses: string[]) => {
         (req as any).checkedAddress = matchResult.href;
         const url = new URL(req.url, matchResult.href);
         url.pathname = req.path.substring(matchResult.pathname.length - 1);
-        req.url = url.toString();
+        req.url = url.pathname + url.search;
         return next();
       }
     }
