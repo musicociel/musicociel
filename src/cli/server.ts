@@ -20,6 +20,13 @@ import { httpGetLibrary } from "./database/httpGetLibrary";
 
 export const withoutEndingSlash = (address: string) => address.replace(/[/]+$/, "");
 export const withEndingSlash = (address: string) => address.replace(/[/]*$/, "/");
+const jsonConfig = (config: any): express.Handler => {
+  const strConfig = JSON.stringify(config);
+  return (req, res) => res.type("json").send(strConfig);
+};
+
+const serviceWorkerRemover = `self.addEventListener('install',function(){self.skipWaiting();});self.addEventListener('activate',function(){self.registration.unregister()});`;
+const noServiceWorker: express.Handler = (req, res) => res.type("js").send(serviceWorkerRemover);
 
 export const server = async ({
   address,
@@ -72,6 +79,10 @@ export const server = async ({
     app.delete("/api/libraries/:library/files/:path(*)", ...httpDeleteFile(db));
   }
   app.use("/api", (res, req, next) => next(new NotFound()));
+  app.get("/musicociel.json", jsonConfig(config));
+  if (config.noServiceWorker) {
+    app.get("/sw.js", noServiceWorker);
+  }
   app.use("/", await staticHandler(config, !!hashRouting));
   app.use(errorHandler);
 

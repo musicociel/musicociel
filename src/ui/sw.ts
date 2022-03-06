@@ -1,7 +1,7 @@
 import { StaleWhileRevalidate } from "workbox-strategies";
 import { precache, matchPrecache } from "workbox-precaching";
 
-const appFiles: { revision: string; url: string }[] = (self as any).__INJECTION_POINT__;
+const appFiles: { revision: string; url: string }[] = (self as any).__WB_MANIFEST;
 const scriptURL = (self as any).serviceWorker.scriptURL;
 const scopeURL = new URL(".", scriptURL).toString();
 const apiBase = new URL("api/", scriptURL).toString();

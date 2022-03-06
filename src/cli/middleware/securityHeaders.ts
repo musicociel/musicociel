@@ -15,21 +15,16 @@ const appendPathname = (suffix: string) => modAddress((url) => (url.pathname += 
 
 export const securityHeaders = ({ keycloak }: Config): RequestHandler => {
   const self = appendPathname("");
-  const scriptSrc: PolicyArray = [appendPathname("js/"), appendPathname("sw.js")];
+  const scriptSrc: PolicyArray = [appendPathname("assets/"), appendPathname("sw.js")];
   const connectSrc: PolicyArray = [self, modAddress((url) => (url.protocol = url.protocol.replace(/^http/i, "ws")))];
-  const frameSrc: PolicyArray = [appendPathname("sso.html")];
+  const frameSrc: PolicyArray = [];
   if (keycloak) {
     connectSrc.push(`${keycloak.url}/`);
-    frameSrc.push(`${keycloak.url}/`);
+    frameSrc.push(`${keycloak.url}/`, appendPathname("sso.html"));
+    scriptSrc.push(appendPathname("sso.js"));
   }
   if (process.env.NODE_ENV === "development") {
-    const liveReloadPort = "35729";
-    scriptSrc.push(
-      modAddress((url) => {
-        url.port = liveReloadPort;
-        url.pathname = "/";
-      })
-    );
+    const liveReloadPort = "24678";
     connectSrc.push(
       modAddress((url) => {
         url.port = liveReloadPort;
@@ -37,6 +32,7 @@ export const securityHeaders = ({ keycloak }: Config): RequestHandler => {
         url.protocol = "ws";
       })
     );
+    scriptSrc.push(appendPathname(""));
   }
   return helmet({
     crossOriginEmbedderPolicy: false,
@@ -49,8 +45,8 @@ export const securityHeaders = ({ keycloak }: Config): RequestHandler => {
         defaultSrc: ["'none'"],
         fontSrc: ["data:"],
         imgSrc: [self, "data:"],
-        manifestSrc: [appendPathname("manifest.json")],
-        styleSrc: ["'unsafe-inline'", appendPathname("css/")],
+        manifestSrc: [appendPathname("manifest.webmanifest")],
+        styleSrc: ["'unsafe-inline'", appendPathname("assets/")],
         scriptSrc,
         connectSrc,
         frameSrc
