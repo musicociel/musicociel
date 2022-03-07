@@ -5,10 +5,18 @@ import { terser } from "rollup-plugin-terser";
 import typescript from "@rollup/plugin-typescript";
 import { string } from "rollup-plugin-string";
 import json from "@rollup/plugin-json";
+import { rm } from "fs/promises";
+import { join } from "path";
 
 const pkg = require("./package.json");
 const production = !process.env.ROLLUP_WATCH;
 console.log(`Building CLI for ${production ? "PRODUCTION" : "DEVELOPMENT"}`);
+
+const clean = () => ({
+  async buildStart() {
+    await rm(join(__dirname, "build/cli.js"), { force: true });
+  }
+});
 
 export default {
   input: "src/cli/main.ts",
@@ -21,6 +29,7 @@ export default {
   },
   external: ["http", "https", "fs", "path", "url", "zlib", "child_process", ...Object.keys(pkg.dependencies)],
   plugins: [
+    clean(),
     replace({
       preventAssignment: true,
       "process.env.NODE_ENV": JSON.stringify(production ? "production" : "development")

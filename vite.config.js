@@ -6,6 +6,7 @@ export default defineConfig({
   base: "./",
   root: "src/ui/",
   build: {
+    emptyOutDir: true,
     outDir: "../../build/public"
   },
   plugins: [
