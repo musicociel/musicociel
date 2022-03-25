@@ -90,7 +90,7 @@
     "keycloak-js": "17.0.1",
     "nodemon": "2.0.15",
     "path-to-regexp": "6.2.0",
-    "prettier": "2.6.0",
+    "prettier": "2.6.1",
     "prettier-plugin-svelte": "2.6.0",
     "rollup": "2.70.1",
     "rollup-plugin-string": "3.0.0",
