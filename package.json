@@ -48,7 +48,7 @@
     "ui:validate": "svelte-check --workspace src/ui --fail-on-warnings --fail-on-hints"
   },
   "dependencies": {
-    "body-parser": "1.19.2",
+    "body-parser": "1.20.0",
     "express": "4.17.3",
     "express-json-validator-middleware": "2.2.1",
     "pg": "8.7.3",
