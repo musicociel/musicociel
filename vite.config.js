@@ -2,6 +2,17 @@ import { defineConfig } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
 import { svelte } from "@sveltejs/vite-plugin-svelte";
 
+const cordovaPlatform = process.env.CORDOVA_PLATFORM ?? null;
+
+const addCordovaScript = () => {
+  return {
+    name: "add-cordova-script",
+    transformIndexHtml(html) {
+      return html.replace(/<\/title>/, '</title><script src="../cordova.js"></script>');
+    }
+  };
+};
+
 export default defineConfig({
   base: "./",
   root: "src/ui/",
@@ -9,9 +20,14 @@ export default defineConfig({
     emptyOutDir: true,
     outDir: "../../build/public"
   },
+  define: {
+    "process.env.CORDOVA_PLATFORM": JSON.stringify(cordovaPlatform)
+  },
   plugins: [
+    cordovaPlatform ? addCordovaScript() : null,
     VitePWA({
       strategies: "injectManifest",
+      disable: !!cordovaPlatform,
       injectRegister: null,
       srcDir: ".",
       filename: "sw.ts",

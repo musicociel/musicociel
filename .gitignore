@@ -2,3 +2,6 @@
 /build
 *.tgz
 /e2e/test-results
+/build.json
+/platforms
+/plugins
