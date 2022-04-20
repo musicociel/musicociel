@@ -7,58 +7,118 @@ on:
   pull_request:
     branches: [dev]
 jobs:
-  ci:
-    runs-on: ubuntu-latest
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     concurrency:
-      group: ci-${{ github.ref }}
+      group: build-${{ github.ref }}-${{ matrix.os }}
       cancel-in-progress: true
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Set Node.js version
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: "16.x"
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
           path: ~/.npm
-          key: npm-${{ hashFiles('package-lock.json') }}
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            npm-
+            ${{ runner.os }}-npm-
       - run: npm ci
       - run: npm run format:check
       - run: npm run lint
-      - run: helm lint helm/chart --strict
       - run: npm run ui:validate
       - run: npm run jest:test
       - run: npx playwright install-deps
       - run: npx playwright install
       - run: npm run playwright:test
-      - run: docker build . -t docker.io/davdiv/musicociel:local
-      - run: helm package helm/chart -d helm/repository
+      - run: npm pack
+      - uses: actions/upload-artifact@v3
+        if: runner.os == 'Linux'
+        with:
+          name: npm-package
+          path: musicociel-*.tgz
+      # Electron app (built on all platforms):
+      - run: npm run electron:build
+      - uses: actions/upload-artifact@v3
+        with:
+          name: electron-app-${{ runner.os }}
+          path: platforms/electron/build/Musicociel*.*
+      # Android app (built on Linux only):
+      - run: npm run android:build
+        if: runner.os == 'Linux'
+      - uses: actions/upload-artifact@v3
+        if: runner.os == 'Linux'
+        with:
+          name: android-app
+          path: platforms/android/app/build/outputs/**/app-*.*
+      # Docker image and helm repository (built on Linux only):
+      - run: |
+          docker build . -t docker.io/davdiv/musicociel:local
+          docker image save -o docker-image.tar docker.io/davdiv/musicociel:local
+        if: runner.os == 'Linux'
+      - uses: actions/upload-artifact@v3
+        if: runner.os == 'Linux'
+        with:
+          name: docker-image
+          path: docker-image.tar
+      - run: |
+          helm lint helm/chart --strict
+          helm package helm/chart -d helm/repository
+        if: runner.os == 'Linux'
+      - uses: actions/upload-artifact@v3
+        if: runner.os == 'Linux'
+        with:
+          name: helm-repository
+          path: helm/repository
       - name: "Load in minikube cluster"
+        if: runner.os == 'Linux'
         run: |
           minikube start --addons ingress
           minikube image load docker.io/davdiv/musicociel:local
           echo "$(minikube ip) musicociel.local keycloak.local" | sudo tee -a /etc/hosts
           helm install musicociel helm/chart --set-string musicociel.tag=local,keycloak.users[0].username=test-user,keycloak.users[0].password=test-password
       - run: npm run playwright:test
+        if: runner.os == 'Linux'
         env:
           TEST_MUSICOCIEL_URL: http://musicociel.local
           TEST_MUSICOCIEL_USERNAME: test-user
           TEST_MUSICOCIEL_PASSWORD: test-password
-      - uses: actions/checkout@v2
+  publish:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: publish-${{ github.ref }}
+      cancel-in-progress: true
+    needs: build
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/dev' || startsWith(github.ref, 'refs/tags/'))
+    steps:
+      - uses: actions/checkout@v3
         with:
           ref: gh-pages
           path: gh-pages
-        if: github.event_name == 'push' && (github.ref == 'refs/heads/dev' || startsWith(github.ref, 'refs/tags/'))
+      - uses: actions/download-artifact@v3
+        with:
+          name: npm-package
+      - uses: actions/download-artifact@v3
+        with:
+          name: docker-image
+      - uses: actions/download-artifact@v3
+        with:
+          name: helm-repository
+          path: gh-pages/helm/
       - name: Publish
         run: |
           export TAG="$(basename "${{ github.ref }}")"
           echo "Publish in gh-pages"
           rm -rf "./$TAG"
-          cp -a ../build/public "./$TAG"
-          cp -a ../helm/repository/* ./helm/
+          ( cd .. && tar -xf musicociel-*.tgz )
+          mv ../package/build/public "./$TAG"
           helm repo index helm
+          docker image load -i ../docker-image.tar
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add .
@@ -69,5 +129,4 @@ jobs:
           docker tag docker.io/davdiv/musicociel:local docker.io/davdiv/musicociel:$TAG
           docker push docker.io/davdiv/musicociel:$TAG
           docker logout
-        if: github.event_name == 'push' && (github.ref == 'refs/heads/dev' || startsWith(github.ref, 'refs/tags/'))
         working-directory: gh-pages

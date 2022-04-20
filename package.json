@@ -1,5 +1,6 @@
 {
   "name": "musicociel",
+  "displayName": "Musicociel",
   "version": "0.0.0-alpha.0",
   "description": "Web application to display and edit songs with lyrics and chords.",
   "homepage": "https://github.com/musicociel/musicociel#readme",
@@ -9,6 +10,21 @@
   },
   "bugs": {
     "url": "https://github.com/musicociel/musicociel/issues"
+  },
+  "cordova": {
+    "platforms": [
+      "android",
+      "electron"
+    ],
+    "plugins": {
+      "cc.fovea.cordova.openwith": {
+        "ANDROID_MIME_TYPE": "application/musicociel",
+        "ANDROID_EXTRA_ACTIONS": ""
+      },
+      "cordova-plugin-file": {
+        "ANDROIDX_WEBKIT_VERSION": "1.4.0"
+      }
+    }
   },
   "engines": {
     "node": ">=14"
@@ -30,17 +46,23 @@
     "build"
   ],
   "scripts": {
+    "android:build": "cordova build android --release",
+    "android:run": "cordova run android",
     "build": "npm run cli:build && npm run ui:build",
     "cli:build": "rollup --failAfterWarnings -c rollup.cli.config.js",
     "cli:dev": "rollup -c rollup.cli.config.js -w",
+    "cordova": "cordova",
+    "cordova:prepare": "cordova prepare",
+    "electron:build": "cordova build electron --release",
+    "electron:run": "cordova run electron --nobuild",
     "format:check": "prettier . --list-different",
     "format:fix": "prettier . --write",
     "jest:test": "jest -c test/jest.config.js",
     "lint": "eslint .",
     "playwright": "playwright",
     "playwright:test": "playwright test --config=e2e/playwright.config.ts",
-    "prepare": "npm run build",
-    "start": "./musicociel server",
+    "prepare": "npm run build && npm run cordova:prepare",
+    "start": "node ./musicociel server",
     "start:dev": "nodemon --watch build/cli.js ./musicociel server",
     "test": "npm run format:check && npm run lint && npm run ui:validate && npm run jest:test && npm run build && npm run playwright:test",
     "ui:build": "vite build",
@@ -80,6 +102,11 @@
     "@xmldom/xmldom": "0.8.2",
     "ace-builds": "1.4.14",
     "bootstrap": "5.1.3",
+    "cc.fovea.cordova.openwith": "^2.1.0",
+    "cordova": "^11.0.0",
+    "cordova-android": "^10.1.2",
+    "cordova-electron": "^3.0.0",
+    "cordova-plugin-file": "^7.0.0",
     "eslint": "8.13.0",
     "eslint-config-prettier": "8.5.0",
     "helmet": "5.0.2",
