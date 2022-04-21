@@ -11,7 +11,7 @@ keycloak:
   client: "musicociel"
   external: false
   image: "quay.io/keycloak/keycloak"
-  tag: "17.0.1-legacy"
+  tag: "18.0.0-legacy"
   admin:
     username: admin
 postgresql:
