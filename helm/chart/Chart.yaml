@@ -6,16 +6,16 @@ description: Web application to display and edit songs with lyrics and chords.
 type: application
 version: "0.0.0"
 keywords:
-- lyrics
-- chords
-- song
-- transpose-chords
-- chordpro
-- opensong
+  - lyrics
+  - chords
+  - song
+  - transpose-chords
+  - chordpro
+  - opensong
 home: https://github.com/musicociel/musicociel#readme
 sources:
-- https://github.com/musicociel/musicociel
+  - https://github.com/musicociel/musicociel
 icon: https://raw.githubusercontent.com/musicociel/musicociel/dev/icon.svg
 maintainers:
-- name: DivDE
-  email: divde@musicociel.fr
+  - name: DivDE
+    email: divde@musicociel.fr
