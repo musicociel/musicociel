@@ -78,7 +78,8 @@ jobs:
       - name: "Load in minikube cluster"
         if: runner.os == 'Linux'
         run: |
-          minikube start --addons ingress
+          minikube start
+          minikube addons enable ingress
           minikube image load docker.io/davdiv/musicociel:local
           echo "$(minikube ip) musicociel.local keycloak.local" | sudo tee -a /etc/hosts
           helm install musicociel helm/chart --set-string musicociel.tag=local,keycloak.users[0].username=test-user,keycloak.users[0].password=test-password
