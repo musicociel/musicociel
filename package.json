@@ -117,7 +117,7 @@
     "keycloak-connect": "18.0.0",
     "keycloak-js": "18.0.0",
     "nodemon": "2.0.16",
-    "path-to-regexp": "6.2.0",
+    "path-to-regexp": "6.2.1",
     "prettier": "2.6.2",
     "prettier-plugin-svelte": "2.7.0",
     "rollup": "2.74.1",
