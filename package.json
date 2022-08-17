@@ -100,7 +100,7 @@
     "@typescript-eslint/eslint-plugin": "5.33.1",
     "@typescript-eslint/parser": "5.33.1",
     "@xmldom/xmldom": "0.8.2",
-    "ace-builds": "1.9.5",
+    "ace-builds": "1.9.6",
     "bootstrap": "5.2.0",
     "cc.fovea.cordova.openwith": "^2.1.0",
     "cordova": "^11.0.0",
