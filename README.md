@@ -2,7 +2,7 @@
 
 [![npm](https://img.shields.io/badge/npm-musicociel-blue)](https://www.npmjs.com/package/musicociel) [![dockerhub](https://img.shields.io/badge/dockerhub-davdiv%2Fmusicociel-blue)](https://hub.docker.com/r/davdiv/musicociel/) [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/musicociel)](https://artifacthub.io/packages/helm/musicociel/musicociel)
 
-[![license](https://img.shields.io/badge/license-MIT-brightgreen)](./LICENSE.md) [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/musicociel/musicociel/ci)](https://github.com/musicociel/musicociel/actions/workflows/ci.yml?query=branch%3Adev)
+[![license](https://img.shields.io/badge/license-MIT-brightgreen)](./LICENSE.md) [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/musicociel/musicociel/ci.yml?branch=dev)](https://github.com/musicociel/musicociel/actions/workflows/ci.yml?query=branch%3Adev)
 
 Web application to display and edit songs with lyrics and chords.
 
