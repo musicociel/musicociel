@@ -2486,10 +2486,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xmldom/xmldom@npm:0.8.2":
-  version: 0.8.2
-  resolution: "@xmldom/xmldom@npm:0.8.2"
-  checksum: aeea8f670bfa52b3a1b2d355dab3bf4d58ef4969b1fd146a1ab91bf8acbb9d02953022e66e85279015a4e4027205620dfc001ed5d169b1711a09a0a079951e08
+"@xmldom/xmldom@npm:0.8.6":
+  version: 0.8.6
+  resolution: "@xmldom/xmldom@npm:0.8.6"
+  checksum: f17ac6d99a971a6aeb831fcfc5cfa86f367664e45815046548814b2deb17ccc421fef4e0d5ba29e66179d112b552f6caa5680064f8e7bd8a389b788a60404c8e
   languageName: node
   linkType: hard
 
@@ -6372,7 +6372,7 @@ __metadata:
     "@types/yargs": 17.0.11
     "@typescript-eslint/eslint-plugin": 5.33.1
     "@typescript-eslint/parser": 5.33.1
-    "@xmldom/xmldom": 0.8.2
+    "@xmldom/xmldom": 0.8.6
     ace-builds: 1.9.6
     body-parser: 1.20.0
     bootstrap: 5.2.0
