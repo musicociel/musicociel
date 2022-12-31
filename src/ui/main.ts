@@ -14,13 +14,7 @@ registerFileHandlers();
 (async () => {
   const loadEvent = new Promise((resolve) => window.addEventListener("load", resolve));
   const config = await configPromise;
-  if (
-    !config.noServiceWorker &&
-    "serviceWorker" in navigator &&
-    window.isSecureContext &&
-    process.env.NODE_ENV === "production" &&
-    !process.env.CORDOVA_PLATFORM
-  ) {
+  if (!config.noServiceWorker && "serviceWorker" in navigator && window.isSecureContext && process.env.NODE_ENV === "production") {
     await loadEvent;
     navigator.serviceWorker.register("sw.js");
   }

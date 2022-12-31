@@ -1,7 +1,5 @@
+/.yarn
 /node_modules
 /build
 /LICENSE.md
-/build.json
-/platforms
-/plugins
 /helm/chart/templates
