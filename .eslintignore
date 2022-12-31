@@ -1,5 +1,4 @@
+/.yarn
 /node_modules
 /build
-/platforms
-/plugins
 /LICENSE.md

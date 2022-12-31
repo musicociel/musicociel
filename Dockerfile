@@ -1,7 +1,10 @@
-FROM docker.io/library/node:14-alpine
+# syntax=docker/dockerfile:1.2
+FROM docker.io/library/node:18-alpine
 WORKDIR /usr/app
-COPY package.json package-lock.json ./
-RUN npm ci --production
+COPY .yarn/releases .yarn/releases
+COPY package.json yarn.lock .yarnrc.yml ./
+RUN corepack enable
+RUN --mount=type=bind,target=/usr/app/.yarn,source=.yarn,rw yarn workspaces focus --all --production
 COPY musicociel .
 COPY build build/
 USER node

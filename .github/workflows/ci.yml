@@ -21,45 +21,35 @@ jobs:
       - name: Set Node.js version
         uses: actions/setup-node@v3
         with:
-          node-version: "16.x"
+          node-version: "18.x"
       - uses: actions/cache@v3
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          path: .yarn/cache
+          key: yarn-${{ hashFiles('yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-npm-
-      - run: npm ci
-      - run: npm run format:check
-      - run: npm run lint
-      - run: npm run ui:validate
-      - run: npm run jest:test
-      - run: npx playwright install-deps
-      - run: npx playwright install
-      - run: npm run playwright:test
-      - run: npm pack
+            yarn-
+      - run: corepack enable
+      - run: yarn install --immutable
+      - run: yarn build
+      - run: yarn format:check
+      - run: yarn lint
+      - run: yarn ui:validate
+      - run: yarn jest:test
+      - run: yarn playwright install-deps
+      - run: yarn playwright install
+      - run: yarn playwright:test
+      - run: yarn pack
       - uses: actions/upload-artifact@v3
         if: runner.os == 'Linux'
         with:
           name: npm-package
-          path: musicociel-*.tgz
-      # Electron app (built on all platforms):
-      - run: npm run electron:build
-      - uses: actions/upload-artifact@v3
-        with:
-          name: electron-app-${{ runner.os }}
-          path: platforms/electron/build/Musicociel*.*
-      # Android app (built on Linux only):
-      - run: npm run android:build
-        if: runner.os == 'Linux'
-      - uses: actions/upload-artifact@v3
-        if: runner.os == 'Linux'
-        with:
-          name: android-app
-          path: platforms/android/app/build/outputs/**/app-*.*
+          path: package.tgz
       # Docker image and helm repository (built on Linux only):
       - run: |
           docker build . -t docker.io/davdiv/musicociel:local
           docker image save -o docker-image.tar docker.io/davdiv/musicociel:local
+        env:
+          DOCKER_BUILDKIT: "1"
         if: runner.os == 'Linux'
       - uses: actions/upload-artifact@v3
         if: runner.os == 'Linux'
@@ -83,7 +73,7 @@ jobs:
           minikube image load docker.io/davdiv/musicociel:local
           echo "$(minikube ip) musicociel.local keycloak.local" | sudo tee -a /etc/hosts
           helm install musicociel helm/chart --set-string musicociel.tag=local,keycloak.users[0].username=test-user,keycloak.users[0].password=test-password
-      - run: npm run playwright:test
+      - run: yarn playwright:test
         if: runner.os == 'Linux'
         env:
           TEST_MUSICOCIEL_URL: http://musicociel.local
@@ -116,7 +106,7 @@ jobs:
           export TAG="$(basename "${{ github.ref }}")"
           echo "Publish in gh-pages"
           rm -rf "./$TAG"
-          ( cd .. && tar -xf musicociel-*.tgz )
+          ( cd .. && tar -xf package.tgz )
           mv ../package/build/public "./$TAG"
           helm repo index helm
           docker image load -i ../docker-image.tar
