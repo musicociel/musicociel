@@ -11,7 +11,7 @@
 
 {#if $loginInfo.enabled}
   {#if user}
-    <Dropdown class="nav-item" linkClass="nav-link" ulClass="dropdown-menu-end">
+    <Dropdown class="nav-item" linkClass="nav-link" ulClass="dropdown-menu-end" title={$_("commands.loggedInMenu")}>
       <span slot="button"><FaIcon icon={faUser} /></span>
       <h6 class="dropdown-header">{user.preferred_username}</h6>
       <button class="dropdown-item btn btn-link" on:click={manageAccount}>{$_("commands.manageAccount")}</button>
