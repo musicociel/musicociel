@@ -1,4 +1,4 @@
-<script type="ts">
+<script lang="ts">
   import Route from "./Route.svelte";
   import Lazy from "./Lazy.svelte";
   export let component: any;

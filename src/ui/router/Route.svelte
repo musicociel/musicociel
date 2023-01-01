@@ -1,4 +1,4 @@
-<script type="ts">
+<script lang="ts">
   import { Match, matchPath } from "./matchPath";
   import { locationStore } from "./history";
   import type { To, LocationInfo } from "./locationStore";

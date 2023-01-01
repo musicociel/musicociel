@@ -5,12 +5,18 @@
   "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "prettier"],
   "overrides": [
     {
-      "files": ["*.js"],
+      "files": ["*.cjs"],
       "env": {
         "node": true
       },
       "rules": {
         "@typescript-eslint/no-var-requires": 0
+      }
+    },
+    {
+      "files": ["*.js"],
+      "env": {
+        "node": true
       }
     },
     {

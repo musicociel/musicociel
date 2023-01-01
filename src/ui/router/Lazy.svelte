@@ -1,4 +1,4 @@
-<script type="ts">
+<script lang="ts">
   export let component: () => Promise<{ default: any }>;
   export let args: any = {};
   $: promise = component();

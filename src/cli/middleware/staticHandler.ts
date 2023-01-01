@@ -10,7 +10,7 @@ export const staticHandler = async (config: Config, hashRouting: boolean) => {
       // Note that __dirname is the build directory
       configFile: path.join(__dirname, "..", "vite.config.js"),
       server: {
-        middlewareMode: "html"
+        middlewareMode: true
       }
     });
     return viteServer.middlewares;

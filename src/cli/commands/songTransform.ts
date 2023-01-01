@@ -1,7 +1,6 @@
 import { promises as fs } from "fs";
 import "../globals";
 import type { FileFormat } from "../../common/files/formats/formats";
-import { NodeBlob } from "../blob";
 import { openFile } from "../../common/files/openFile";
 import { saveFile } from "../../common/files/saveFile";
 import { convertFile } from "../../common/files/convertFile";
@@ -48,7 +47,7 @@ export const songTransformCommand: CommandModule = {
   },
   async handler({ input, inputFormat, output, outputFormat, transpose, bemol }: any) {
     const inputBuffer = await fs.readFile(input);
-    const blob = new NodeBlob(inputBuffer, "", input);
+    const blob = new Blob([inputBuffer]);
     let file = await openFile(blob, {
       format: inputFormat as FileFormat
     });
@@ -63,11 +62,11 @@ export const songTransformCommand: CommandModule = {
     }
     file = await convertFile(file, outputFormat as FileFormat);
     const savedFile = await saveFile(file);
-    const outputBuffer = (savedFile as NodeBlob).nodeBuffer;
+    const buffer = Buffer.from(await savedFile.arrayBuffer());
     if (output) {
-      await fs.writeFile(output, outputBuffer);
+      await fs.writeFile(output, buffer);
     } else {
-      process.stdout.write(outputBuffer);
+      process.stdout.write(buffer);
     }
   }
 };

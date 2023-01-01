@@ -7,5 +7,9 @@ module.exports = {
   coverageDirectory: "coverage",
   collectCoverageFrom: ["src/**/*"],
   preset: "ts-jest/presets/default",
-  verbose: true
+  verbose: true,
+  snapshotFormat: {
+    escapeString: true,
+    printBasicPrototype: true
+  }
 };
