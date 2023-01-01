@@ -5,6 +5,7 @@
   export let linkClass = "";
   export let ulClass = "";
   export let open = false;
+  export let title = "";
   export let closeOnClickInside = true;
 
   function clickInside(event: MouseEvent) {
@@ -19,7 +20,7 @@
 </script>
 
 <div class="dropdown {$$props.class}">
-  <Link class="dropdown-toggle {linkClass} {open ? 'show' : ''}" {onClick}>
+  <Link class="dropdown-toggle {linkClass} {open ? 'show' : ''}" {title} {onClick}>
     <slot name="button" />
   </Link>
   {#if open}

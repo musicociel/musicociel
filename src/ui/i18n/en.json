@@ -8,7 +8,8 @@
     "manageAccount": "Manage account",
     "refresh": "Refresh",
     "retry": "Retry",
-    "openFile": "Open a file"
+    "openFile": "Open a file",
+    "loggedInMenu": "Logged in"
   },
   "pages": {
     "home": {

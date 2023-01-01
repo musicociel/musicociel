@@ -8,7 +8,8 @@
     "manageAccount": "Gérer le compte",
     "refresh": "Rafraîchir",
     "retry": "Réessayer",
-    "openFile": "Ouvrir un fichier"
+    "openFile": "Ouvrir un fichier",
+    "loggedInMenu": "Connecté"
   },
   "pages": {
     "home": {
