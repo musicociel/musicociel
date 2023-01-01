@@ -1,6 +1,7 @@
 import { freeze, produce } from "immer";
 import { writable, get } from "svelte/store";
-import { FileSystemHandleKind, NativeEntryType, toFileSystemHandle } from "./fileSystemAccess";
+import type { NativeEntryType } from "./fileSystemAccess";
+import { FileSystemHandleKind, toFileSystemHandle } from "./fileSystemAccess";
 import { loadFile } from "../viewFile";
 import { v4 as uuid } from "uuid";
 import { locationStore } from "../../router/history";

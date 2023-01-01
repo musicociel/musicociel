@@ -1,8 +1,10 @@
 import type { CommandModule } from "yargs";
 import type { AddressInfo } from "net";
 import { promises as fs } from "fs";
-import { createServer as createHttpServer, Server as HttpServer } from "http";
-import { createServer as createHttpsServer, Server as HttpsServer } from "https";
+import type { Server as HttpServer } from "http";
+import { createServer as createHttpServer } from "http";
+import type { Server as HttpsServer } from "https";
+import { createServer as createHttpsServer } from "https";
 import { server } from "../server";
 import { normalizeHostname } from "../middleware/checkAddress";
 

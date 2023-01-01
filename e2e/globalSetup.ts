@@ -1,4 +1,5 @@
-import { chromium, FullConfig } from "@playwright/test";
+import type { FullConfig } from "@playwright/test";
+import { chromium } from "@playwright/test";
 import type { Config } from "../src/common/config";
 
 const START_TIMEOUT = 60000;

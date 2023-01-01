@@ -1,12 +1,13 @@
-import {
-  LineType as ChordproLineType,
+import type {
   Line as ChordproLine,
   Directive,
   ChordsAndLyrics as ChorproChordsAndLyrics,
   ChordWithLyrics as ChorproChordWithLyrics
 } from "../chordpro/type";
+import { LineType as ChordproLineType } from "../chordpro/type";
 import { removeControlChars } from "./parse";
-import { ChordsAndLyrics as OpensongChordsAndLyrics, LineType as OpensongLineType, LyricsLine as OpensongLine, SectionHeader, Song } from "./type";
+import type { ChordsAndLyrics as OpensongChordsAndLyrics, LyricsLine as OpensongLine, SectionHeader, Song } from "./type";
+import { LineType as OpensongLineType } from "./type";
 import { expand, getStructure } from "./util";
 
 const convertSection = (sectionHeader: SectionHeader | undefined): Directive[] => {

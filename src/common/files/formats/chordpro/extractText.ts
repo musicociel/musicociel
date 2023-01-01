@@ -1,4 +1,5 @@
-import { Line, LineType } from "./type";
+import type { Line } from "./type";
+import { LineType } from "./type";
 
 const isTitle = (name: string) => name === "title" || name === "t" || name === "subtitle" || name === "st";
 

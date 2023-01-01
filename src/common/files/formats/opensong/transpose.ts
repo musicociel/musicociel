@@ -1,5 +1,7 @@
-import { AlterationsType, NoteStyle, processChords } from "../../../music/chords";
-import { LyricsLine, LineType, Song } from "./type";
+import type { AlterationsType } from "../../../music/chords";
+import { NoteStyle, processChords } from "../../../music/chords";
+import type { LyricsLine, Song } from "./type";
+import { LineType } from "./type";
 
 export function transposeLyrics(
   content: LyricsLine[],

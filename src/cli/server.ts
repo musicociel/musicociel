@@ -1,4 +1,5 @@
-import Keycloak, { KeycloakConfig } from "keycloak-connect";
+import type { KeycloakConfig } from "keycloak-connect";
+import Keycloak from "keycloak-connect";
 import { Pool } from "pg";
 import express from "express";
 import { checkAddress } from "./middleware/checkAddress";

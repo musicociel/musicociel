@@ -1,4 +1,5 @@
-import { LineType, LyricsLine } from "./type";
+import type { LyricsLine } from "./type";
+import { LineType } from "./type";
 
 export interface Section {
   definition: number;

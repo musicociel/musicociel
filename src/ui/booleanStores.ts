@@ -1,4 +1,5 @@
-import { derived, get, Readable, Writable } from "svelte/store";
+import type { Readable, Writable } from "svelte/store";
+import { derived, get } from "svelte/store";
 
 export const switchMap = <T, U>(store: Readable<T>, fn: (input: T) => Readable<U>) =>
   derived(store, (value, set) => fn(value).subscribe(set), undefined as any as U);

@@ -1,4 +1,5 @@
-import { ChordsAndLyrics, LineType, LyricsLine, SIMPLE_ELEMENTS, Song } from "./type";
+import type { ChordsAndLyrics, LyricsLine, Song } from "./type";
+import { LineType, SIMPLE_ELEMENTS } from "./type";
 
 const needUnderscoreFillCharRegExp = /[^\s]$/;
 const underscoreSpacesEndRegExp = /[\s_]+$/;
