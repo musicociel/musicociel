@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { _ } from "svelte-i18n";
   import Link from "../router/Link.svelte";
   import type { Match } from "../router/matchPath";
   import { locationStore } from "../router/history";

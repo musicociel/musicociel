@@ -1,7 +1,7 @@
 {
   "root": true,
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint"],
+  "plugins": ["svelte3", "@typescript-eslint"],
   "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "prettier"],
   "overrides": [
     {
@@ -10,7 +10,7 @@
         "node": true
       },
       "rules": {
-        "@typescript-eslint/no-var-requires": 0
+        "@typescript-eslint/no-var-requires": "off"
       }
     },
     {
@@ -24,14 +24,18 @@
       "env": {
         "browser": true
       }
+    },
+    {
+      "files": ["*.svelte"],
+      "processor": "svelte3/svelte3"
     }
   ],
   "rules": {
     "@typescript-eslint/consistent-type-imports": "error",
-    "@typescript-eslint/explicit-module-boundary-types": 0,
-    "@typescript-eslint/no-empty-function": 0,
-    "@typescript-eslint/no-explicit-any": 0,
-    "@typescript-eslint/no-non-null-assertion": 0,
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-empty-function": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
     "@typescript-eslint/no-unused-vars": [
       "error",
       {
@@ -39,5 +43,8 @@
         "ignoreRestSiblings": true
       }
     ]
+  },
+  "settings": {
+    "svelte3/typescript": true
   }
 }

@@ -1,11 +1,12 @@
 <script lang="ts">
-  import { Match, matchPath } from "./matchPath";
+  import type { Match } from "./matchPath";
+  import { matchPath } from "./matchPath";
   import { locationStore } from "./history";
   import type { To, LocationInfo } from "./locationStore";
 
   export let component: any = undefined;
   export let args: any = {};
-  export let prefix: boolean = false;
+  export let prefix = false;
   export let path: string | string[] = [];
   export let redirect: null | To | ((match: Match, location: LocationInfo) => To) = null;
 
