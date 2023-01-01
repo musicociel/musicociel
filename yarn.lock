@@ -4031,6 +4031,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"eslint-plugin-svelte3@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "eslint-plugin-svelte3@npm:4.0.0"
+  peerDependencies:
+    eslint: ">=8.0.0"
+    svelte: ^3.2.0
+  checksum: 5e9ddddedee44ac099290cda6e86f412c6f4f2cbdeee860eb2b617c66d3cca7699638c6191ed55c4a7651b57b8387202f62b5b0e0417219c59cdd084dcab4e07
+  languageName: node
+  linkType: hard
+
 "eslint-scope@npm:^5.1.1":
   version: 5.1.1
   resolution: "eslint-scope@npm:5.1.1"
@@ -6526,6 +6536,7 @@ __metadata:
     bootstrap: ^5.2.3
     eslint: ^8.31.0
     eslint-config-prettier: ^8.5.0
+    eslint-plugin-svelte3: ^4.0.0
     express: ^4.18.2
     express-json-validator-middleware: ^3.0.1
     helmet: ^6.0.1

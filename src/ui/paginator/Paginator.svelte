@@ -1,10 +1,10 @@
 <script lang="ts">
   import { afterUpdate, tick } from "svelte";
   import Swiper from "./Swiper.svelte";
-  import type { ItemToPaginate } from "./type";
+  import type { ItemToPaginate, Size } from "./type";
 
   // input-only properties:
-  export let paginate: Function = () => {};
+  export let paginate: (items: ItemToPaginate[], { width, height }: Size) => void = () => {};
   export let content: any = null;
 
   // input/output properties:

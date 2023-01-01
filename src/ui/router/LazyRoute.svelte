@@ -3,7 +3,7 @@
   import Lazy from "./Lazy.svelte";
   export let component: any;
   export let args: any = {};
-  export let prefix: boolean = false;
+  export let prefix = false;
   export let path: string;
 </script>
 
