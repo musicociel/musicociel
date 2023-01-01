@@ -1,4 +1,5 @@
-import { Chord, LineType, LyricsLine, SIMPLE_ELEMENTS, Song } from "./type";
+import type { Chord, LyricsLine, Song } from "./type";
+import { LineType, SIMPLE_ELEMENTS } from "./type";
 
 const newLineRegExp = /\r\n|\n\r|\r|\n/;
 const correctLyricsFirstCharRegExp = /^[0-9 ]$/;

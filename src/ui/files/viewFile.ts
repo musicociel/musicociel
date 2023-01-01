@@ -1,5 +1,6 @@
 import produce, { freeze } from "immer";
-import { get, Readable, Writable, writable } from "svelte/store";
+import type { Readable, Writable } from "svelte/store";
+import { get, writable } from "svelte/store";
 import { abortError } from "../../common/abortError";
 import { closeFactory, onAbort } from "../../common/closeFunction";
 import { FileFormat } from "../../common/files/formats/formats";

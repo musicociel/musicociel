@@ -1,5 +1,6 @@
 import { produce } from "immer";
-import { derived, Readable, writable } from "svelte/store";
+import type { Readable } from "svelte/store";
+import { derived, writable } from "svelte/store";
 
 type Stores = Readable<any> | [Readable<any>, ...Array<Readable<any>>] | Array<Readable<any>>;
 

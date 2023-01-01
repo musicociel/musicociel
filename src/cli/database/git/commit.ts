@@ -1,6 +1,7 @@
 import type { PoolClient } from "pg";
 import { createObject, insertObject } from "./object";
-import { DB_GIT_COMMIT, DB_GIT_OBJECT, DB_GIT_OBJECT_TYPE } from "../types";
+import type { DB_GIT_COMMIT, DB_GIT_OBJECT } from "../types";
+import { DB_GIT_OBJECT_TYPE } from "../types";
 
 // TODO: validate that input data produces a valid commit (avoid invalid characters in input or escape as needed)
 const personInfo = (name: string, email: string, timestamp: Date) => `${name} <${email}> ${Math.round(timestamp.getTime() / 1000)} +0000`;

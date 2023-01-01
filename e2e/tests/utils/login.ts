@@ -1,4 +1,5 @@
-import { expect, Page } from "@playwright/test";
+import type { Page } from "@playwright/test";
+import { expect } from "@playwright/test";
 
 export const defaultUserName = process.env.TEST_MUSICOCIEL_USERNAME ?? "admin";
 export const defaultPassword = process.env.TEST_MUSICOCIEL_PASSWORD ?? "admin";

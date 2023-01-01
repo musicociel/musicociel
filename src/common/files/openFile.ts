@@ -1,7 +1,8 @@
 import { lazyLoaded, MissingHandler } from "../lazyLoaded";
 import { guessFormatFromExtension } from "./extensions";
 import { readAsArrayBuffer, readAsText } from "./fileReader";
-import { FileFormat, NamedBlob } from "./formats/formats";
+import type { NamedBlob } from "./formats/formats";
+import { FileFormat } from "./formats/formats";
 
 // cf https://filesignatures.net/
 const PDFFileStart = [0x25, 0x50, 0x44, 0x46 /* %PDF */];

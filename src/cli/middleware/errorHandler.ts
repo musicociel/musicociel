@@ -1,5 +1,6 @@
 import type express from "express";
-import { ValidationError, Validator, AllowedSchema } from "express-json-validator-middleware";
+import type { AllowedSchema } from "express-json-validator-middleware";
+import { ValidationError, Validator } from "express-json-validator-middleware";
 import { isHttpError } from "http-errors";
 
 export const { validate } = new Validator({});

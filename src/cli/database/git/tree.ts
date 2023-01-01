@@ -1,5 +1,6 @@
 import type { PoolClient } from "pg";
-import { DB_GIT_COMMIT_TREE, DB_GIT_OBJECT, DB_GIT_OBJECT_TYPE, DB_GIT_TREE_ENTRY, DB_GIT_TREE_ENTRY_MODE, DB_HASH } from "../types";
+import type { DB_GIT_COMMIT_TREE, DB_GIT_OBJECT, DB_GIT_TREE_ENTRY, DB_HASH } from "../types";
+import { DB_GIT_OBJECT_TYPE, DB_GIT_TREE_ENTRY_MODE } from "../types";
 import { createObject, insertObject } from "./object";
 
 export type TreeEntryExistingRef = Omit<DB_GIT_TREE_ENTRY, "tree" | "name">;

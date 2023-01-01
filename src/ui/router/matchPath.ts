@@ -1,4 +1,5 @@
-import { pathToRegexp, Key } from "path-to-regexp";
+import type { Key } from "path-to-regexp";
+import { pathToRegexp } from "path-to-regexp";
 
 const pathCache: { [k: string]: { regExp: RegExp; keys: Key[] } } = {};
 

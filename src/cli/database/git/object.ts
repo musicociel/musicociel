@@ -1,6 +1,7 @@
 import type { PoolClient } from "pg";
 import { createHash } from "crypto";
-import { DB_GIT_OBJECT, DB_GIT_OBJECT_TYPE } from "../types";
+import type { DB_GIT_OBJECT } from "../types";
+import { DB_GIT_OBJECT_TYPE } from "../types";
 
 export const bufferToChecksum = (buffer: Buffer, type = DB_GIT_OBJECT_TYPE.blob, hashAlgorithm = "sha1") => {
   const hashObject = createHash(hashAlgorithm);

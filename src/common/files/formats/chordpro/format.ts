@@ -1,4 +1,5 @@
-import { Line, LineType } from "./type";
+import type { Line } from "./type";
+import { LineType } from "./type";
 
 export function format(content: Line[]) {
   return content

@@ -1,6 +1,7 @@
 import type { Pool } from "pg";
 import { Permissions, permissionToBitString } from "../../common/storage/permissions";
-import { validate, Schema } from "../middleware/errorHandler";
+import type { Schema } from "../middleware/errorHandler";
+import { validate } from "../middleware/errorHandler";
 import { asyncHandler } from "../middleware/asyncHandler";
 import type { DB_GIT_LIBRARY, DB_GIT_LIBRARY_PERMISSIONS } from "./types";
 import { json } from "body-parser";

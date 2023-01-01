@@ -1,12 +1,13 @@
-import { LineType as ChordproLineType, Line as ChordproLine, ChordsAndLyrics as ChorproChordsAndLyrics } from "./type";
-import {
+import type { Line as ChordproLine, ChordsAndLyrics as ChorproChordsAndLyrics } from "./type";
+import { LineType as ChordproLineType } from "./type";
+import type {
   Song,
   ChordsAndLyrics as OpensongChordsAndLyrics,
-  LineType as OpensongLineType,
   LyricsLine as OpensongLine,
   Chord as OpensongChord,
   VerseLyrics as OpensongVerseLyrics
 } from "../opensong/type";
+import { LineType as OpensongLineType } from "../opensong/type";
 
 const convertChordsAndLyrics = ({ content }: ChorproChordsAndLyrics): OpensongChordsAndLyrics => {
   const parts: string[] = [];

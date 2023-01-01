@@ -1,5 +1,6 @@
 import { removeControlChars } from "./parse";
-import { LineType, LyricsLine, Song } from "./type";
+import type { LyricsLine, Song } from "./type";
+import { LineType } from "./type";
 import { expand, getStructure } from "./util";
 
 export const extractTextFromLyrics = (content: LyricsLine[], structure = getStructure(content)) => {

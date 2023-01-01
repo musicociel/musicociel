@@ -1,4 +1,5 @@
-import { ChordWithLyrics, Line, LineType } from "./type";
+import type { ChordWithLyrics, Line } from "./type";
+import { LineType } from "./type";
 
 const newLineRegExp = /\r\n|\n\r|\r|\n/;
 const directiveRegExp = /^\{([_a-z]+)(?:[:\s](.*))?\}$/;
