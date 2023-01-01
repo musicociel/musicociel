@@ -44,14 +44,18 @@ spec:
       containers:
       - name: keycloak
         image: "{{ .Values.keycloak.image }}:{{ .Values.keycloak.tag }}"
+        args:
+          - start
+          - "--proxy=edge"
+          - "--hostname-url={{ .Values.keycloak.url }}"
+{{- if .Values.postgresql.enabled }}
+          - "--db=postgres"
+          - "--db-url=jdbc:postgresql://{{ .Release.Name }}-postgresql/{{ .Values.postgresql.keycloak.database }}"
+          - "--db-username=$(DB_USER)"
+          - "--db-password=$(DB_PASSWORD)"
+{{- end }}
         env:
 {{- if .Values.postgresql.enabled }}
-        - name: DB_VENDOR
-          value: postgres
-        - name: DB_ADDR
-          value: "{{ .Release.Name }}-postgresql"
-        - name: DB_DATABASE
-          value: "{{ .Values.postgresql.keycloak.database }}"
         - name: DB_USER
           valueFrom:
             secretKeyRef:
@@ -63,27 +67,30 @@ spec:
               name: "{{ .Release.Name }}-postgresql-keycloak"
               key: password
 {{- end }}
-        - name: KEYCLOAK_USER
+        - name: KEYCLOAK_ADMIN
           valueFrom:
             secretKeyRef:
               name: "{{ .Release.Name }}-keycloak-admin"
               key: username
-        - name: KEYCLOAK_PASSWORD
+        - name: KEYCLOAK_ADMIN_PASSWORD
           valueFrom:
             secretKeyRef:
               name: "{{ .Release.Name }}-keycloak-admin"
               key: password
-        - name: PROXY_ADDRESS_FORWARDING
-          value: "true"
-        - name: KEYCLOAK_FRONTEND_URL
-          value: "{{ .Values.keycloak.url }}/auth"
         ports:
         - name: http
           containerPort: 8080
         readinessProbe:
           httpGet:
-            path: /auth/realms/master
+            path: /realms/master
             port: 8080
+            httpHeaders:
+            - name: X-Forwarded-For
+              value: "127.0.0.1"
+            - name: X-Forwarded-Proto
+              value: "{{ (urlParse .Values.keycloak.url).scheme }}"
+            - name: X-Forwarded-Host
+              value: "{{ (urlParse .Values.keycloak.url).host }}"
 ---
 apiVersion: v1
 kind: Service
@@ -152,14 +159,15 @@ spec:
         image: "{{ .Values.keycloak.image }}:{{ .Values.keycloak.tag }}"
         command: ["/bin/sh", "-c"]
         args:
-          - while [[ "$(curl -s -o /dev/null -L -w ''%{http_code}'' http://{{ .Release.Name }}-keycloak:8080/auth)" != "200" ]]; do sleep 1; done &&
-            /opt/jboss/keycloak/bin/kcadm.sh config credentials --server http://{{ .Release.Name }}-keycloak:8080/auth --realm master --user "$KEYCLOAK_USER" --password "$KEYCLOAK_PASSWORD" &&
-            /opt/jboss/keycloak/bin/kcadm.sh create realms -s realm={{ .Values.keycloak.realm }} -s enabled=true &&
+          - |
+            while [[ "$(curl -s -o /dev/null -L -w ''%{http_code}'' -H 'Host: {{ (urlParse .Values.keycloak.url).host }}' http://{{ .Release.Name }}-keycloak:8080/)" != "200" ]]; do sleep 1; done &&
+            /opt/keycloak/bin/kcadm.sh config credentials --server http://{{ .Release.Name }}-keycloak:8080/ --realm master --user "$KEYCLOAK_USER" --password "$KEYCLOAK_PASSWORD" &&
+            /opt/keycloak/bin/kcadm.sh create realms -s realm={{ .Values.keycloak.realm }} -s enabled=true &&
 {{- range .Values.keycloak.users }}
-            /opt/jboss/keycloak/bin/kcadm.sh create users -r {{ $.Values.keycloak.realm }} -s username="{{ .username }}" -s enabled=true &&
-            /opt/jboss/keycloak/bin/kcadm.sh set-password -r {{ $.Values.keycloak.realm }} --username "{{ .username }}" --new-password "$KEYCLOAK_PASSWORD_{{ sha256sum .username }}" &&
+            /opt/keycloak/bin/kcadm.sh create users -r {{ $.Values.keycloak.realm }} -s username="{{ .username }}" -s enabled=true &&
+            /opt/keycloak/bin/kcadm.sh set-password -r {{ $.Values.keycloak.realm }} --username "{{ .username }}" --new-password "$KEYCLOAK_PASSWORD_{{ sha256sum .username }}" &&
 {{- end }}
-            /opt/jboss/keycloak/bin/kcadm.sh create clients -r {{ .Values.keycloak.realm }} -s clientId={{ .Values.keycloak.client }} -s publicClient=true -s 'redirectUris=["{{ .Values.musicociel.url }}/*"]'
+            /opt/keycloak/bin/kcadm.sh create clients -r {{ .Values.keycloak.realm }} -s clientId={{ .Values.keycloak.client }} -s publicClient=true -s 'baseUrl={{ .Values.musicociel.url }}' -s 'attributes={"post.logout.redirect.uris":"{{ .Values.musicociel.url }}/*"}' -s 'redirectUris=["{{ .Values.musicociel.url }}/*"]'
         env:
 {{- range .Values.keycloak.users }}
         - name: "KEYCLOAK_PASSWORD_{{ sha256sum .username }}"

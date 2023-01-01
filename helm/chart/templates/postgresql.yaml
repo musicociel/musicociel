@@ -141,11 +141,9 @@ spec:
             echo "$PGHOST:$PGPORT:$PGDATABASE:$PGUSER:$PGPASSWORD" > ~/.pgpass &&
             echo "
               CREATE USER $MUSICOCIEL_USER WITH PASSWORD '$MUSICOCIEL_PASSWORD';
-              CREATE DATABASE {{ .Values.postgresql.musicociel.database }};
-              GRANT ALL PRIVILEGES ON DATABASE {{ .Values.postgresql.musicociel.database }} TO $MUSICOCIEL_USER;
+              CREATE DATABASE {{ .Values.postgresql.musicociel.database }} OWNER $MUSICOCIEL_USER;
               CREATE USER $KEYCLOAK_USER WITH PASSWORD '$KEYCLOAK_PASSWORD';
-              CREATE DATABASE {{ .Values.postgresql.keycloak.database }};
-              GRANT ALL PRIVILEGES ON DATABASE {{ .Values.postgresql.keycloak.database }} TO $KEYCLOAK_USER;
+              CREATE DATABASE {{ .Values.postgresql.keycloak.database }} OWNER $KEYCLOAK_USER;
             " | psql -v ON_ERROR_STOP=1 -w
         env:
         - name: PGHOST

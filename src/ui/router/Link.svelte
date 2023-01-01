@@ -1,4 +1,4 @@
-<script type="ts">
+<script lang="ts">
   import { locationStore } from "./history";
   import type { To } from "./locationStore";
 

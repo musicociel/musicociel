@@ -6,7 +6,7 @@ export const defaultPassword = process.env.TEST_MUSICOCIEL_PASSWORD ?? "admin";
 export const login = async (page: Page, user = defaultUserName, password = defaultPassword) => {
   const loginButton = page.locator("button[title=Login]");
   await loginButton.click();
-  await expect(page).toHaveURL(/\/auth\/realms\//);
+  await expect(page).toHaveURL(/\/realms\//);
   await page.fill('input[name="username"]', user);
   await page.fill('input[name="password"]', password);
   const tokenRequestPromise = page.waitForRequest(/\/protocol\/openid-connect\/token$/);

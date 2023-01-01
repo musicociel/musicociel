@@ -10,6 +10,7 @@ const config: PlaywrightTestConfig = {
     ? undefined
     : {
         command: "yarn start",
+        cwd: "..",
         port: 8081,
         reuseExistingServer: !process.env.CI
       },

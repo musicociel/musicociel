@@ -1,7 +1,9 @@
-module.exports = ({ env }) => ({
+import purgeCss from "@fullhuman/postcss-purgecss";
+
+export default ({ env }) => ({
   plugins: [
     env === "production"
-      ? require("@fullhuman/postcss-purgecss")({
+      ? purgeCss({
           content: ["src/**/*.svelte"],
           safelist: {
             standard: [/^svelte-/, "html", "body"]

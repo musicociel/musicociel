@@ -11,13 +11,13 @@ keycloak:
   client: "musicociel"
   external: false
   image: "quay.io/keycloak/keycloak"
-  tag: "19.0.1-legacy"
+  tag: "20.0.2"
   admin:
     username: admin
 postgresql:
   enabled: true
   image: "docker.io/library/postgres"
-  tag: "14.2-alpine"
+  tag: "15.1-alpine"
   admin:
     username: "admin"
     database: "admin"
