@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 <svg
-  xmlns:osb="http://www.openswatchbook.org/uri/2009/osb"
-  xmlns:dc="http://purl.org/dc/elements/1.1/"
-  xmlns:cc="http://creativecommons.org/ns#"
-  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-  xmlns:svg="http://www.w3.org/2000/svg"
-  xmlns="http://www.w3.org/2000/svg"
-  xmlns:xlink="http://www.w3.org/1999/xlink"
-  xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-  xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
   width="600"
   height="600"
   viewBox="0 0 562.49999 562.50001"
   id="svg3585"
   version="1.1"
-  inkscape:version="0.92.1 r"
+  inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
   sodipodi:docname="icon.svg"
   inkscape:export-xdpi="23.040001"
   inkscape:export-ydpi="23.040001"
+  xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+  xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:svg="http://www.w3.org/2000/svg"
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:cc="http://creativecommons.org/ns#"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
 >
   <defs id="defs3587">
     <inkscape:perspective
@@ -37,14 +36,14 @@
       <stop style="stop-color:#ff0000;stop-opacity:1;" offset="0" id="stop6042" />
       <stop style="stop-color:#ff0000;stop-opacity:0" offset="1" id="stop6044" />
     </linearGradient>
-    <linearGradient id="linearGradient5994" osb:paint="solid">
+    <linearGradient id="linearGradient5994" inkscape:swatch="solid">
       <stop style="stop-color:#000000;stop-opacity:1;" offset="0" id="stop5996" />
     </linearGradient>
-    <linearGradient id="linearGradient5972" osb:paint="gradient">
+    <linearGradient id="linearGradient5972" inkscape:swatch="gradient">
       <stop style="stop-color:#0000ff;stop-opacity:1;" offset="0" id="stop5974" />
       <stop style="stop-color:#0000ff;stop-opacity:0;" offset="1" id="stop5976" />
     </linearGradient>
-    <linearGradient id="linearGradient5860" osb:paint="solid">
+    <linearGradient id="linearGradient5860" inkscape:swatch="solid">
       <stop style="stop-color:#ffffff;stop-opacity:1;" offset="0" id="stop5862" />
     </linearGradient>
     <radialGradient
@@ -80,17 +79,20 @@
     inkscape:pageopacity="0.0"
     inkscape:pageshadow="2"
     inkscape:zoom="0.7"
-    inkscape:cx="-154.39095"
-    inkscape:cy="469.25606"
+    inkscape:cx="-200"
+    inkscape:cy="472.14286"
     inkscape:document-units="px"
     inkscape:current-layer="layer1"
     showgrid="false"
-    inkscape:window-width="1920"
-    inkscape:window-height="1054"
+    inkscape:window-width="2560"
+    inkscape:window-height="1030"
     inkscape:window-x="0"
     inkscape:window-y="0"
     inkscape:window-maximized="1"
     units="px"
+    inkscape:showpageshadow="2"
+    inkscape:pagecheckerboard="0"
+    inkscape:deskcolor="#d1d1d1"
   />
   <metadata id="metadata3590">
     <rdf:RDF>
@@ -173,7 +175,7 @@
         inkscape:connector-curvature="0"
       />
     </g>
-    <g transform="translate(-17.545311,52.976584)" style="display:inline" id="g5343-8">
+    <g transform="translate(-73.795311,97.97658)" style="display:inline" id="g5343-8">
       <circle
         r="30.803572"
         cy="855.2193"
@@ -187,10 +189,10 @@
         height="199.55357"
         width="13.392857"
         id="rect5339-8"
-        style="opacity:1;fill:#ff0000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.82587403;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+        style="opacity:1;fill:#ff0000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.825874;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
       />
     </g>
-    <g id="g5527" transform="translate(107.7653,-20.867504)">
+    <g id="g5527" transform="translate(51.5153,24.132496)">
       <g transform="translate(-6.9594583,8.6714455)" id="g5343">
         <circle
           style="opacity:1;fill:#ff0000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.9375;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
@@ -200,7 +202,7 @@
           r="30.803572"
         />
         <rect
-          style="opacity:1;fill:#ff0000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.82587403;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+          style="opacity:1;fill:#ff0000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.825874;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
           id="rect5339"
           width="13.392857"
           height="199.55357"
@@ -217,7 +219,7 @@
           r="30.803572"
         />
         <rect
-          style="opacity:1;fill:#ff0000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.82587403;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+          style="opacity:1;fill:#ff0000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.825874;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
           id="rect5339-1"
           width="13.392857"
           height="199.55357"
@@ -232,7 +234,7 @@
         height="10.797353"
         width="152.47005"
         id="rect5376"
-        style="opacity:1;fill:#ff0000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.6856308;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+        style="opacity:1;fill:#ff0000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.685631;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
       />
     </g>
   </g>
