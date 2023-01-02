@@ -12,7 +12,7 @@ jobs:
         run: |
           curl https://get.okteto.com -sSfL | sh
           okteto analytics --disable
-          okteto context --token ${{ secrets.OKTETO_TOKEN }}
+          okteto context use --token ${{ secrets.OKTETO_TOKEN }} https://cloud.okteto.com
           okteto namespace delete ${{ secrets.OKTETO_NAMESPACE }} || true
           while ! okteto namespace create ${{ secrets.OKTETO_NAMESPACE }} ; do sleep 5 ; echo "Retrying to create namespace" ; done
           okteto kubeconfig
