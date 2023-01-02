@@ -44,6 +44,7 @@
     "start:dev": "nodemon --watch build/cli.cjs ./musicociel server",
     "test": "yarn format:check && yarn lint && yarn ui:validate && yarn jest:test && yarn build && yarn playwright:test",
     "ui:build": "vite build",
+    "ui:preview": "vite preview",
     "ui:serve": "vite serve",
     "ui:validate": "svelte-check --workspace src/ui --fail-on-hints"
   },
