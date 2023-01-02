@@ -3,6 +3,8 @@
 *.tgz
 *.log
 /e2e/test-results
+/helm/repository/index.html
+/helm/repository/index.yaml
 
 .pnp.*
 .yarn/*

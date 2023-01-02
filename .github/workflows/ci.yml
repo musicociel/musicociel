@@ -70,12 +70,16 @@ jobs:
       - run: |
           helm lint helm/chart --strict
           helm package helm/chart -d helm/repository
+          helm repo index helm/repository
+          yarn dlx marked -i helm/repository/README.md -o helm/repository/index.html
         if: runner.os == 'Linux'
       - uses: actions/upload-artifact@v3
         if: runner.os == 'Linux'
         with:
           name: helm-repository
-          path: helm/repository
+          path: |
+            helm/repository
+            !helm/repository/README.md
       - name: "Load in minikube cluster"
         if: runner.os == 'Linux'
         run: |
@@ -92,16 +96,19 @@ jobs:
           TEST_MUSICOCIEL_PASSWORD: test-password
   publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     concurrency:
-      group: publish-${{ github.ref }}
+      group: publish-dev
       cancel-in-progress: true
     needs: build
-    if: github.event_name == 'push' && (github.ref == 'refs/heads/dev' || startsWith(github.ref, 'refs/tags/'))
+    if: github.event_name == 'push' && github.ref == 'refs/heads/dev'
     steps:
-      - uses: actions/checkout@v3
-        with:
-          ref: gh-pages
-          path: gh-pages
       - uses: actions/download-artifact@v3
         with:
           name: npm-package
@@ -114,21 +121,20 @@ jobs:
           path: gh-pages/helm/
       - name: Publish
         run: |
-          export TAG="$(basename "${{ github.ref }}")"
           echo "Publish in gh-pages"
-          rm -rf "./$TAG"
           ( cd .. && tar -xf package.tgz )
-          mv ../package/build/public "./$TAG"
-          helm repo index helm
+          mv ../package/build/public "./dev"
           docker image load -i ../docker-image.tar
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add .
-          git commit --allow-empty -a -m "Updating from ${{ github.sha }}"
-          git push origin gh-pages
           echo "Publish in docker"
           echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login --username davdiv --password-stdin
-          docker tag docker.io/davdiv/musicociel:local docker.io/davdiv/musicociel:$TAG
-          docker push docker.io/davdiv/musicociel:$TAG
+          docker tag docker.io/davdiv/musicociel:local docker.io/davdiv/musicociel:dev
+          docker push docker.io/davdiv/musicociel:dev
           docker logout
         working-directory: gh-pages
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: "gh-pages"
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
