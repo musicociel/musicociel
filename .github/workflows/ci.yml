@@ -38,6 +38,17 @@ jobs:
       - run: yarn playwright install-deps
       - run: yarn playwright install
       - run: yarn playwright:test
+      - name: yarn playwright:test (with database)
+        if: runner.os == 'Linux'
+        run: |
+          ( cd keycloak && ./start.sh ) &
+          ( cd keycloak && ./wait.sh )
+          ( cd postgres && ./start.sh ) &
+          ( cd postgres && ./wait.sh )
+          . keycloak/envKeycloak
+          . postgres/envPostgres
+          yarn playwright:test
+          podman stop -a
       - run: yarn pack
       - uses: actions/upload-artifact@v3
         if: runner.os == 'Linux'

@@ -1,6 +1,7 @@
 /node_modules/
 /build
 *.tgz
+*.log
 /e2e/test-results
 
 .pnp.*
