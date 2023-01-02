@@ -1,3 +1,4 @@
+import { Capacitor } from "@capacitor/core";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { configPromise } from "./config";
 import App from "./pages/Index.svelte";
@@ -14,7 +15,13 @@ registerFileHandlers();
 (async () => {
   const loadEvent = new Promise((resolve) => window.addEventListener("load", resolve));
   const config = await configPromise;
-  if (!config.noServiceWorker && "serviceWorker" in navigator && window.isSecureContext && process.env.NODE_ENV === "production") {
+  if (
+    !config.noServiceWorker &&
+    !Capacitor.isNativePlatform() &&
+    "serviceWorker" in navigator &&
+    window.isSecureContext &&
+    process.env.NODE_ENV === "production"
+  ) {
     await loadEvent;
     navigator.serviceWorker.register("sw.js");
   }
