@@ -6551,7 +6551,7 @@ __metadata:
     pg: ^8.8.0
     prettier: ^2.8.1
     prettier-plugin-svelte: ^2.9.0
-    rollup: ^3.9.0
+    rollup: ^3.10.1
     rollup-plugin-string: ^3.0.0
     rollup-plugin-terser: ^7.0.2
     svelte: ^3.55.0
@@ -7538,7 +7538,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup@npm:^3.7.0, rollup@npm:^3.7.2, rollup@npm:^3.9.0":
+"rollup@npm:^3.10.1":
+  version: 3.10.1
+  resolution: "rollup@npm:3.10.1"
+  dependencies:
+    fsevents: ~2.3.2
+  dependenciesMeta:
+    fsevents:
+      optional: true
+  bin:
+    rollup: dist/bin/rollup
+  checksum: 69c2bba82833f2977db08a5c10da651e0668f1335652499543c297633eb44eaf1473575973025a07cffd78903be8d10626e5abac063e49fb47d3f7dd8c18bf00
+  languageName: node
+  linkType: hard
+
+"rollup@npm:^3.7.0, rollup@npm:^3.7.2":
   version: 3.9.0
   resolution: "rollup@npm:3.9.0"
   dependencies:
