@@ -25,7 +25,6 @@
         touchEventsTarget: "container",
         initialSlide: currentSlide,
         resizeObserver: false,
-        updateOnImagesReady: false,
         updateOnWindowResize: false,
         width,
         height
