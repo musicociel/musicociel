@@ -6631,7 +6631,7 @@ __metadata:
     svelte: ^3.55.1
     svelte-check: ^3.0.3
     svelte-i18n: ^3.6.0
-    swiper: ^9.0.3
+    swiper: ^9.0.4
     ts-jest: ^29.0.5
     tslib: ^2.5.0
     typescript: ^4.9.5
@@ -8223,12 +8223,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"swiper@npm:^9.0.3":
-  version: 9.0.3
-  resolution: "swiper@npm:9.0.3"
+"swiper@npm:^9.0.4":
+  version: 9.0.4
+  resolution: "swiper@npm:9.0.4"
   dependencies:
     ssr-window: ^4.0.2
-  checksum: d7869d432082d909ca171b6940061ae26f9579285321eed77f56b8eca26c74c76709f2dc6f0bcc9477ca6e762763b42ffd0bc61263125914bf30ab72a4ca0b1c
+  checksum: 6cd349dcdc1a77067eb940c24d2245ef8f666caae3af00465eb38f47adf25575c2ede267ee1bba67a57ad60cdb6ebaf15b42a45171d0eed46a95dd449eb54c29
   languageName: node
   linkType: hard
 

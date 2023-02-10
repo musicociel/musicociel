@@ -101,7 +101,7 @@
     "svelte": "^3.55.1",
     "svelte-check": "^3.0.3",
     "svelte-i18n": "^3.6.0",
-    "swiper": "^9.0.3",
+    "swiper": "^9.0.4",
     "ts-jest": "^29.0.5",
     "tslib": "^2.5.0",
     "typescript": "^4.9.5",
