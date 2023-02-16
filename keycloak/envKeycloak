@@ -1,1 +1,1 @@
-export MUSICOCIEL_KEYCLOAK='{"realm":"musicociel","auth-server-url":"http://127.0.0.1:8080/","ssl-required":"external","resource":"musicociel","public-client":true,"confidential-port":0}'
+export MUSICOCIEL_OIDC='{"authority":"http://127.0.0.1:8080/realms/musicociel","client_id": "musicociel"}'

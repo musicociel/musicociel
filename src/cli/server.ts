@@ -1,23 +1,24 @@
-import type { KeycloakConfig } from "keycloak-connect";
-import Keycloak from "keycloak-connect";
-import { Pool } from "pg";
 import express from "express";
-import { checkAddress } from "./middleware/checkAddress";
-import { securityHeaders } from "./middleware/securityHeaders";
-import { errorHandler } from "./middleware/errorHandler";
+import type { Params as ExpressJWTParams } from "express-jwt";
+import { expressjwt } from "express-jwt";
 import { NotFound } from "http-errors";
-import { staticHandler } from "./middleware/staticHandler";
+import jwks from "jwks-rsa";
+import { Pool } from "pg";
 import type { Config } from "../common/config";
 import { checkDB } from "./database/checkDB";
-import { httpGetFile } from "./database/httpGetFile";
-import { httpPutFile } from "./database/httpPutFile";
-import { httpGetLibraries } from "./database/httpGetLibraries";
-import { httpPostLibrary } from "./database/httpPostLibrary";
-import { httpGetFiles } from "./database/httpGetFiles";
-import { socketServer } from "./socketServer";
 import { httpDeleteFile } from "./database/httpDeleteFile";
 import { httpDeleteLibrary } from "./database/httpDeleteLibrary";
+import { httpGetFile } from "./database/httpGetFile";
+import { httpGetFiles } from "./database/httpGetFiles";
+import { httpGetLibraries } from "./database/httpGetLibraries";
 import { httpGetLibrary } from "./database/httpGetLibrary";
+import { httpPostLibrary } from "./database/httpPostLibrary";
+import { httpPutFile } from "./database/httpPutFile";
+import { checkAddress } from "./middleware/checkAddress";
+import { errorHandler } from "./middleware/errorHandler";
+import { securityHeaders } from "./middleware/securityHeaders";
+import { staticHandler } from "./middleware/staticHandler";
+import { socketServer } from "./socketServer";
 
 export const withoutEndingSlash = (address: string) => address.replace(/[/]+$/, "");
 export const withEndingSlash = (address: string) => address.replace(/[/]*$/, "/");
@@ -29,16 +30,22 @@ const jsonConfig = (config: any): express.Handler => {
 const serviceWorkerRemover = `self.addEventListener('install',function(){self.skipWaiting();});self.addEventListener('activate',function(){self.registration.unregister()});`;
 const noServiceWorker: express.Handler = (req, res) => res.type("js").send(serviceWorkerRemover);
 
+export interface OIDCConfig {
+  authority: string;
+  client_id: string;
+  algorithms?: ExpressJWTParams["algorithms"];
+}
+
 export const server = async ({
   address,
   database,
-  keycloak: keycloakConfig,
+  oidc: oidcConfig,
   hashRouting,
   serviceWorker = true
 }: {
   address: string[];
   database?: URL;
-  keycloak?: KeycloakConfig;
+  oidc?: OIDCConfig;
   hashRouting?: boolean;
   serviceWorker?: boolean;
 }) => {
@@ -54,20 +61,34 @@ export const server = async ({
   })();
   if (!db) config.noDb = true;
 
-  const keycloak = (() => {
-    if (!keycloakConfig) return null;
-    const url = withoutEndingSlash(keycloakConfig["auth-server-url"]);
-    keycloakConfig["auth-server-url"] = url;
-    const keycloak = new Keycloak({}, { ...keycloakConfig, "bearer-only": true });
-    config.oidc = { authority: `${url}/realms/${keycloakConfig.realm}/`, client_id: keycloakConfig.resource };
-    return keycloak;
+  const oidc = await (async () => {
+    if (!oidcConfig) return null;
+    const oidcAuthority = withEndingSlash(oidcConfig.authority);
+    const oidcMetadataReq = await fetch(`${oidcAuthority}.well-known/openid-configuration`);
+    const oidcMetadata = oidcMetadataReq.ok ? await oidcMetadataReq.json() : null;
+    if (!oidcMetadata || !oidcMetadata.issuer || !oidcMetadata.jwks_uri) {
+      throw new Error("Invalid OIDC server!");
+    }
+    config.oidc = { authority: oidcAuthority, client_id: oidcConfig.client_id, metadata: oidcMetadata };
+    return expressjwt({
+      credentialsRequired: false,
+      secret: jwks.expressJwtSecret({
+        cache: true,
+        rateLimit: true,
+        jwksRequestsPerMinute: 5,
+        jwksUri: oidcMetadata.jwks_uri
+      }) as jwks.GetVerificationKey,
+      issuer: oidcMetadata.issuer,
+      audience: oidcConfig.client_id,
+      algorithms: oidcConfig.algorithms ?? ["RS256"]
+    });
   })();
 
   const app = express();
   app.use(checkAddress(address));
   app.use(securityHeaders(config));
-  if (keycloak) {
-    app.use(keycloak.middleware());
+  if (oidc) {
+    app.use(oidc);
   }
   if (db) {
     app.post("/api/libraries", ...httpPostLibrary(db));
@@ -87,7 +108,7 @@ export const server = async ({
   app.use("/", await staticHandler(config, !!hashRouting));
   app.use(errorHandler);
 
-  const upgradeHandler = socketServer(keycloak);
+  const upgradeHandler = socketServer();
 
   return {
     requestHandler: app,

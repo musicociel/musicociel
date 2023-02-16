@@ -14,7 +14,4 @@ export const getUserConditions = (userTokenContent: any) => {
   return res;
 };
 
-export const getUserToken = (req: express.Request): any => {
-  const grant = (req as any).kauth?.grant;
-  return grant && grant.access_token ? grant.access_token.content : null;
-};
+export const getUserToken = (req: express.Request): any => (req as any).auth;

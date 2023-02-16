@@ -168,6 +168,8 @@ spec:
             /opt/keycloak/bin/kcadm.sh set-password -r {{ $.Values.keycloak.realm }} --username "{{ .username }}" --new-password "$KEYCLOAK_PASSWORD_{{ sha256sum .username }}" &&
 {{- end }}
             /opt/keycloak/bin/kcadm.sh create clients -r {{ .Values.keycloak.realm }} -s clientId={{ .Values.keycloak.client }} -s publicClient=true -s 'baseUrl={{ .Values.musicociel.url }}' -s 'attributes={"post.logout.redirect.uris":"{{ .Values.musicociel.url }}/*"}' -s 'redirectUris=["{{ .Values.musicociel.url }}/*"]'
+            CLIENT_ID="$(/opt/keycloak/bin/kcadm.sh get clients -r {{ .Values.keycloak.realm }} -q clientId={{ .Values.keycloak.client }} --fields id | grep id | sed 's/\s*"id"\s*:\s*"\(.*\)"/\1/' )"
+            /opt/keycloak/bin/kcadm.sh create clients/$CLIENT_ID/protocol-mappers/models -r {{ .Values.keycloak.realm }} -s 'name={{ .Values.keycloak.client }}-audience' -s 'protocol=openid-connect' -s 'protocolMapper=oidc-audience-mapper' -s 'config."included.client.audience"={{ .Values.keycloak.client }}' -s 'config."access.token.claim"=true'
         env:
 {{- range .Values.keycloak.users }}
         - name: "KEYCLOAK_PASSWORD_{{ sha256sum .username }}"

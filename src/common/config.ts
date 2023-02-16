@@ -1,7 +1,7 @@
 import type { OidcClientSettings } from "oidc-client-ts";
 
 export interface Config {
-  oidc?: Pick<OidcClientSettings, "authority" | "client_id">;
+  oidc?: Omit<OidcClientSettings, `${string}redirect_uri`>;
   noServiceWorker?: boolean;
   noDb?: boolean;
 }
