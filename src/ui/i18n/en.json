@@ -5,7 +5,6 @@
   "commands": {
     "logout": "Logout",
     "login": "Login",
-    "manageAccount": "Manage account",
     "refresh": "Refresh",
     "retry": "Retry",
     "openFile": "Open a file",

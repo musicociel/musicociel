@@ -4,17 +4,17 @@
   import { _ } from "svelte-i18n";
   import Dropdown from "../components/Dropdown.svelte";
   import FaIcon from "../components/FaIcon.svelte";
-  import { loginInfo, manageAccount, logout, login } from "./index";
+  import { loginInfo, logout, login } from "./index";
 
   $: user = $loginInfo.user;
+  $: name = user?.preferred_username ?? user?.name ?? user?.given_name ?? user?.nickname;
 </script>
 
 {#if $loginInfo.enabled}
   {#if user}
     <Dropdown class="nav-item" linkClass="nav-link" ulClass="dropdown-menu-end" title={$_("commands.loggedInMenu")}>
       <span slot="button"><FaIcon icon={faUser} /></span>
-      <h6 class="dropdown-header">{user.preferred_username}</h6>
-      <button class="dropdown-item btn btn-link" on:click={manageAccount}>{$_("commands.manageAccount")}</button>
+      <h6 class="dropdown-header">{name}</h6>
       <button class="dropdown-item btn btn-link" on:click={logout}>{$_("commands.logout")}</button>
     </Dropdown>
   {:else}

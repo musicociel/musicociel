@@ -5,7 +5,6 @@
   "commands": {
     "logout": "Se déconnecter",
     "login": "Se connecter",
-    "manageAccount": "Gérer le compte",
     "refresh": "Rafraîchir",
     "retry": "Réessayer",
     "openFile": "Ouvrir un fichier",

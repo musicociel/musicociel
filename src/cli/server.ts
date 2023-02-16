@@ -59,7 +59,7 @@ export const server = async ({
     const url = withoutEndingSlash(keycloakConfig["auth-server-url"]);
     keycloakConfig["auth-server-url"] = url;
     const keycloak = new Keycloak({}, { ...keycloakConfig, "bearer-only": true });
-    config.keycloak = { url, realm: keycloakConfig.realm, clientId: keycloakConfig.resource };
+    config.oidc = { authority: `${url}/realms/${keycloakConfig.realm}/`, client_id: keycloakConfig.resource };
     return keycloak;
   })();
 
