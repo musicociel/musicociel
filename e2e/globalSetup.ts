@@ -20,7 +20,7 @@ export default async function (config: FullConfig) {
         }
         const config: Config = await res.json();
         console.log(`Musicociel config: ${JSON.stringify(config)}`);
-        process.env.TEST_MUSICOCIEL_KEYCLOAK = config.keycloak ? "true" : "false";
+        process.env.TEST_MUSICOCIEL_OIDC = config.oidc ? "true" : "false";
         process.env.TEST_MUSICOCIEL_DB = config.noDb ? "false" : "true";
         error = null;
       } catch (e) {

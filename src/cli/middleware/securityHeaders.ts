@@ -13,15 +13,15 @@ const modAddress = (fn: (url: URL) => void) => {
 };
 const appendPathname = (suffix: string) => modAddress((url) => (url.pathname += suffix));
 
-export const securityHeaders = ({ keycloak }: Config): RequestHandler => {
+export const securityHeaders = ({ oidc }: Config): RequestHandler => {
   const self = appendPathname("");
   const scriptSrc: PolicyArray = [appendPathname("assets/"), appendPathname("sw.js")];
   const connectSrc: PolicyArray = [self, modAddress((url) => (url.protocol = url.protocol.replace(/^http/i, "ws")))];
   const frameSrc: PolicyArray = [];
-  if (keycloak) {
-    connectSrc.push(`${keycloak.url}/`);
-    frameSrc.push(`${keycloak.url}/`, appendPathname("sso.html"));
-    scriptSrc.push(appendPathname("sso.js"));
+  if (oidc) {
+    connectSrc.push(oidc.authority);
+    frameSrc.push(oidc.authority, appendPathname("oidc.html"));
+    scriptSrc.push(appendPathname("oidc.js"));
   }
   if (process.env.NODE_ENV === "development") {
     const liveReloadPort = "24678";

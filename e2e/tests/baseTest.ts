@@ -10,7 +10,7 @@ export const test = base.extend<{
 }>({
   authCredentials: { username: defaultUserName, password: defaultPassword },
   authToken: async ({ page, authCredentials }, use) => {
-    test.skip(process.env.TEST_MUSICOCIEL_KEYCLOAK === "false");
+    test.skip(process.env.TEST_MUSICOCIEL_OIDC === "false");
     await page.goto(".");
     const token = await login(page, authCredentials.username, authCredentials.password);
     await use(token);
