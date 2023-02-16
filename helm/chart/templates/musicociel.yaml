@@ -32,8 +32,8 @@ spec:
         - name: MUSICOCIEL_TRUST_PROXY
           value: "true"
 {{- if .Values.keycloak.enabled }}
-        - name: MUSICOCIEL_KEYCLOAK
-          value: '{"realm":"{{ .Values.keycloak.realm }}","auth-server-url":"{{ .Values.keycloak.url }}","ssl-required":"external","resource":"{{ .Values.keycloak.client }}","public-client":true,"confidential-port":0}'
+        - name: MUSICOCIEL_OIDC
+          value: '{"authority":"{{ .Values.keycloak.url }}/realms/{{ .Values.keycloak.realm }}","client_id":"{{ .Values.keycloak.client }}"}'
 {{- end }}
 {{- if .Values.postgresql.enabled }}
         - name: MUSICOCIEL_DATABASE

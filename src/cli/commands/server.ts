@@ -48,9 +48,9 @@ export const serverCommand: CommandModule = {
       description: "Enables the service worker. Use --no-service-worker to disable the service worker.",
       default: process.env.NODE_ENV === "production"
     },
-    keycloak: {
+    oidc: {
       type: "string",
-      description: "Keycloak JSON configuration. Keycloak is not used if unspecified."
+      description: "OpenID Connect configuration."
     },
     database: {
       type: "string",
@@ -79,7 +79,7 @@ export const serverCommand: CommandModule = {
     }
   },
   async handler(args: any) {
-    const { host, port, keycloak, tlsCert, tlsKey, trustProxy } = args;
+    const { host, port, oidc, tlsCert, tlsKey, trustProxy } = args;
     let httpServer: HttpServer | HttpsServer;
     let protocol;
     if (tlsCert || tlsKey) {
@@ -106,7 +106,7 @@ export const serverCommand: CommandModule = {
     const { requestHandler, upgradeHandler } = await server({
       address,
       database,
-      keycloak: keycloak ? JSON.parse(keycloak) : undefined,
+      oidc: oidc ? JSON.parse(oidc) : undefined,
       hashRouting: args["hash-routing"],
       serviceWorker: args["service-worker"]
     });

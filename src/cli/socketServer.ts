@@ -1,12 +1,12 @@
-import type { Keycloak } from "keycloak-connect";
 /*
+import type { Keycloak } from "keycloak-connect";
 import type { IncomingMessage } from "http";
 import type { Socket } from "net";
 import { WebSocket, WebSocketServer } from "ws";
 import { getUserConditions } from "./database/utils/auth";
 */
 
-export const socketServer = (keycloak: Keycloak | null) => null;
+export const socketServer = () => null;
 // TODO: implement the socket server
 /*
 export const socketServer = (keycloak: Keycloak | null) => {
