@@ -31,7 +31,10 @@ spec:
           value: "{{ .Values.musicociel.url }}"
         - name: MUSICOCIEL_TRUST_PROXY
           value: "true"
-{{- if .Values.keycloak.enabled }}
+{{- if .Values.musicociel.oidc }}
+        - name: MUSICOCIEL_OIDC
+          value: {{ .Values.musicociel.oidc | toJson | squote }}
+{{- else if .Values.keycloak.enabled }}
         - name: MUSICOCIEL_OIDC
           value: '{"authority":"{{ .Values.keycloak.url }}/realms/{{ .Values.keycloak.realm }}","client_id":"{{ .Values.keycloak.client }}"}'
 {{- end }}
