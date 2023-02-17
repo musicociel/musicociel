@@ -19,9 +19,8 @@ import { errorHandler } from "./middleware/errorHandler";
 import { securityHeaders } from "./middleware/securityHeaders";
 import { staticHandler } from "./middleware/staticHandler";
 import { socketServer } from "./socketServer";
+import { withEndingSlash, withoutEndingSlash } from "./utils";
 
-export const withoutEndingSlash = (address: string) => address.replace(/[/]+$/, "");
-export const withEndingSlash = (address: string) => address.replace(/[/]*$/, "/");
 const jsonConfig = (config: any): express.Handler => {
   const strConfig = JSON.stringify(config);
   return (req, res) => res.type("json").send(strConfig);
@@ -63,10 +62,10 @@ export const server = async ({
 
   const oidc = await (async () => {
     if (!oidcConfig) return null;
-    const oidcAuthority = withEndingSlash(oidcConfig.authority);
-    const oidcMetadataReq = await fetch(`${oidcAuthority}.well-known/openid-configuration`);
+    const oidcAuthority = withoutEndingSlash(oidcConfig.authority);
+    const oidcMetadataReq = await fetch(`${oidcAuthority}/.well-known/openid-configuration`);
     const oidcMetadata = oidcMetadataReq.ok ? await oidcMetadataReq.json() : null;
-    if (!oidcMetadata || !oidcMetadata.issuer || !oidcMetadata.jwks_uri) {
+    if (!oidcMetadata || oidcMetadata.issuer !== oidcAuthority || !oidcMetadata.jwks_uri) {
       throw new Error("Invalid OIDC server!");
     }
     config.oidc = { authority: oidcAuthority, client_id: oidcConfig.client_id, metadata: oidcMetadata };
@@ -78,7 +77,7 @@ export const server = async ({
         jwksRequestsPerMinute: 5,
         jwksUri: oidcMetadata.jwks_uri
       }) as jwks.GetVerificationKey,
-      issuer: oidcMetadata.issuer,
+      issuer: oidcAuthority,
       audience: oidcConfig.client_id,
       algorithms: oidcConfig.algorithms ?? ["RS256"]
     });

@@ -1,7 +1,8 @@
 import type { RequestHandler } from "express";
+import helmet from "helmet";
 import type { IncomingMessage } from "http";
 import type { Config } from "../../common/config";
-import helmet from "helmet";
+import { withEndingSlash } from "../utils";
 
 type PolicyArray = (string | ((req: IncomingMessage) => string))[];
 const modAddress = (fn: (url: URL) => void) => {
@@ -19,8 +20,9 @@ export const securityHeaders = ({ oidc }: Config): RequestHandler => {
   const connectSrc: PolicyArray = [self, modAddress((url) => (url.protocol = url.protocol.replace(/^http/i, "ws")))];
   const frameSrc: PolicyArray = [];
   if (oidc) {
-    connectSrc.push(oidc.authority);
-    frameSrc.push(oidc.authority, appendPathname("oidc.html"));
+    const authority = withEndingSlash(oidc.authority);
+    connectSrc.push(authority);
+    frameSrc.push(authority, appendPathname("oidc.html"));
     scriptSrc.push(appendPathname("oidc.js"));
   }
   if (process.env.NODE_ENV === "development") {
