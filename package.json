@@ -73,7 +73,7 @@
     "@types/history": "^4.7.9",
     "@types/http-errors": "^2.0.1",
     "@types/jest": "^29.4.0",
-    "@types/node": "^18.13.0",
+    "@types/node": "^18.14.1",
     "@types/pg": "^8.6.6",
     "@types/uuid": "^9.0.0",
     "@types/ws": "^8.5.4",
