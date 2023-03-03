@@ -81,7 +81,7 @@
     "@typescript-eslint/eslint-plugin": "^5.54.0",
     "@typescript-eslint/parser": "^5.54.0",
     "@xmldom/xmldom": "^0.8.6",
-    "ace-builds": "^1.15.2",
+    "ace-builds": "^1.15.3",
     "bootstrap": "^5.2.3",
     "eslint": "^8.35.0",
     "eslint-config-prettier": "^8.6.0",
