@@ -2397,10 +2397,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^18.14.2":
+"@types/node@npm:*":
   version: 18.14.2
   resolution: "@types/node@npm:18.14.2"
   checksum: 53c07e721f6ae33de71306f6a0b75dae6066a4f55bd5484c93bd59ff25f0c5f004ceafeef509a4d0cb9e24a247efc34d50489bcc1b05a53ecc68e2fc088e65cb
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^18.15.1":
+  version: 18.15.1
+  resolution: "@types/node@npm:18.15.1"
+  checksum: c63a40786919ef77c1dd26f60ffb1ed76c8b608fb156942e4d600d4536e06c19d09463a66cd76e6415f90cd281d7a1a4683e7cfd9a6f0927491853c56ffa17bf
   languageName: node
   linkType: hard
 
@@ -6483,7 +6490,7 @@ __metadata:
     "@types/history": ^4.7.9
     "@types/http-errors": ^2.0.1
     "@types/jest": ^29.4.0
-    "@types/node": ^18.14.2
+    "@types/node": ^18.15.1
     "@types/pg": ^8.6.6
     "@types/uuid": ^9.0.1
     "@types/ws": ^8.5.4
