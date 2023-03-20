@@ -2685,10 +2685,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ace-builds@npm:^1.15.2":
-  version: 1.15.2
-  resolution: "ace-builds@npm:1.15.2"
-  checksum: 44d5af411b1f244a452fb3f330e927bd1e85418d726824ab8c29bb0f5c5e66a0508bd4f5eb29c04637c61454d253f1aca017b834b5c7371fb3f9fe50b7919943
+"ace-builds@npm:^1.16.0":
+  version: 1.16.0
+  resolution: "ace-builds@npm:1.16.0"
+  checksum: 1dca0aa438d6f1cb0204fafbdfb66500d8a68497a41b0566df74430b44b49595f6f8f892ef196383ab58f7ec6b3b513dbcd6f11bdad9e4170e84030a2e4a2ff4
   languageName: node
   linkType: hard
 
@@ -6491,7 +6491,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^5.54.0
     "@typescript-eslint/parser": ^5.54.0
     "@xmldom/xmldom": ^0.8.6
-    ace-builds: ^1.15.2
+    ace-builds: ^1.16.0
     body-parser: ^1.20.2
     bootstrap: ^5.2.3
     eslint: ^8.35.0
