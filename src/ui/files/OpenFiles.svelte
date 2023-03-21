@@ -6,17 +6,20 @@
   import Link from "../router/Link.svelte";
   import StoreCheckbox from "../components/StoreCheckbox.svelte";
   import { allBooleansStore, countTrueStore } from "../booleanStores";
-  import { derived, get } from "svelte/store";
+  import { computed } from "@amadeus-it-group/tansu";
   import { _ } from "svelte-i18n";
 
-  const selectedStores = derived(openedFilesList, (item) => Object.keys(item).map((key) => item[key].selected));
+  const selectedStores = computed(() => {
+    const item = openedFilesList();
+    return Object.keys(item).map((key) => item[key].selected);
+  });
   const allSelected = allBooleansStore(selectedStores);
   const numberSelected = countTrueStore(selectedStores);
 
   function closeSelected() {
     for (const key of openedFilesListKeys) {
       const item = $openedFilesList[key];
-      if (get(item.selected)) {
+      if (item.selected()) {
         item.close();
       }
     }

@@ -1,14 +1,6 @@
 import { produce } from "immer";
-import type { Readable } from "svelte/store";
-import { derived, writable } from "svelte/store";
-
-type Stores = Readable<any> | [Readable<any>, ...Array<Readable<any>>] | Array<Readable<any>>;
-
-type StoresValues<T> = T extends Readable<infer U>
-  ? U
-  : {
-      [K in keyof T]: T[K] extends Readable<infer U> ? U : never;
-    };
+import type { ReadableSignal, StoresInput, StoresInputValues, WritableSignal } from "@amadeus-it-group/tansu";
+import { derived, writable, asReadable } from "@amadeus-it-group/tansu";
 
 export interface PromiseValue<T> {
   loading: boolean;
@@ -17,7 +9,7 @@ export interface PromiseValue<T> {
   error: any;
 }
 
-export interface RefreshablePromiseValue<T> extends Readable<PromiseValue<T>> {
+export interface RefreshablePromiseValue<T> extends ReadableSignal<PromiseValue<T>> {
   refresh(): void;
 }
 
@@ -38,9 +30,9 @@ const updateStateSuccess = produce((state: PromiseValue<any>, value: any) => {
   state.value = value;
 });
 
-export const asyncDerived = <S extends Stores, T>(
+export const asyncDerived = <S extends StoresInput, T>(
   stores: S,
-  factory: (storeValues: StoresValues<S>, abortSignal: AbortSignal) => Promise<T>,
+  factory: (storeValues: StoresInputValues<S>, abortSignal: AbortSignal) => Promise<T>,
   initialValue: T
 ): RefreshablePromiseValue<T> => {
   let lastValue: PromiseValue<T> = {
@@ -51,26 +43,34 @@ export const asyncDerived = <S extends Stores, T>(
   };
   const refreshStore = writable({});
   const isStoresArray = Array.isArray(stores);
-  const storesArray = isStoresArray ? [refreshStore, ...(stores as any)] : ([refreshStore, stores] as any);
+  const storesArray = isStoresArray
+    ? ([refreshStore, ...stores] as [WritableSignal<object>, ...typeof stores])
+    : ([refreshStore, stores] as [WritableSignal<object>, S]);
   const refresh = () => refreshStore.set({});
-  return {
-    refresh,
-    ...derived<S extends Array<any> ? [any, ...S] : [any, S], PromiseValue<T>>(storesArray, ([_, ...values], set) => {
-      const abortController = new AbortController();
-      set((lastValue = updateStateLoading(lastValue)));
-      (async () => {
-        try {
-          const result = await factory(isStoresArray ? values : (values[0] as any), abortController.signal);
-          if (!abortController.signal.aborted) {
-            set((lastValue = updateStateSuccess(lastValue, result)));
+  return asReadable(
+    derived(
+      storesArray,
+      ([_, ...values], set) => {
+        const abortController = new AbortController();
+        set((lastValue = updateStateLoading(lastValue)));
+        (async () => {
+          try {
+            const result = await factory(isStoresArray ? values : (values[0] as any), abortController.signal);
+            if (!abortController.signal.aborted) {
+              set((lastValue = updateStateSuccess(lastValue, result)));
+            }
+          } catch (error) {
+            if (!abortController.signal.aborted) {
+              set((lastValue = updateStateFailure(lastValue, error)));
+            }
           }
-        } catch (error) {
-          if (!abortController.signal.aborted) {
-            set((lastValue = updateStateFailure(lastValue, error)));
-          }
-        }
-      })();
-      return () => abortController.abort();
-    })
-  };
+        })();
+        return () => abortController.abort();
+      },
+      lastValue
+    ),
+    {
+      refresh
+    } as Pick<RefreshablePromiseValue<T>, "refresh">
+  );
 };

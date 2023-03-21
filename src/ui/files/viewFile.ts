@@ -1,6 +1,6 @@
+import type { ReadableSignal, WritableSignal } from "@amadeus-it-group/tansu";
+import { asReadable, get, writable } from "@amadeus-it-group/tansu";
 import produce, { freeze } from "immer";
-import type { Readable, Writable } from "svelte/store";
-import { get, writable } from "svelte/store";
 import { abortError } from "../../common/abortError";
 import { closeFactory, onAbort } from "../../common/closeFunction";
 import { FileFormat } from "../../common/files/formats/formats";
@@ -25,7 +25,7 @@ viewComponent.items.forEach((item) => {
   viewersForFormat[format].push(viewer);
 });
 
-const waitForStoreCondition = <T>(store: Readable<T>, condition: (value: T) => boolean, signal?: AbortSignal) =>
+const waitForStoreCondition = <T>(store: ReadableSignal<T>, condition: (value: T) => boolean, signal?: AbortSignal) =>
   new Promise<T>((resolve, reject) => {
     let hasUnsubscribe = false;
     const callUnsubscribe = () => {
@@ -57,11 +57,11 @@ const waitForStoreCondition = <T>(store: Readable<T>, condition: (value: T) => b
     }
   });
 
-const waitForContent = async (store: Readable<OpenFileData>, signal: AbortSignal) =>
+const waitForContent = async (store: ReadableSignal<OpenFileData>, signal: AbortSignal) =>
   await waitForStoreCondition(store, (value) => !!value.format && "content" in value, signal);
 
 const getViewerFactory =
-  (store: Writable<OpenFileData>, signal?: AbortSignal) =>
+  (store: WritableSignal<OpenFileData>, signal?: AbortSignal) =>
   (name: string): Viewer | null => {
     if (!viewers.has(name)) {
       return null;
@@ -76,14 +76,15 @@ const getViewerFactory =
 
     const viewerStore = writable<ViewerData>(freeze({}));
     const close = closeFactory(signal);
-    const viewer: Viewer = freeze({ subscribe: viewerStore.subscribe, close });
+    const viewer: Viewer = freeze(asReadable(viewerStore, { close }));
     (async () => {
       try {
         const storeContent = await waitForContent(store, close.signal);
-        const viewerInterface: ViewerInterface = {
-          ...store,
+        const viewerInterface: ViewerInterface = asReadable(store, {
+          set: store.set,
+          update: store.update,
           close
-        };
+        });
         const content = await viewComponent(`${storeContent.format}:${name}`, viewerInterface);
         viewerStore.update(
           produce((value) => {
@@ -139,5 +140,10 @@ export const loadFile = (fileAccess: FileAccess, { format, signal }: { format?: 
       );
     }
   })();
-  return freeze({ subscribe: store.subscribe, getViewer: getViewerFactory(store, close.signal), close, selected: writable(true) });
+  return freeze(
+    asReadable(store, { getViewer: getViewerFactory(store, close.signal), close, selected: writable(true) } as Pick<
+      OpenFile,
+      "getViewer" | "close" | "selected"
+    >)
+  );
 };

@@ -1,4 +1,4 @@
-import type { Readable, Writable } from "svelte/store";
+import type { ReadableSignal, WritableSignal } from "@amadeus-it-group/tansu";
 import type { CloseFunction } from "../../common/closeFunction";
 import type { FileFormat, NamedBlob } from "../../common/files/formats/formats";
 
@@ -8,7 +8,7 @@ export interface ViewerData<T = any> {
   error?: any;
 }
 
-export interface Viewer<T = any> extends Readable<ViewerData<T>> {
+export interface Viewer<T = any> extends ReadableSignal<ViewerData<T>> {
   close: CloseFunction;
 }
 
@@ -20,13 +20,13 @@ export interface OpenFileData<T = any> {
   viewers: Record<string, Viewer>;
 }
 
-export interface ViewerInterface<T = any> extends Writable<OpenFileData<T>> {
+export interface ViewerInterface<T = any> extends WritableSignal<OpenFileData<T>> {
   close: CloseFunction;
 }
 
-export interface OpenFile extends Readable<OpenFileData> {
+export interface OpenFile extends ReadableSignal<OpenFileData> {
   getViewer: (name: string) => Viewer | null;
-  selected: Writable<boolean>;
+  selected: WritableSignal<boolean>;
   close: CloseFunction;
 }
 

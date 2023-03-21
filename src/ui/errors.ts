@@ -1,4 +1,5 @@
-import { writable } from "svelte/store";
+import { asReadable, writable } from "@amadeus-it-group/tansu";
+
 const errorsWritable = writable([] as any[]);
 
 export function notifyError(error: any) {
@@ -9,7 +10,7 @@ export function closeError(error: any) {
   errorsWritable.update((array) => array.filter((e) => e != error));
 }
 
-export const errors = { subscribe: errorsWritable.subscribe };
+export const errors = asReadable(errorsWritable);
 
 // TODO: improve error handling (translation, generic network errors, ...)
 export async function extractErrorMessage(error: any) {

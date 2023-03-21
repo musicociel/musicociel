@@ -1,5 +1,5 @@
 import { freeze, produce } from "immer";
-import { writable, get } from "svelte/store";
+import { writable, get, asReadable } from "@amadeus-it-group/tansu";
 import type { NativeEntryType } from "./fileSystemAccess";
 import { FileSystemHandleKind, toFileSystemHandle } from "./fileSystemAccess";
 import { loadFile } from "../viewFile";
@@ -8,7 +8,7 @@ import { locationStore } from "../../router/history";
 import type { OpenFile } from "../types";
 
 const openedFilesWritable = writable<Record<string, OpenFile>>(freeze({}));
-export const openedFilesList = { subscribe: openedFilesWritable.subscribe };
+export const openedFilesList = asReadable(openedFilesWritable);
 
 const openFileSystemFile = (entry: NativeEntryType) => {
   const fileHandlePromise = toFileSystemHandle(entry);

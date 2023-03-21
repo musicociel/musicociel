@@ -11,11 +11,12 @@
   export let match: Match;
 
   $: file = $openedFilesList[match.params.id];
+  $: hasFile = !!file;
   $: if (!file) {
     locationStore.navigate("/", true);
   }
   $: viewer = file ? file.getViewer(match.params.viewer) : null;
-  $: if (file && !viewer && match.params.viewer !== "display") {
+  $: if (hasFile && !viewer && match.params.viewer !== "display") {
     locationStore.navigate(`/local-file/${match.params.id}/content/display`, true);
   }
 </script>
@@ -29,7 +30,7 @@
       <Link class="btn btn-link nav-link" href="/local-file/{match.params.id}/content/edit"><FaIcon icon={faEdit} /></Link>
     </div>
   </NavBar>
-  {#if file && $file.error}
+  {#if hasFile && $file.error}
     <div class="container-fluid p-3"><Error error={$file.error} /></div>
   {:else if viewer && $viewer?.error}
     <div class="container-fluid p-3"><Error error={$viewer.error} /></div>

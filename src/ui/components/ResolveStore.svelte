@@ -1,6 +1,6 @@
 <script lang="ts">
-  import type { Readable } from "svelte/store";
-  export let store: Readable<any>;
+  import type { ReadableSignal } from "@amadeus-it-group/tansu";
+  export let store: ReadableSignal<any>;
 </script>
 
 <slot storeValue={$store} />

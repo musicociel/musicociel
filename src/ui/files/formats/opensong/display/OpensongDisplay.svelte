@@ -8,14 +8,14 @@
   import Section from "./Section.svelte";
   import Comment from "./Comment.svelte";
   import { groupLyrics } from "./groupLyrics";
-  import type { Readable } from "svelte/store";
+  import type { ReadableSignal } from "@amadeus-it-group/tansu";
   import type { OpenFileData } from "../../../types";
   import { showChords, transpose, notesStyle, alterationsType } from "../../../../settings/settings";
   import Paginator from "../../../../paginator/Paginator.svelte";
   import PaginatorItem from "../../../../paginator/PaginatorItem.svelte";
   import { paginateFactory } from "../../../../paginator/paginate";
 
-  export let data: Readable<OpenFileData<Song>>;
+  export let data: ReadableSignal<OpenFileData<Song>>;
 
   const paginate = paginateFactory();
 
