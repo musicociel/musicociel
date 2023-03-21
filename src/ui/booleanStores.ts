@@ -1,8 +1,5 @@
-import type { Readable, Writable } from "svelte/store";
-import { derived, get } from "svelte/store";
-
-export const switchMap = <T, U>(store: Readable<T>, fn: (input: T) => Readable<U>) =>
-  derived(store, (value, set) => fn(value).subscribe(set), undefined as any as U);
+import type { ReadableSignal, WritableSignal } from "@amadeus-it-group/tansu";
+import { computed, asReadable, get } from "@amadeus-it-group/tansu";
 
 export const allBooleans = (items: boolean[]) => {
   if (items.length === 0) {
@@ -20,20 +17,21 @@ export const allBooleans = (items: boolean[]) => {
 
 const notImplemented = () => new Error("Not implemented");
 
-export const allBooleansStore = (stores: Readable<Writable<boolean>[]>): Writable<boolean | null> => {
-  const { subscribe } = switchMap(stores, (value) => derived(value, allBooleans));
-  return {
-    subscribe,
-    set(value: boolean | null) {
-      if (value === true || value === false) {
-        const array = get(stores);
-        for (const item of array) {
-          item.set(value);
+export const allBooleansStore = (stores: ReadableSignal<WritableSignal<boolean>[]>): WritableSignal<boolean | null> => {
+  return asReadable(
+    computed(() => allBooleans(stores().map(get))),
+    {
+      set(value: boolean | null) {
+        if (value === true || value === false) {
+          const array = stores();
+          for (const item of array) {
+            item.set(value);
+          }
         }
-      }
-    },
-    update: notImplemented
-  };
+      },
+      update: notImplemented
+    } as Pick<WritableSignal<boolean | null>, "set" | "update">
+  );
 };
 
 const countValueFactory =
@@ -49,4 +47,4 @@ const countValueFactory =
   };
 export const countTrue = countValueFactory(true);
 
-export const countTrueStore = (stores: Readable<Writable<boolean>[]>) => switchMap(stores, (value) => derived(value, countTrue));
+export const countTrueStore = (stores: ReadableSignal<WritableSignal<boolean>[]>) => computed(() => countTrue(stores().map(get)));

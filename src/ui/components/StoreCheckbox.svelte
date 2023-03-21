@@ -1,7 +1,7 @@
 <script lang="ts">
-  import type { Writable } from "svelte/store";
+  import type { WritableSignal } from "@amadeus-it-group/tansu";
 
-  export let valueStore: Writable<any>;
+  export let valueStore: WritableSignal<any>;
 </script>
 
 <input {...$$restProps} type="checkbox" bind:checked={$valueStore} indeterminate={$valueStore === null} />

@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { Line } from "../../../../../common/files/formats/chordpro/type";
   import { LineType } from "../../../../../common/files/formats/chordpro/type";
-  import type { Readable } from "svelte/store";
+  import type { ReadableSignal } from "@amadeus-it-group/tansu";
   import type { OpenFileData } from "../../../types";
   import LineWithChords from "./LineWithChords.svelte";
   import { showChords, transpose, notesStyle, alterationsType } from "../../../../settings/settings";
@@ -11,7 +11,7 @@
 
   const paginate = paginateFactory();
 
-  export let data: Readable<OpenFileData<Line[]>>;
+  export let data: ReadableSignal<OpenFileData<Line[]>>;
   $: content = $data.content!;
   $: paginationContent = [content, $showChords, $transpose, $notesStyle, $alterationsType];
 </script>

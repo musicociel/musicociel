@@ -1,4 +1,4 @@
-import { readable } from "svelte/store";
+import { readable } from "@amadeus-it-group/tansu";
 import type { History, Path, Location } from "history";
 
 export type To = Path | Location;

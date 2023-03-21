@@ -1,5 +1,5 @@
 import type { User, UserManager, UserProfile } from "oidc-client-ts";
-import { writable, derived } from "svelte/store";
+import { writable, computed, asReadable } from "@amadeus-it-group/tansu";
 import { configPromise, address as configAddress } from "../config";
 
 export interface LoginInfo {
@@ -67,7 +67,10 @@ export const { loginInfo, login, logout, authFetch } = (() => {
     return res;
   };
 
-  return { loginInfo: { subscribe: store.subscribe }, login, logout, authFetch };
+  return { loginInfo: asReadable(store), login, logout, authFetch };
 })();
 
-export const userId = derived(loginInfo, (info) => (info.loading ? undefined : info.user?.sub ?? ""));
+export const userId = computed(() => {
+  const info = loginInfo();
+  return info.loading ? undefined : info.user?.sub ?? "";
+});

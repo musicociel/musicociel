@@ -1,4 +1,4 @@
-import { writable } from "svelte/store";
+import { writable } from "@amadeus-it-group/tansu";
 import { AlterationsType, NoteStyle } from "../../common/music/chords";
 
 export const notesStyle = writable(NoteStyle.Keep);
