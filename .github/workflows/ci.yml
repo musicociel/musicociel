@@ -49,6 +49,25 @@ jobs:
           . postgres/envPostgres
           yarn playwright:test
           podman stop -a
+      - name: Build android
+        if: runner.os == 'Linux'
+        run: |
+          if [ -n "$KEYSTORE_BASE64" ] ; then echo $KEYSTORE_BASE64 | base64 --decode > android/keys/keys.keystore ; fi
+          [ -n "$KEYSTORE_PASS" ] || export KEYSTORE_PASS=$(node -e 'console.log(require("crypto").randomBytes(64).toString("hex"))')
+          [ -n "$KEYSTORE_ALIAS_PASS" ] || export KEYSTORE_ALIAS_PASS=$(node -e 'console.log(require("crypto").randomBytes(64).toString("hex"))')
+          [ -e android/keys/keys.keystore ] || ( cd android/keys && ./generate.sh )
+          yarn build:android
+          rm android/keys/keys.keystore
+          cp android/app/build/outputs/apk/release/app-release-signed.apk android/app/build/outputs/apk/release/musicociel.apk
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEYSTORE_PASS: ${{ secrets.KEYSTORE_PASS }}
+          KEYSTORE_ALIAS_PASS: ${{ secrets.KEYSTORE_ALIAS_PASS }}
+      - uses: actions/upload-artifact@v3
+        if: runner.os == 'Linux'
+        with:
+          name: apk
+          path: android/app/build/outputs/apk/release/musicociel.apk
       - run: yarn pack
       - uses: actions/upload-artifact@v3
         if: runner.os == 'Linux'

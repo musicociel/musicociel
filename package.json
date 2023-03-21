@@ -31,6 +31,7 @@
   ],
   "scripts": {
     "build": "yarn cli:build && yarn ui:build",
+    "build:android": "cap sync && cap build android --androidreleasetype APK",
     "cli:build": "rollup --failAfterWarnings -c rollup.cli.config.js",
     "cli:dev": "rollup -c rollup.cli.config.js -w",
     "format:check": "prettier . --list-different",
@@ -60,6 +61,10 @@
   },
   "devDependencies": {
     "@amadeus-it-group/tansu": "^0.0.19",
+    "@capacitor/android": "^4.6.1",
+    "@capacitor/cli": "^4.6.1",
+    "@capacitor/core": "^4.6.1",
+    "@capacitor/filesystem": "^4.1.4",
     "@fortawesome/free-solid-svg-icons": "^6.3.0",
     "@fullhuman/postcss-purgecss": "^5.0.0",
     "@playwright/test": "^1.31.2",
