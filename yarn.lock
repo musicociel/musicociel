@@ -5,10 +5,10 @@ __metadata:
   version: 6
   cacheKey: 8
 
-"@amadeus-it-group/tansu@npm:^0.0.19":
-  version: 0.0.19
-  resolution: "@amadeus-it-group/tansu@npm:0.0.19"
-  checksum: 64683863e3fb72a5ab2c3e442236c0962f24f299ecf0d239b7b2338627bc55302e6109ae1579275f3c8caec4d4bd782f1955ab588de8699bc905537b430debdd
+"@amadeus-it-group/tansu@npm:^0.0.20":
+  version: 0.0.20
+  resolution: "@amadeus-it-group/tansu@npm:0.0.20"
+  checksum: 21fcb93e4140bda67ed6a4c91c2db0587d14ea1201ca1930bd9b423c83033d39d62a39c38054da540b84666e9e642b127ad3303f51ebe82c4ba2f1fdea821be5
   languageName: node
   linkType: hard
 
@@ -6471,7 +6471,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "musicociel@workspace:."
   dependencies:
-    "@amadeus-it-group/tansu": ^0.0.19
+    "@amadeus-it-group/tansu": ^0.0.20
     "@fortawesome/free-solid-svg-icons": ^6.3.0
     "@fullhuman/postcss-purgecss": ^5.0.0
     "@playwright/test": ^1.31.2
