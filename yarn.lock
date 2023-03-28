@@ -6527,7 +6527,7 @@ __metadata:
     typescript: ^5.0.2
     uuid: ^9.0.0
     vite: ^4.2.1
-    vite-plugin-pwa: ^0.14.4
+    vite-plugin-pwa: ^0.14.7
     workbox-precaching: ^6.5.4
     workbox-strategies: ^6.5.4
     ws: ^8.13.0
@@ -8625,9 +8625,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite-plugin-pwa@npm:^0.14.4":
-  version: 0.14.4
-  resolution: "vite-plugin-pwa@npm:0.14.4"
+"vite-plugin-pwa@npm:^0.14.7":
+  version: 0.14.7
+  resolution: "vite-plugin-pwa@npm:0.14.7"
   dependencies:
     "@rollup/plugin-replace": ^5.0.1
     debug: ^4.3.4
@@ -8640,7 +8640,7 @@ __metadata:
     vite: ^3.1.0 || ^4.0.0
     workbox-build: ^6.5.4
     workbox-window: ^6.5.4
-  checksum: 498278d023788b59f6c6eb2b3f7c4fab7b9dd72e3c4f4b8df7c3c5c56a487ffe17e29832abd35c2700ab31a2525f04f028e44ceebe6b830ad346888e752ed7e6
+  checksum: e0358940655733569af0f28860ed71f33a1eeec2d7486c2a233684a43e38b9de47da437875797972072f6e9c7246bbd8198b7e877b6bf5633affeb168f93a88a
   languageName: node
   linkType: hard
 
