@@ -59,7 +59,7 @@
     "yargs": "^17.7.1"
   },
   "devDependencies": {
-    "@amadeus-it-group/tansu": "^0.0.19",
+    "@amadeus-it-group/tansu": "^0.0.21",
     "@fortawesome/free-solid-svg-icons": "^6.3.0",
     "@fullhuman/postcss-purgecss": "^5.0.0",
     "@playwright/test": "^1.31.2",
