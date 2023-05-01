@@ -3,7 +3,7 @@ import type { ViewerInterface } from "../../../types";
 import Ace from "ace-builds";
 import TextEdit from "./TextEdit.svelte";
 import { onAbort } from "../../../../../common/closeFunction";
-import produce from "immer";
+import { produce } from "immer";
 
 const { Document }: { Document: { new (content: string): Ace.Ace.Document } } = Ace.require("ace/document");
 const { Mode }: { Mode: { new (): Ace.Ace.SyntaxMode } } = Ace.require("ace/mode/text");
