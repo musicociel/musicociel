@@ -1,6 +1,6 @@
 import type { ReadableSignal, WritableSignal } from "@amadeus-it-group/tansu";
 import { asReadable, get, writable } from "@amadeus-it-group/tansu";
-import produce, { freeze } from "immer";
+import { produce, freeze } from "immer";
 import { abortError } from "../../common/abortError";
 import { closeFactory, onAbort } from "../../common/closeFunction";
 import { FileFormat } from "../../common/files/formats/formats";
