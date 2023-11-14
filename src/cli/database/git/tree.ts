@@ -17,7 +17,7 @@ const gitModes: Record<DB_GIT_TREE_ENTRY_MODE, string> = {
   [DB_GIT_TREE_ENTRY_MODE.file_executable]: "100755",
   [DB_GIT_TREE_ENTRY_MODE.file_normal]: "100644",
   [DB_GIT_TREE_ENTRY_MODE.link]: "120000",
-  [DB_GIT_TREE_ENTRY_MODE.tree]: "040000"
+  [DB_GIT_TREE_ENTRY_MODE.tree]: "40000"
 };
 
 export const entriesComparator = (
