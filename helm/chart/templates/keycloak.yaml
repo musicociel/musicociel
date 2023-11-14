@@ -46,6 +46,7 @@ spec:
         image: "{{ .Values.keycloak.image }}:{{ .Values.keycloak.tag }}"
         args:
           - start
+          - "--health-enabled=true"
           - "--proxy=edge"
           - "--hostname-url={{ .Values.keycloak.url }}"
 {{- if .Values.postgresql.enabled }}
@@ -82,7 +83,7 @@ spec:
           containerPort: 8080
         readinessProbe:
           httpGet:
-            path: /realms/master
+            path: /health/ready
             port: 8080
             httpHeaders:
             - name: X-Forwarded-For
@@ -160,7 +161,6 @@ spec:
         command: ["/bin/sh", "-c"]
         args:
           - |
-            while [[ "$(curl -s -o /dev/null -L -w ''%{http_code}'' -H 'Host: {{ (urlParse .Values.keycloak.url).host }}' http://{{ .Release.Name }}-keycloak:8080/)" != "200" ]]; do sleep 1; done &&
             /opt/keycloak/bin/kcadm.sh config credentials --server http://{{ .Release.Name }}-keycloak:8080/ --realm master --user "$KEYCLOAK_USER" --password "$KEYCLOAK_PASSWORD" &&
             /opt/keycloak/bin/kcadm.sh create realms -s realm={{ .Values.keycloak.realm }} -s enabled=true &&
 {{- range .Values.keycloak.users }}

@@ -4,7 +4,7 @@
 
 set -e
 
-while [[ "$(curl -s -o /dev/null -L -w ''%{http_code}'' http://127.0.0.1:8080/)" != "200" ]]; do sleep 1; done
+while ! ./healthcheck.sh &> /dev/null ; do sleep 1; done
 echo "Executing startup for Musicociel"
 /opt/keycloak/bin/kcadm.sh config credentials --server http://127.0.0.1:8080/ --realm master --user "admin" --password "admin"
 /opt/keycloak/bin/kcadm.sh create realms -s realm=musicociel -s enabled=true
