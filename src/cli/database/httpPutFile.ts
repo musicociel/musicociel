@@ -125,7 +125,7 @@ export const httpPutFile = (db: Pool) => [
     const previousContentHash = parseEtag(req.headers["if-match"]);
     // TODO: allow customization of the commit message from a header
     const commitMessage = "Update";
-    const result = await putFile(db, getUserToken(req), req.ip, library, path, req.body, commitMessage, previousContentHash);
+    const result = await putFile(db, getUserToken(req), req.ip!, library, path, req.body, commitMessage, previousContentHash);
     res.send(
       result.noReadPermission
         ? {

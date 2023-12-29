@@ -17,28 +17,22 @@ jobs:
       group: build-${{ github.ref }}-${{ matrix.os }}
       cancel-in-progress: true
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set Node.js version
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: "18.x"
-      - uses: actions/cache@v3
-        with:
-          path: .yarn/cache
-          key: yarn-${{ hashFiles('yarn.lock') }}
-          restore-keys: |
-            yarn-
-      - run: corepack enable
-      - run: yarn install --immutable
-      - run: yarn build
-      - run: yarn format:check
-      - run: yarn lint
-      - run: yarn ui:validate
-      - run: yarn jest:test
-      - run: yarn playwright install-deps
-      - run: yarn playwright install
-      - run: yarn playwright:test
-      - name: yarn playwright:test (with database)
+          node-version: 20.x
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npm run format:check
+      - run: npm run lint
+      - run: npm run ui:validate
+      - run: npm run jest:test
+      - run: npm run playwright install-deps
+      - run: npm run playwright install
+      - run: npm run playwright:test
+      - name: npm run playwright:test (with database)
         if: runner.os == 'Linux'
         run: |
           ( cd keycloak && ./start.sh ) &
@@ -47,14 +41,14 @@ jobs:
           ( cd postgres && ./wait.sh )
           . keycloak/envKeycloak
           . postgres/envPostgres
-          yarn playwright:test
+          npm run playwright:test
           podman stop -a
-      - run: yarn pack
+      - run: npm pack
       - uses: actions/upload-artifact@v3
         if: runner.os == 'Linux'
         with:
           name: npm-package
-          path: package.tgz
+          path: musicociel-*.tgz
       # Docker image and helm repository (built on Linux only):
       - run: |
           docker build . -t docker.io/davdiv/musicociel:local
@@ -71,7 +65,7 @@ jobs:
           helm lint helm/chart --strict
           helm package helm/chart -d helm/repository
           helm repo index helm/repository
-          yarn dlx marked -i helm/repository/README.md -o helm/repository/index.html
+          npx marked -i helm/repository/README.md -o helm/repository/index.html
         if: runner.os == 'Linux'
       - uses: actions/upload-artifact@v3
         if: runner.os == 'Linux'
@@ -87,8 +81,9 @@ jobs:
           minikube addons enable ingress
           minikube image load docker.io/davdiv/musicociel:local
           echo "$(minikube ip) musicociel.local keycloak.local" | sudo tee -a /etc/hosts
+          kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
           helm install musicociel helm/chart --set-string musicociel.tag=local,keycloak.users[0].username=test-user,keycloak.users[0].password=test-password
-      - run: yarn playwright:test
+      - run: npm run playwright:test
         if: runner.os == 'Linux'
         env:
           TEST_MUSICOCIEL_URL: http://musicociel.local
