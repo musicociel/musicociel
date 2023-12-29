@@ -26,6 +26,7 @@
   {#if open}
     <ClickClose bind:open>
       <!-- svelte-ignore a11y-click-events-have-key-events -->
+      <!-- svelte-ignore a11y-no-static-element-interactions -->
       <div class="dropdown-menu show {ulClass}" on:click={clickInside}>
         <slot />
       </div>

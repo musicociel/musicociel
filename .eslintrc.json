@@ -1,8 +1,8 @@
 {
   "root": true,
   "parser": "@typescript-eslint/parser",
-  "plugins": ["svelte3", "@typescript-eslint"],
-  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "prettier"],
+  "plugins": ["@typescript-eslint", "svelte"],
+  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "prettier", "plugin:svelte/recommended"],
   "overrides": [
     {
       "files": ["*.cjs"],
@@ -27,7 +27,10 @@
     },
     {
       "files": ["*.svelte"],
-      "processor": "svelte3/svelte3"
+      "parser": "svelte-eslint-parser",
+      "parserOptions": {
+        "parser": "@typescript-eslint/parser"
+      }
     }
   ],
   "rules": {
@@ -43,8 +46,5 @@
         "ignoreRestSiblings": true
       }
     ]
-  },
-  "settings": {
-    "svelte3/typescript": true
   }
 }
