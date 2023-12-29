@@ -117,7 +117,7 @@ jobs:
       - name: Publish
         run: |
           echo "Publish in gh-pages"
-          ( cd .. && tar -xf package.tgz )
+          ( cd .. && tar -xf musicociel-*.tgz )
           mv ../package/build/public "./dev"
           docker image load -i ../docker-image.tar
           echo "Publish in docker"
