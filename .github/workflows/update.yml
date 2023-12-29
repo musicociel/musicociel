@@ -15,7 +15,8 @@ jobs:
         with:
           node-version: 20.x
           cache: npm
-      - run: npx npm-check-updates -u
+      - run: npm ci
+      - run: npx npm-check-updates -u --peer
       - run: npm install --ignore-scripts
       - run: npm update --ignore-scripts
       - run: npm install --ignore-scripts '@types/history@^4.7.9' 'history@^4.10.1'
