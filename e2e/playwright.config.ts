@@ -9,7 +9,7 @@ const config: PlaywrightTestConfig = {
   webServer: process.env.TEST_MUSICOCIEL_URL
     ? undefined
     : {
-        command: "yarn start",
+        command: "npm start",
         cwd: "..",
         port: 8081,
         reuseExistingServer: !process.env.CI
