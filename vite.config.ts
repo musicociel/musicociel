@@ -5,6 +5,7 @@ import { svelte } from "@sveltejs/vite-plugin-svelte";
 export default defineConfig({
   base: "./",
   root: "src/ui/",
+  publicDir: "public",
   build: {
     emptyOutDir: true,
     outDir: "../../build/public"
@@ -12,6 +13,9 @@ export default defineConfig({
   plugins: [
     VitePWA({
       strategies: "injectManifest",
+      injectManifest: {
+        globPatterns: ["**/*"]
+      },
       injectRegister: null,
       srcDir: ".",
       filename: "sw.ts",
