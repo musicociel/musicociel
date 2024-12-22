@@ -8,7 +8,7 @@
 
 <button type="button" class="btn {type} {$$props.class}" on:click={content.refresh} disabled={$content.loading}>
   {#if $content.loading}
-    <span class="spinner-border spinner-border-sm me-1" />
+    <span class="spinner-border spinner-border-sm me-1"></span>
   {/if}
   <slot>
     {$_("commands.refresh")}

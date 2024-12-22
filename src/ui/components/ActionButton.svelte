@@ -20,7 +20,7 @@
 </script>
 
 <button type="button" disabled={running || disabled} class={$$props.class} on:click={click}>
-  {#if running}<span class="spinner-border spinner-border-sm me-1" />{/if}
+  {#if running}<span class="spinner-border spinner-border-sm me-1"></span>{/if}
   {#if !running || !compact}
     <slot />
   {/if}

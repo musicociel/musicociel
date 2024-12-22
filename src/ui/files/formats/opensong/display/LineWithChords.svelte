@@ -8,7 +8,7 @@
 
 <table>
   <tr>
-    <td />
+    <td></td>
     {#each line.chords as { chord }}
       <td>
         {#if chord}
@@ -25,7 +25,7 @@
           <VerseNumber verse={lyricsLine.verse} />
         </td>
       {:else}
-        <td class="align-cell" />
+        <td class="align-cell"></td>
       {/if}
       {#each lyricsLine.parts as part}
         <td class="lyrics">{removeControlChars(part)}</td>

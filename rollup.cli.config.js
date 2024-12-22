@@ -7,7 +7,7 @@ import { string } from "rollup-plugin-string";
 import json from "@rollup/plugin-json";
 import { rm } from "fs/promises";
 import { join } from "path";
-import pkg from "./package.json" assert { type: "json" };
+import pkg from "./package.json" with { type: "json" };
 
 const production = !process.env.ROLLUP_WATCH;
 console.log(`Building CLI for ${production ? "PRODUCTION" : "DEVELOPMENT"}`);
