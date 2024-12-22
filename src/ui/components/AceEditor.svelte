@@ -34,4 +34,4 @@
   });
 </script>
 
-<div class={$$props.class} bind:this={div} />
+<div class={$$props.class} bind:this={div}></div>

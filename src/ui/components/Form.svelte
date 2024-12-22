@@ -31,7 +31,7 @@
   {#if loading}
     <div class="position-absolute top-0 start-0 bottom-0 end-0 opacity-75 bg-white bg-gradient border">
       <div class="position-absolute top-50 start-50 translate-middle">
-        <span class="spinner-border spinner-border me-1" />
+        <span class="spinner-border spinner-border me-1"></span>
       </div>
     </div>
   {/if}

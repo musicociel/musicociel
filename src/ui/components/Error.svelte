@@ -26,7 +26,7 @@
         <FaIcon icon={faTriangleExclamation} class="me-2" />{errorMessage}
       </div>
       {#if onClose}
-        <button type="button" class="btn-close btn-close-white me-2 m-auto" on:click={onClose} />
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" on:click={onClose}></button>
       {/if}
     </div>
   </div>
@@ -35,7 +35,7 @@
     <FaIcon icon={faTriangleExclamation} class="me-2" />{errorMessage}
     <slot />
     {#if onClose}
-      <button type="button" class="btn-close" on:click={onClose} />
+      <button type="button" class="btn-close" on:click={onClose}></button>
     {/if}
   </div>
 {/if}
